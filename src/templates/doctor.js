@@ -40,7 +40,7 @@ const Doctor = props => {
     visitTime1,
     visitTime2,
   } = props.data.doctorListsCsv
-
+  console.log(Speciality)
   return (
     <Layout>
       <SEO
