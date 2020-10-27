@@ -13,6 +13,7 @@ export const query = graphql`
       Name
       Designation
       Institute
+      Speciality
       contact1
       contact2
       loc1
@@ -39,6 +40,7 @@ const Doctor = props => {
     visitTime1,
     visitTime2,
   } = props.data.doctorListsCsv
+
   return (
     <Layout>
       <SEO
