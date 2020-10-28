@@ -9,6 +9,8 @@ import { Container, Row, Col } from "react-bootstrap"
 //importing component
 import Share from "../components/share"
 
+//import HeroImg from "../images/hero.jpg"
+
 const IndexPage = () => {
   const data = useStaticQuery(graphql`
     query {
@@ -70,12 +72,12 @@ const IndexPage = () => {
           url
         }
       }
-      img: file(relativePath: { eq: "Doctor And Patient.jpg" }) {
+      img: file(relativePath: { eq: "hero1.jpg" }) {
         childImageSharp {
           # Specify the image processing specifications right in the query.
           # Makes it trivial to update as your page's design changes.
-          fixed(height: 450) {
-            ...GatsbyImageSharpFixed
+          fluid(maxHeight: 450) {
+            ...GatsbyImageSharpFluid_noBase64
           }
         }
       }
@@ -99,8 +101,8 @@ const IndexPage = () => {
               </div>
             </Col>
             <Col md={6}>
-              <Img fixed={data.img.childImageSharp.fixed} />
-              {/* <img src={HeroImg} alt="hero" height="450px" /> */}
+              <Img fluid={data.img.childImageSharp.fluid} />
+              {/* <img src={HeroImg} alt="hero" height="450px" width="100%" /> */}
             </Col>
           </Row>
         </div>

@@ -7,7 +7,7 @@ import Doctors from "../components/doctors"
 import SEO from "../components/seo"
 import { Container, Row, Col } from "react-bootstrap"
 
-//import HeroImg from "../images/Doctor And Patient.jpg"
+//import HeroImg from "../images/hero.jpg"
 
 const perPage = 6
 let offset = 0
@@ -26,7 +26,7 @@ const DoctorsComp = () => {
           visitTime1
         }
       }
-      img: file(relativePath: { eq: "Doctor And Patient.jpg" }) {
+      img: file(relativePath: { eq: "hero1.jpg" }) {
         childImageSharp {
           # Specify the image processing specifications right in the query.
           # Makes it trivial to update as your page's design changes.
@@ -63,7 +63,7 @@ const DoctorsComp = () => {
               </div>
             </Col>
             <Col md={6}>
-              {/* <img src={HeroImg} alt="hero" height="300px" /> */}
+              {/* <img src={HeroImg} alt="hero" height="300px" width="100%" /> */}
               <Img fixed={data.img.childImageSharp.fixed} />
             </Col>
           </Row>

@@ -4,7 +4,7 @@ import Layout from "../components/layout"
 import { Badge, Jumbotron } from "react-bootstrap"
 import SEO from "../components/seo"
 
-import Share from "../components//share"
+import Share from "../components/share"
 
 export const query = graphql`
   query($id: String!) {

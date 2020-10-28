@@ -1,11 +1,12 @@
 import React from "react"
 import { Link, useStaticQuery, graphql } from "gatsby"
+import Img from "gatsby-image"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { Container, Row, Col, Card, Badge } from "react-bootstrap"
 
 import { flatMenu } from "../../meta.data"
-import HeroImg from "../images/Doctor And Patient.jpg"
+//import HeroImg from "../images/hero.jpg"
 import { FaPoll } from "react-icons/fa"
 //import Heart from "../images/heart.jpg"
 
@@ -15,6 +16,15 @@ const IndexPage = () => {
       allDoctorListsCsv {
         nodes {
           Speciality
+        }
+      }
+      img: file(relativePath: { eq: "hero1.jpg" }) {
+        childImageSharp {
+          # Specify the image processing specifications right in the query.
+          # Makes it trivial to update as your page's design changes.
+          fixed(height: 300) {
+            ...GatsbyImageSharpFixed
+          }
         }
       }
     }
@@ -38,7 +48,8 @@ const IndexPage = () => {
               </div>
             </Col>
             <Col md={6}>
-              <img src={HeroImg} alt="hero" height="300px" />
+              {/* <img src={HeroImg} alt="hero" height="300px" /> */}
+              <Img fixed={data.img.childImageSharp.fixed} />
             </Col>
           </Row>
         </div>
