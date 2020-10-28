@@ -114,13 +114,17 @@ const Contact = () => {
                           if (sum === +sumRef.current.value) {
                             setError(false)
                             axios
-                              .post("http://api.rajdoctors/contact", {
+                              .post("https://api.rajdoctors/contact", {
                                 headers: { "Access-Control-Allow-Origin": "*" },
                                 data,
                               })
                               .then(res => {
-                                setShow(true)
-                                setData(res.data)
+                                if (res.status === 201) {
+                                  setShow(true)
+                                  setData(res.data)
+                                } else {
+                                  setData(res.data)
+                                }
                               })
                               .catch(e => {
                                 console.log(e)
