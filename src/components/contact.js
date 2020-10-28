@@ -114,7 +114,7 @@ const Contact = () => {
                           if (sum === +sumRef.current.value) {
                             setError(false)
                             axios
-                              .post("https://api.rajdoctors/contact", {
+                              .post("https://api.rajdoctors.com/contact", {
                                 headers: { "Access-Control-Allow-Origin": "*" },
                                 data,
                               })
