@@ -110,21 +110,23 @@ const Contact = () => {
                         className="btn btn-danger-gradiant mt-3 text-white border-0 px-3 py-2"
                         onClick={e => {
                           e.preventDefault()
+                          const data = {
+                            name: nameRef.current.value,
+                            email: emailRef.current.value,
+                            phone: phoneRef.current.value,
+                            message: messageRef.current.value,
+                          }
 
                           if (sum === +sumRef.current.value) {
                             setError(false)
                             axios
-                              .post("https://api.rajdoctors.com/contact", {
+                              .post("http://localhost:3000/contact", {
                                 headers: { "Access-Control-Allow-Origin": "*" },
                                 data,
                               })
                               .then(res => {
-                                if (res.status === 201) {
-                                  setShow(true)
-                                  setData(res.data)
-                                } else {
-                                  setData(res.data)
-                                }
+                                setShow(true)
+                                setData(res.data)
                               })
                               .catch(e => {
                                 console.log(e)
