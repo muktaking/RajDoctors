@@ -74,9 +74,8 @@ const IndexPage = () => {
         childImageSharp {
           # Specify the image processing specifications right in the query.
           # Makes it trivial to update as your page's design changes.
-          fluid(maxHeight: 450) {
-            # Choose either the fragment including a small base64ed image, a traced placeholder SVG, or one without.
-            ...GatsbyImageSharpFluid_noBase64
+          fixed(height: 450) {
+            ...GatsbyImageSharpFixed
           }
         }
       }
@@ -100,7 +99,7 @@ const IndexPage = () => {
               </div>
             </Col>
             <Col md={6}>
-              <Img fluid={data.img.childImageSharp.fluid} />
+              <Img fixed={data.img.childImageSharp.fixed} />
               {/* <img src={HeroImg} alt="hero" height="450px" /> */}
             </Col>
           </Row>

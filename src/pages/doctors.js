@@ -1,17 +1,18 @@
 import React, { useState } from "react"
 import { graphql, useStaticQuery } from "gatsby"
+import Img from "gatsby-image"
 import ReactPaginate from "react-paginate"
 import Layout from "../components/layout"
 import Doctors from "../components/doctors"
 import SEO from "../components/seo"
 import { Container, Row, Col } from "react-bootstrap"
 
-import HeroImg from "../images/Doctor And Patient.jpg"
+//import HeroImg from "../images/Doctor And Patient.jpg"
 
 const perPage = 6
 let offset = 0
 
-const IndexPage = () => {
+const DoctorsComp = () => {
   const data = useStaticQuery(graphql`
     query {
       all: allDoctorListsCsv {
@@ -23,6 +24,15 @@ const IndexPage = () => {
           contact1
           loc1
           visitTime1
+        }
+      }
+      img: file(relativePath: { eq: "Doctor And Patient.jpg" }) {
+        childImageSharp {
+          # Specify the image processing specifications right in the query.
+          # Makes it trivial to update as your page's design changes.
+          fixed(height: 300) {
+            ...GatsbyImageSharpFixed
+          }
         }
       }
     }
@@ -53,7 +63,8 @@ const IndexPage = () => {
               </div>
             </Col>
             <Col md={6}>
-              <img src={HeroImg} alt="hero" height="300px" />
+              {/* <img src={HeroImg} alt="hero" height="300px" /> */}
+              <Img fixed={data.img.childImageSharp.fixed} />
             </Col>
           </Row>
         </div>
@@ -87,4 +98,4 @@ const IndexPage = () => {
   )
 }
 
-export default IndexPage
+export default DoctorsComp
