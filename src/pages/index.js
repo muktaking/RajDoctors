@@ -1,5 +1,6 @@
 import React from "react"
 import { graphql, useStaticQuery } from "gatsby"
+import Img from "gatsby-image"
 import Layout from "../components/layout"
 import Doctors from "../components/doctors"
 import SEO from "../components/seo"
@@ -7,9 +8,6 @@ import { Container, Row, Col } from "react-bootstrap"
 
 //importing component
 import Share from "../components/share"
-
-//importing assets
-import HeroImg from "../images/Doctor And Patient.jpg"
 
 const IndexPage = () => {
   const data = useStaticQuery(graphql`
@@ -72,6 +70,16 @@ const IndexPage = () => {
           url
         }
       }
+      img: file(relativePath: { eq: "Doctor And Patient.jpg" }) {
+        childImageSharp {
+          # Specify the image processing specifications right in the query.
+          # Makes it trivial to update as your page's design changes.
+          fluid(maxHeight: 450) {
+            # Choose either the fragment including a small base64ed image, a traced placeholder SVG, or one without.
+            ...GatsbyImageSharpFluid_noBase64
+          }
+        }
+      }
     }
   `)
 
@@ -92,7 +100,8 @@ const IndexPage = () => {
               </div>
             </Col>
             <Col md={6}>
-              <img src={HeroImg} alt="hero" height="450px" />
+              <Img fluid={data.img.childImageSharp.fluid} />
+              {/* <img src={HeroImg} alt="hero" height="450px" /> */}
             </Col>
           </Row>
         </div>
