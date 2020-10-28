@@ -16,7 +16,7 @@ const Topbar = ({ handleToggleSidebar }) => {
         onClick={() => handleToggleSidebar(true)}
         aria-hidden="true"
       >
-        <FaBars />
+        <FaBars size={28} />
       </div>
       <div className="topbar">
         {/* 1.leftbar */}

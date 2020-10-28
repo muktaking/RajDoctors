@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { FaSearch } from "react-icons/fa"
+import { FaSearch, FaTimes } from "react-icons/fa"
 import { Index } from "elasticlunr"
 import { Link } from "gatsby"
 
@@ -29,29 +29,45 @@ export default class Search extends Component {
             value={this.state.query}
             placeholder="Search..."
             onChange={this.search}
+            onFocus={() => {
+              this.setState({ show: true })
+            }}
             onMouseEnter={() => {
               this.setState({ show: true })
             }}
+            // onMouseLeave={() => {
+            //   this.setState({ show: false })
+            // }}
           />
           <div className="search-icon">
             <FaSearch className="fa-search" />
           </div>
         </div>
 
-        {this.state.show && (
+        {this.state.show && this.state.results.length > 0 && (
           <ul className="">
             <li
-              className="bg-warning text-center py-2"
-              style={{ fontSize: "24px" }}
+              className="bg-warning  p-2 d-flex justify-content-between"
+              style={{ fontSize: "18px" }}
             >
-              Total matched doctors{" "}
-              <span className="text-danger">{this.state.results.length} </span>
+              <span className="">
+                Total matched doctors ** {this.state.results.length} **
+              </span>
+              <span
+                className="mr-1"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  this.setState({ show: false, query: "", results: [] })
+                }}
+              >
+                <FaTimes />
+              </span>
             </li>
             {this.state.results.map((doctor, index) => (
               <li key={doctor.uid} className="my-2 ml-2">
                 <Link to={"/doctor/" + doctor.uid}>
                   <p>
-                    <span className="mr-2 " style={{ fontSize: "1.3rem" }}>
+                    <span className="mr-2 " style={{ fontSize: "1rem" }}>
                       {index + 1 + ". "}
                       {doctor.Name}
                     </span>

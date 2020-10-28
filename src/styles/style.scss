@@ -9,9 +9,10 @@ $sidebar-bg-color: #1d1d1d;
 .search-inner-wrapper {
   position: relative;
   ul {
-    width: 550px;
-    max-height: 300px;
-    overflow-y: scroll;
+    width: 100%;
+    padding: 5px 10px;
+    //max-height: 300px;
+    //overflow-y: scroll;
     position: absolute;
     //bottom: -68px;
     top: 50px;
@@ -96,8 +97,8 @@ $sidebar-bg-color: #1d1d1d;
   overflow-x: hidden;
   .btn-toggle {
     cursor: pointer;
-    width: 35px;
-    height: 35px;
+    width: 48px;
+    height: 48px;
     background: #353535;
     color: #fff;
     text-align: center;

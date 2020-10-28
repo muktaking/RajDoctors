@@ -1,10 +1,25 @@
-import React, { useRef } from "react"
+import React, { useState, useRef } from "react"
 import axios from "axios"
+import validator from "validator"
+const randomSum = () => {
+  const ranNum1 = Math.ceil(Math.random() * 100)
+  const ranNum2 = Math.ceil(Math.random() * 100)
+  return [ranNum1, ranNum2, ranNum1 + ranNum2]
+}
+let [ranNum1, ranNum2, sum] = randomSum()
+
 const Contact = () => {
   const nameRef = useRef(null)
   const emailRef = useRef(null)
   const phoneRef = useRef(null)
   const messageRef = useRef(null)
+  const sumRef = useRef(null)
+  const [error, setError] = useState(false)
+  const [errorData, setErrorData] = useState("")
+  const [show, setShow] = useState(false)
+  const [data, setData] = useState("")
+  const [num1, setNum1] = useState(ranNum1)
+  const [num2, setNum2] = useState(ranNum2)
 
   return (
     <div className="contact3 py-5">
@@ -69,29 +84,53 @@ const Contact = () => {
                       </div>
                     </div>
                     <div className="col-lg-12">
+                      <p>Please Write the correct Result</p>
+                      <div>
+                        <span>{num1}</span> + <span>{num2}</span> =
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="e.g. 23"
+                          name="sum"
+                          ref={sumRef}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-lg-12 text-center text-danger py-2 px-1">
+                      {error && <span>The result of summation is wrong</span>}
+                    </div>
+                    <div className="col-lg-12 text-center text-success py-2 px-1">
+                      {show && (
+                        <span>Thank You {data.name} for contacting us</span>
+                      )}
+                    </div>
+                    <div className="col-lg-12">
                       <button
                         type="submit"
                         className="btn btn-danger-gradiant mt-3 text-white border-0 px-3 py-2"
                         onClick={e => {
                           e.preventDefault()
-                          const data = {
-                            name: nameRef.current.value,
-                            email: emailRef.current.value,
-                            phone: phoneRef.current.value,
-                            message: messageRef.current.value,
+
+                          if (sum === +sumRef.current.value) {
+                            setError(false)
+                            axios
+                              .post("http://api.rajdoctors/contact", {
+                                headers: { "Access-Control-Allow-Origin": "*" },
+                                data,
+                              })
+                              .then(res => {
+                                setShow(true)
+                                setData(res.data)
+                              })
+                              .catch(e => {
+                                console.log(e)
+                              })
+                          } else {
+                            setError(true)
                           }
-                          console.log(data)
-                          axios
-                            .post("/contact.php", {
-                              headers: { "Access-Control-Allow-Origin": "*" },
-                              data,
-                            })
-                            .then(res => {
-                              console.log(res.data)
-                            })
-                            .catch(e => {
-                              console.log(e)
-                            })
+                          ;[ranNum1, ranNum2, sum] = randomSum()
+                          setNum1(ranNum1)
+                          setNum2(ranNum2)
                         }}
                       >
                         <span> SUBMIT</span>
