@@ -5,10 +5,11 @@ import { Badge, Jumbotron } from "react-bootstrap"
 import SEO from "../components/seo"
 
 import Share from "../components/share"
-
+import Flag from "../components/flag"
 export const query = graphql`
   query($id: String!) {
     doctorListsCsv(id: { eq: $id }) {
+      uid
       Degree
       Name
       Designation
@@ -28,6 +29,7 @@ export const query = graphql`
 
 const Doctor = props => {
   const {
+    uid,
     Name,
     Degree,
     Speciality,
@@ -49,7 +51,10 @@ const Doctor = props => {
       />
       <Jumbotron>
         <div className="doctor-heading">
-          <h1>{Name}</h1>
+          <h1>
+            {Name}
+            <Flag uid={uid} className="" />
+          </h1>
           <p>
             <Badge variant="warning">{Degree}</Badge>
           </p>

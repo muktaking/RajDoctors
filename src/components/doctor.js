@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useRef } from "react"
 import { Link } from "gatsby"
 import { Badge, Card } from "react-bootstrap"
 import {
@@ -9,13 +9,16 @@ import {
   FaHourglass,
 } from "react-icons/fa"
 
-const Doctor = ({ name, speciality, contact, location, time, link }) => {
+import Flag from "./flag"
+
+const Doctor = ({ name, speciality, contact, location, time, link, uid }) => {
   return (
     <Card style={{ width: "24rem" }}>
       <Card.Body>
         <Card.Title>
           <FaUserMd /> <span>{name.trim().replace(/\*/g, ",")}</span>
         </Card.Title>
+
         <hr />
         <Card.Subtitle className="d-flex align-items-center text-muted pl-1">
           <FaStethoscope />
@@ -45,7 +48,10 @@ const Doctor = ({ name, speciality, contact, location, time, link }) => {
           </div>
         </div>
         <br />
-        <Link to={"/doctor/" + link}>More...</Link>
+        <div className="d-flex justify-content-between">
+          <Link to={"/doctor/" + link}>More...</Link>
+          <Flag uid={uid} />
+        </div>
       </Card.Body>
     </Card>
   )

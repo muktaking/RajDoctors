@@ -12,6 +12,7 @@ const Doctors = ({ data }) => {
       location={doctor.loc1}
       time={doctor.visitTime1}
       link={doctor.uid}
+      uid={doctor.uid}
     />
   ))
 }

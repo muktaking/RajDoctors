@@ -187,8 +187,14 @@ main {
         margin-bottom: 5px;
         margin-right: 10px;
         background-color: #ffc107;
+        cursor: pointer;
         color: #fff;
         padding: 7px;
+      }
+      .flag {
+        svg {
+          background-color: #e42b0a;
+        }
       }
       .doctor-item-content {
         overflow: hidden;
@@ -196,6 +202,19 @@ main {
         white-space: nowrap;
       }
     }
+  }
+}
+
+.flag {
+  svg {
+    //background-color: #e42b0a;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+    color: rgb(243, 17, 17);
+    padding: 7px;
   }
 }
 

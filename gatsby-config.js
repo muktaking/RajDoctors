@@ -4,6 +4,7 @@ module.exports = {
     description: `Doctors are enlisted according to their speciality, degree. Get details location and contact info. Only for doctors at rajshahi city`,
     url: `https://rajdoctors.com`,
     siteUrl: `https://rajdoctors.com`,
+    apiUrl: "https://api.rajdoctors.com", // It is the backend url for contact, flag info
     author: `@yas`,
   },
   plugins: [

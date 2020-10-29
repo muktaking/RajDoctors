@@ -13,7 +13,7 @@ import Footer from "./footer"
 
 import "../styles/style.scss"
 
-const Layout = ({ children }) => {
+const Layout = ({ children, modalData }) => {
   const [collapsed, setCollapsed] = useState(false)
   const [toggled, setToggled] = useState(false)
 
