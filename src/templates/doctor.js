@@ -42,12 +42,22 @@ const Doctor = props => {
     visitTime1,
     visitTime2,
   } = props.data.doctorListsCsv
-  console.log(Speciality)
   return (
     <Layout>
       <SEO
-        title={`${Name}`}
-        description={` ${Speciality} specialist: Details chamber list, contact information and visiting time at rajshahi city in bangladesh`}
+        title={`${Name} | ${Designation} at ${Institute}`}
+        description={` ${Speciality} Specialist. Contact information: ${contact1.replace(
+          /\*/g,
+          ","
+        )}, ${
+          contact2 ? contact2.replace(/\*/g, ",") : ""
+        }, Chamber location: ${locDetail1.replace(
+          /\*/g,
+          ","
+        )} Visiting time: ${visitTime1.replace(
+          /\*/g,
+          ","
+        )} at rajshahi city in bangladesh`}
       />
       <Jumbotron>
         <div className="doctor-heading">

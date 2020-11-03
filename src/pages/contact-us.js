@@ -6,7 +6,10 @@ import SEO from "../components/seo"
 const IndexPage = () => {
   return (
     <Layout>
-      <SEO title="Contact Us" />
+      <SEO
+        title="Contact Us"
+        description="You can contact us with Email: info@rajdoctors@gmail.com, admin@rajdoctors@gmail.com. Loacated at rajshahi, Bangladesh. Online hub of doctors."
+      />
       <Contact />
     </Layout>
   )

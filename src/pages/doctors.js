@@ -1,16 +1,10 @@
-import React, { useState } from "react"
+import React from "react"
 import { graphql, useStaticQuery } from "gatsby"
 import Img from "gatsby-image"
-import ReactPaginate from "react-paginate"
 import Layout from "../components/layout"
-import Doctors from "../components/doctors"
 import SEO from "../components/seo"
 import { Container, Row, Col } from "react-bootstrap"
-
-//import HeroImg from "../images/hero.jpg"
-
-const perPage = 6
-let offset = 0
+import DoctorsPageComp from "../components/doctors.comp"
 
 const DoctorsComp = () => {
   const data = useStaticQuery(graphql`
@@ -37,22 +31,11 @@ const DoctorsComp = () => {
       }
     }
   `)
-  const pageCount = Math.ceil(data.all.nodes.length / 10)
-  //const [currentPage, setCurrentPage] = useState(0)
-  const [doctorsList, setDoctorsList] = useState(
-    data.all.nodes.slice(offset, offset + perPage)
-  )
-
-  const onHandleClick = ({ selected }) => {
-    offset = selected * perPage
-    //setCurrentPage(selected)
-    setDoctorsList(data.all.nodes.slice(offset, offset + perPage))
-  }
   return (
     <Layout>
       <SEO
         title="Doctors"
-        description="Lists of all doctors at rajshahi city in bangladesh"
+        description="Lists of all doctors with thier chamber location, duration and contact information at rajshahi city in bangladesh"
       />
       <Container fluid className="p-0">
         <div className="hero non-landing">
@@ -63,35 +46,13 @@ const DoctorsComp = () => {
               </div>
             </Col>
             <Col md={6}>
-              {/* <img src={HeroImg} alt="hero" height="300px" width="100%" /> */}
               <Img fixed={data.img.childImageSharp.fixed} />
             </Col>
           </Row>
         </div>
         <hr className="w-75" />
         <div className="main">
-          <div className="med-section">
-            <h3 className="text-center">All Doctors List</h3>
-            <div className="divider"></div>
-            <div className="med-card">
-              <Doctors data={doctorsList} />
-            </div>
-          </div>
-          <div className="d-flex justify-content-center">
-            <ReactPaginate
-              previousLabel={"<<"}
-              nextLabel={">>"}
-              breakLabel={"..."}
-              breakClassName={"break-me"}
-              pageCount={pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={onHandleClick}
-              containerClassName={"pagination"}
-              subContainerClassName={"pages pagination"}
-              activeClassName={"active"}
-            />
-          </div>
+          <DoctorsPageComp data={data} />
         </div>
       </Container>
     </Layout>

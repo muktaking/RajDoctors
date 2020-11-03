@@ -11,7 +11,16 @@ import {
 
 import Flag from "./flag"
 
-const Doctor = ({ name, speciality, contact, location, time, link, uid }) => {
+const Doctor = ({
+  name,
+  speciality,
+  contact,
+  location,
+  time,
+  link,
+  uid,
+  index,
+}) => {
   return (
     <Card style={{ width: "24rem" }}>
       <Card.Body>
@@ -34,23 +43,27 @@ const Doctor = ({ name, speciality, contact, location, time, link, uid }) => {
               {contact.trim().replace(/\*/g, ",")}
             </Badge>
           </div>
-          <div className="d-flex align-items-center">
-            <FaHospitalSymbol />
-            <Badge className="doctor-item-content">
-              {location.trim().replace(/\*/g, ",")}
-            </Badge>
-          </div>
-          <div className="d-flex align-items-center ">
-            <FaHourglass />
-            <Badge className="doctor-item-content">
-              {time.trim().replace(/\*/g, ",")}
-            </Badge>
-          </div>
+          {!index && (
+            <>
+              <div className="d-flex align-items-center">
+                <FaHospitalSymbol />
+                <Badge className="doctor-item-content">
+                  {location.trim().replace(/\*/g, ",")}
+                </Badge>
+              </div>
+              <div className="d-flex align-items-center ">
+                <FaHourglass />
+                <Badge className="doctor-item-content">
+                  {time.trim().replace(/\*/g, ",")}
+                </Badge>
+              </div>
+            </>
+          )}
         </div>
         <br />
         <div className="d-flex justify-content-between">
           <Link to={"/doctor/" + link}>More...</Link>
-          <Flag uid={uid} />
+          {!index && <Flag uid={uid} />}
         </div>
       </Card.Body>
     </Card>

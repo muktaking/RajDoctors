@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: `Online Hub of Doctors List in Rajshahi city Bangladesh`,
-    description: `Doctors are enlisted according to their speciality, degree. Get details location and contact info. Only for doctors at rajshahi city`,
+    description: `RajDoctors is an online platform to ease the pain of finding doctors. Doctors are enlisted according to their speciality, degree. Get details location and contact info. Only for doctors at rajshahi city`,
     url: `https://rajdoctors.com`,
     siteUrl: `https://rajdoctors.com`,
     apiUrl: "https://api.rajdoctors.com", // It is the backend url for contact, flag info

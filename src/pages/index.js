@@ -5,11 +5,25 @@ import Layout from "../components/layout"
 import Doctors from "../components/doctors"
 import SEO from "../components/seo"
 import { Container, Row, Col } from "react-bootstrap"
+//import { FixedSizeList as List } from "react-window"
 
 //importing component
 import Share from "../components/share"
 
 //import HeroImg from "../images/hero.jpg"
+
+const WindowRow = ({ title, data }) => (
+  <>
+    <div className="med-section">
+      <h3 className="text-center">{title}</h3>
+      <div className="divider"></div>
+      <div className="med-card">
+        <Doctors data={data} index={true} />
+      </div>
+    </div>
+    <hr className="w-25" />
+  </>
+)
 
 const IndexPage = () => {
   const data = useStaticQuery(graphql`
@@ -83,6 +97,11 @@ const IndexPage = () => {
       }
     }
   `)
+  const gallary = [
+    { title: "Top Medicine Specialist", data: data.med.nodes },
+    { title: "Top Surgery Specialist", data: data.sur.nodes },
+    { title: "Top Gynaecology Specialist", data: data.gy.nodes },
+  ]
 
   return (
     <Layout>
@@ -107,16 +126,12 @@ const IndexPage = () => {
           </Row>
         </div>
         <hr className="w-75" />
+
         <div className="main">
-          <div className="med-section">
-            <h3 className="text-center">Top Medicine Specialist</h3>
-            <div className="divider"></div>
-            <div className="med-card">
-              <Doctors data={data.med.nodes} />
-            </div>
-          </div>
-          <hr className="w-25" />
-          <div className="med-section">
+          {gallary.map((item, index) => (
+            <WindowRow key={item.title} title={item.title} data={item.data} />
+          ))}
+          {/* <div className="med-section">
             <h3 className="text-center">Top Surgery Specialist</h3>
             <div className="divider"></div>
             <div className="med-card">
@@ -130,7 +145,7 @@ const IndexPage = () => {
             <div className="med-card">
               <Doctors data={data.gy.nodes} />
             </div>
-          </div>
+          </div> */}
         </div>
       </Container>
     </Layout>

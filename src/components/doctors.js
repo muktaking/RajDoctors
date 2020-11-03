@@ -2,10 +2,10 @@ import React from "react"
 
 import Doctor from "./doctor"
 
-const Doctors = ({ data }) => {
-  return data.map((doctor, index) => (
+const Doctors = ({ data, index }) => {
+  return data.map((doctor, i) => (
     <Doctor
-      key={index}
+      key={i}
       name={doctor.Name}
       speciality={doctor.Degree}
       contact={doctor.contact1}
@@ -13,6 +13,7 @@ const Doctors = ({ data }) => {
       time={doctor.visitTime1}
       link={doctor.uid}
       uid={doctor.uid}
+      index={index}
     />
   ))
 }

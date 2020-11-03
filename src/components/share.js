@@ -14,16 +14,23 @@ import {
   PinterestIcon,
 } from "react-share"
 import { Overlay, Tooltip } from "react-bootstrap"
-import Image from "../images/logo.svg"
+//import Image from "../images/logo.svg"
 
 const Share = () => {
   const { href } = useLocation()
   const data = useStaticQuery(graphql`
     query MyQuery {
-      site {
+      site: site {
         siteMetadata {
           title
           description
+        }
+      }
+      img: file(relativePath: { eq: "gatsby-icon.png" }) {
+        childImageSharp {
+          fluid {
+            src
+          }
         }
       }
     }
@@ -38,7 +45,7 @@ const Share = () => {
   const target4 = useRef(null)
   const [show5, setShow5] = useState(false)
   const target5 = useRef(null)
-
+  const Image = data.img.childImageSharp.fluid.src
   return (
     <div className="share">
       <p className="">Share Us</p>

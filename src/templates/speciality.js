@@ -1,14 +1,12 @@
-import React, { useState } from "react"
+import React from "react"
 import { graphql } from "gatsby"
-import ReactPaginate from "react-paginate"
 import Layout from "../components/layout"
-import Doctors from "../components/doctors"
 import SEO from "../components/seo"
-import { Container } from "react-bootstrap"
+import SpecialityComp from "../components//speciality"
 
-// declaring some global variable
-const perPage = 6
-let offset = 0
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}
 
 export const query = graphql`
   query($Speciality: String!) {
@@ -30,61 +28,33 @@ export const query = graphql`
 `
 
 const Speciality = ({ location, data }) => {
-  const pageCount = Math.ceil(data.allDoctorListsCsv.nodes.length / 10)
-  //const [currentPage, setCurrentPage] = useState(0)
-  const [doctorsList, setDoctorsList] = useState(
-    data.allDoctorListsCsv.nodes.slice(offset, offset + perPage)
-  )
-
-  const onHandleClick = ({ selected }) => {
-    offset = selected * perPage
-    //setCurrentPage(selected)
-    setDoctorsList(data.allDoctorListsCsv.nodes.slice(offset, offset + perPage))
-  }
+  const top3 = data.allDoctorListsCsv.nodes
+    .slice(0, 3)
+    .reduce(
+      (accumulator, currentValue) =>
+        accumulator +
+        `${currentValue.Name}, Contact: ${currentValue.contact1.replace(
+          /\*/g,
+          ","
+        )}; `,
+      ""
+    )
 
   return (
     <Layout>
       <SEO
-        title={`${location.pathname
-          .split("/")
-          .reverse()[0]
-          .replace(/%20/g, " ")}`}
+        title={`${capitalizeFirstLetter(
+          location.pathname.split("/").reverse()[0].replace(/%20/g, " ")
+        )}`}
         description={`List Of Doctors in
-              ${location.pathname.split("/").reverse()[0].replace(/%20/g, " ")}
-              Speciality at rajshahi city in bangladesh`}
+              ${capitalizeFirstLetter(
+                location.pathname.split("/").reverse()[0].replace(/%20/g, " ")
+              )}
+              Speciality. Top Doctors: ${top3} at rajshahi city in bangladesh`}
       />
-      <Container fluid className="p-0">
-        <div className="main">
-          <div className="med-section">
-            <h3 className="text-center">
-              List Of Doctors in{" "}
-              {location.pathname.split("/").reverse()[0].replace(/%20/g, " ")}{" "}
-              Speciality
-            </h3>
-            <div className="divider"></div>
-            <div className="med-card">
-              <Doctors data={doctorsList} />
-            </div>
-          </div>
-          <div className="d-flex justify-content-center">
-            <ReactPaginate
-              previousLabel={"<<"}
-              nextLabel={">>"}
-              breakLabel={"..."}
-              breakClassName={"break-me"}
-              pageCount={pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={onHandleClick}
-              containerClassName={"pagination"}
-              subContainerClassName={"pages pagination"}
-              activeClassName={"active"}
-            />
-          </div>
-        </div>
-      </Container>
+      <SpecialityComp location={location} data={data} />
     </Layout>
   )
 }
 
-export default Speciality
+export default React.memo(Speciality)

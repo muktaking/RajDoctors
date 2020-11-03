@@ -10,7 +10,7 @@ import { flatMenu } from "../../meta.data"
 import { FaPoll } from "react-icons/fa"
 //import Heart from "../images/heart.jpg"
 
-const IndexPage = () => {
+const Speciality = () => {
   const data = useStaticQuery(graphql`
     query {
       allDoctorListsCsv {
@@ -35,7 +35,9 @@ const IndexPage = () => {
     <Layout>
       <SEO
         title="Speciality"
-        description="Categories of All Speciality of Doctors"
+        description={`Categories of All Speciality of Doctors- ${Array.from(
+          new Set(specArray)
+        ).join(", ")}`}
       />
       <Container fluid className="p-0">
         <div className="hero non-landing">
@@ -92,4 +94,4 @@ const IndexPage = () => {
   )
 }
 
-export default IndexPage
+export default React.memo(Speciality)
