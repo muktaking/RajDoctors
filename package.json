@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
+    "@formatjs/intl-numberformat": "^5.7.3",
     "@gatsby-contrib/gatsby-plugin-elasticlunr-search": "^2.4.2",
     "axios": "^0.20.0",
     "babel-plugin-styled-components": "^1.11.1",
@@ -12,6 +13,7 @@
     "gatsby": "^2.24.79",
     "gatsby-image": "^2.4.21",
     "gatsby-plugin-gtag": "^1.0.13",
+    "gatsby-plugin-intl": "^0.3.3",
     "gatsby-plugin-manifest": "^2.4.37",
     "gatsby-plugin-offline": "^3.2.38",
     "gatsby-plugin-react-helmet": "^3.3.14",

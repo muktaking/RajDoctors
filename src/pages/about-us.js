@@ -7,46 +7,54 @@ import {
   FaTwitter,
   FaMailBulk,
 } from "react-icons/fa"
+
+import { useIntl } from "gatsby-plugin-intl"
+
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
 const About = () => {
+  // Making useIntl available in the code
+  const intl = useIntl()
+  // Use language iso for the routes
+  const locale = intl.locale !== "en" ? `/${intl.locale}` : ""
+
   return (
     <Layout>
       <SEO title="About Us" />
       <div className="about">
-        <h2>About Us</h2>
+        <h2>{intl.formatMessage({ id: "about-us" })}</h2>
         <div className="about-inner">
-          <p className="lead">
-            RajDoctors is an online platform to ease the pain of finding
-            doctors. It is always painful to find out which doctor is perfect,
-            where the chamber of his/her. This platform gives you
-          </p>
+          <p className="lead">{intl.formatMessage({ id: "aboutText" })}</p>
           <hr />
-          <h5 className="mt-5 mb-2 text-center">What Will You Get Here</h5>
+          <h5 className="mt-5 mb-2 text-center">
+            {intl.formatMessage({ id: "advantages.tagLine" })}
+          </h5>
           <ul className="advantages">
             <li>
               <div>
                 <FaCog />
               </div>
-              <div>Easy but efficient way to find details of doctors </div>
+              <div>{intl.formatMessage({ id: "advantages.1" })} </div>
             </li>
             <li>
               <div>
                 <FaInfoCircle />
               </div>
-              <div>Doctor's chamber location, contact information</div>
+              <div>{intl.formatMessage({ id: "advantages.2" })}</div>
             </li>
             <li>
               <div>
                 <FaGraduationCap />
               </div>
-              <div>Category of doctors according to their specialty</div>
+              <div>{intl.formatMessage({ id: "advantages.3" })}</div>
             </li>
           </ul>
           <hr />
           <div className="find-us">
-            <h5 className="mt-2 mb-2 text-right">Find Us in Socials</h5>
+            <h5 className="mt-2 mb-2 text-right">
+              {intl.formatMessage({ id: "advantages.socials" })}
+            </h5>
             <ul>
               <li>
                 <FaFacebook />

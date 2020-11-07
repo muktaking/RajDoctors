@@ -1,9 +1,11 @@
 import React from "react"
+import { useIntl } from "gatsby-plugin-intl"
 import Layout from "../components/layout"
 import Contact from "../components/contact"
 import SEO from "../components/seo"
 
 const IndexPage = () => {
+  const intl = useIntl()
   return (
     <Layout>
       <SEO

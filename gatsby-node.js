@@ -6,24 +6,26 @@
 
 // You can delete this file if you're not using it
 const path = require("path")
-const flatMenu = require("./meta.data").flatMenu
+const flatMenu = require("./src/utils/meta.data").flatMenu
 module.exports.onCreateNode = ({ node, actions }) => {
   const { createNode, createNodeField } = actions
   if (node.internal.type === "DoctorListsCsv") {
-    const slug = node.Name.replace(/\s|\./g, "%20")
+    //if (node.lang === "en") {
+    const slug = node.Name.replace(/\s|\./g, "_") + "_" + node.uid
     createNodeField({
       node,
       name: "slug",
       value: slug,
     })
+    //}
   }
   // Transform the new node here and create a new node or
   // create a new node field.
 }
 
-module.exports.createPages = async ({ graphql, actions }) => {
+module.exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
-  const doctorTemplate = path.resolve("./src/templates/doctor.js")
+  const doctorTemplate = path.resolve("./src/templates/doctor/doctor.js")
   const res = await graphql(`
     query {
       allDoctorListsCsv {
@@ -35,14 +37,25 @@ module.exports.createPages = async ({ graphql, actions }) => {
             id
             uid
             Name
+            lang
           }
         }
       }
     }
   `)
-
+  // Handle errors
+  if (res.errors) {
+    reporter.panicOnBuild(`Error while running GraphQL query.`)
+    return
+  }
+  // res.data.allDoctorListsCsv.edges = res.data.allDoctorListsCsv.edges.filter(
+  //   edge => edge.node.lang === "en"
+  // )
   res.data.allDoctorListsCsv.edges.forEach(edge => {
-    const path = "/doctor/" + edge.node.uid
+    const language = edge.node.lang
+    const locale = language !== "en" ? `/${language}` : ""
+    //const path = `/doctor/${edge.node.uid}-${language}`
+    const path = `/doctor/${edge.node.fields.slug}`
     createPage({
       component: doctorTemplate,
       //path: "/doctor/" + edge.node.id,
@@ -54,13 +67,17 @@ module.exports.createPages = async ({ graphql, actions }) => {
       path,
       context: {
         //pagePath: edge.node.fields.slug,
-        id: edge.node.id,
+        uid: edge.node.uid,
+        lang: language,
+        slug: edge.node.fields.slug,
       },
     })
   })
 
   // pages based on speciality
-  const speacialityTemplate = path.resolve("./src/templates/speciality.js")
+  const speacialityTemplate = path.resolve(
+    "./src/templates/speciality/specialityWrapper.js"
+  )
   const speciality = flatMenu
   speciality.forEach(spec => {
     createPage({
@@ -71,4 +88,15 @@ module.exports.createPages = async ({ graphql, actions }) => {
       },
     })
   })
+}
+
+exports.onCreatePage = ({ page, actions }) => {
+  const { createPage, deletePage } = actions
+  if (
+    page.path.includes("/en/") ||
+    (page.path.includes("/bn/") && page.context.lang === "en") ||
+    (!page.path.includes("/bn/") && page.context.lang === "bn")
+  ) {
+    deletePage(page)
+  }
 }

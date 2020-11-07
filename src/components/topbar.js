@@ -3,10 +3,10 @@ import { Link, graphql, useStaticQuery } from "gatsby"
 import Img from "gatsby-image"
 import { useLocation } from "@reach/router"
 import { FaBars, FaInfoCircle, FaHome, FaMobileAlt } from "react-icons/fa"
-import { Nav } from "react-bootstrap"
-import SearchWrapper from "./searchWrapper"
+import { Dropdown, Nav, NavItem, NavLink } from "react-bootstrap"
+import SearchWrapper from "./search/searchWrapper"
 
-//import logo from "../images/logo.svg"
+import { useIntl } from "gatsby-plugin-intl"
 
 export const query = graphql`
   query {
@@ -23,6 +23,11 @@ export const query = graphql`
 `
 
 const Topbar = ({ handleToggleSidebar }) => {
+  // Making useIntl available in the code
+  const intl = useIntl()
+  // Use language iso for the routes
+  const locale = intl.locale !== "en" ? `/${intl.locale}` : ""
+
   const data = useStaticQuery(query)
   const { pathname } = useLocation()
   return (
@@ -39,11 +44,12 @@ const Topbar = ({ handleToggleSidebar }) => {
         <div className="branding my-auto pt-1 pb-2">
           <Link to="/">
             <div className="site-logo d-flex align-items-center">
-              {/* <img src={logo} width="55px" height="55" alt="logo" /> */}
               <Img fixed={data.file.childImageSharp.fixed} />
             </div>
           </Link>
-          <h5 className="text-white pl-2">Online Hub of Doctors in Rajshahi</h5>
+          <h5 className="text-white pl-2">
+            {intl.formatMessage({ id: "siteMetaData.tagLine" })}
+          </h5>
         </div>
         <SearchWrapper />
         {/* 2.navbar */}
@@ -54,35 +60,66 @@ const Topbar = ({ handleToggleSidebar }) => {
             as="ul"
           >
             <Nav.Item as="li">
-              <Link className="nav-link" to="/">
+              <Link className="nav-link" to={`${locale}/`}>
                 <div>
                   <FaHome />
                 </div>
-                <span className={pathname === "/" ? "active" : ""}>Home</span>
-              </Link>
-            </Nav.Item>
-            <Nav.Item as="li">
-              <Link className="nav-link" to="/about-us">
-                <div>
-                  <FaInfoCircle />
-                </div>
-                <span className={pathname === "/about-us" ? "active" : ""}>
-                  About Us
+                <span className={pathname === `${locale}/` ? "active" : ""}>
+                  {intl.formatMessage({ id: "home" })}
                 </span>
               </Link>
             </Nav.Item>
             <Nav.Item as="li">
-              <Link className="nav-link" to="/contact-us">
+              <Link className="nav-link" to={`${locale}/about-us`}>
+                <div>
+                  <FaInfoCircle />
+                </div>
+                <span
+                  className={pathname === `${locale}/about-us` ? "active" : ""}
+                >
+                  {intl.formatMessage({ id: "about-us" })}
+                </span>
+              </Link>
+            </Nav.Item>
+            <Nav.Item as="li">
+              <Link className="nav-link" to={`${locale}/contact-us`}>
                 <div>
                   <FaMobileAlt />
                 </div>
-                <span className={pathname === "/contact-us" ? "active" : ""}>
-                  Contact Us
+                <span
+                  className={
+                    pathname === `${locale}/contact-us` ? "active" : ""
+                  }
+                >
+                  {intl.formatMessage({ id: "contact-us" })}
                 </span>
               </Link>
             </Nav.Item>
           </Nav>
         </div>
+      </div>
+      <div>
+        <Dropdown as={NavItem} className="ml-auto" style={{ width: "10rem" }}>
+          <Dropdown.Toggle as={NavLink} className="nav-link">
+            {intl.locale === "en" ? "বাংলাতে দেখুন" : "Change to English"}
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            {intl.locale !== "en" && (
+              <Dropdown.Item>
+                <Link className="nav-link" to={`/`}>
+                  <span className="bg-light text-dark">English</span>
+                </Link>
+              </Dropdown.Item>
+            )}
+            {intl.locale === "en" && (
+              <Dropdown.Item>
+                <Link className="nav-link" to={`/bn`}>
+                  <span className="bg-light text-dark">বাংলা</span>
+                </Link>
+              </Dropdown.Item>
+            )}
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
     </>
   )

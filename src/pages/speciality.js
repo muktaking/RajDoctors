@@ -1,16 +1,19 @@
 import React from "react"
-import { Link, useStaticQuery, graphql } from "gatsby"
+import { useStaticQuery, graphql } from "gatsby"
 import Img from "gatsby-image"
+import { Container, Row, Col, Card, Badge } from "react-bootstrap"
+import { FaPoll } from "react-icons/fa"
+import { useIntl, Link } from "gatsby-plugin-intl"
+//imports components
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import { Container, Row, Col, Card, Badge } from "react-bootstrap"
 
-import { flatMenu } from "../../meta.data"
-//import HeroImg from "../images/hero.jpg"
-import { FaPoll } from "react-icons/fa"
-//import Heart from "../images/heart.jpg"
+//imports utils
+import { flatMenu } from "../utils/meta.data"
 
 const Speciality = () => {
+  const intl = useIntl()
+
   const data = useStaticQuery(graphql`
     query {
       allDoctorListsCsv {
@@ -45,7 +48,9 @@ const Speciality = () => {
             <Col md={6} className="">
               <div className="text-center">
                 <h1 className="text-uppercase mt-5">
-                  Categories of All Speciality of Doctors{" "}
+                  {intl.formatMessage({
+                    id: "CATEGORIES OF ALL SPECIALITY OF DOCTORS",
+                  })}
                 </h1>
               </div>
             </Col>
@@ -58,18 +63,22 @@ const Speciality = () => {
         <hr className="w-75" />
         <div className="main">
           <div className="med-section">
-            <h3 className="text-center">All Speciality</h3>
+            <h3 className="text-center">
+              {intl.formatMessage({ id: "Speciality" })}
+            </h3>
             <div className="divider"></div>
             <div className="med-card">
               {flatMenu.map(spec => (
                 <div className="speciality" key={spec}>
                   <Card style={{ width: "18rem" }} bg="light" text={"dark"}>
                     {/* <Card.Img variant="top" src={Heart} /> */}
-                    <Card.Header>{spec}</Card.Header>
+                    <Card.Header>
+                      {intl.formatMessage({ id: `${spec}` })}
+                    </Card.Header>
                     <Card.Body>
                       <Card.Title>
                         <FaPoll size={"36px"} />
-                        Doctors Found{" "}
+                        {intl.formatMessage({ id: "Doctors Found" })}{" "}
                         <Badge variant="warning">
                           {specArray.filter(v => v === spec).length}
                         </Badge>
@@ -79,7 +88,7 @@ const Speciality = () => {
                         make up the bulk of the card's content.
                       </Card.Text> */}
                       <Link to={`/speciality/${spec.toLowerCase()}`}>
-                        Enter
+                        {intl.formatMessage({ id: "Enter" })}
                       </Link>
                     </Card.Body>
                   </Card>

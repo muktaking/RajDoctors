@@ -3,6 +3,7 @@ import { useStaticQuery, graphql } from "gatsby"
 import axios from "axios"
 import validator from "validator"
 import { Formik } from "formik"
+import { useIntl } from "gatsby-plugin-intl"
 
 const randomSum = () => {
   const ranNum1 = Math.ceil(Math.random() * 100)
@@ -12,6 +13,7 @@ const randomSum = () => {
 let [ranNum1, ranNum2, sum] = randomSum()
 
 const Contact = () => {
+  const intl = useIntl()
   const queryData = useStaticQuery(graphql`
     query {
       site {
@@ -78,7 +80,9 @@ const Contact = () => {
             </div>
             <div className="col-lg-6">
               <div className="contact-box ml-3">
-                <h1 className="font-weight-light mt-2">Quick Contact</h1>
+                <h1 className="font-weight-light mt-2">
+                  {intl.formatMessage({ id: "Quick Contact" })}
+                </h1>
                 <Formik
                   initialValues={{
                     name: "",
@@ -137,7 +141,7 @@ const Contact = () => {
                             <input
                               className="form-control"
                               type="text"
-                              placeholder="name"
+                              placeholder={intl.formatMessage({ id: "Name" })}
                               name="name"
                               onChange={handleChange}
                               onBlur={handleBlur}
@@ -153,7 +157,7 @@ const Contact = () => {
                             <input
                               className="form-control"
                               type="email"
-                              placeholder="email address"
+                              placeholder={intl.formatMessage({ id: "Email" })}
                               name="email"
                               onChange={handleChange}
                               onBlur={handleBlur}
@@ -169,7 +173,7 @@ const Contact = () => {
                             <input
                               className="form-control"
                               type="text"
-                              placeholder="phone"
+                              placeholder={intl.formatMessage({ id: "Phone" })}
                               name="phone"
                               onChange={handleChange}
                               onBlur={handleBlur}
@@ -185,7 +189,9 @@ const Contact = () => {
                             <textarea
                               className="form-control"
                               rows="3"
-                              placeholder="message"
+                              placeholder={intl.formatMessage({
+                                id: "Message",
+                              })}
                               name="message"
                               onChange={handleChange}
                               onBlur={handleBlur}
@@ -199,7 +205,11 @@ const Contact = () => {
                           </div>
                         </div>
                         <div className="col-lg-12">
-                          <p>Please Write the correct Result</p>
+                          <p>
+                            {intl.formatMessage({
+                              id: "Please Write the correct Result",
+                            })}
+                          </p>
                           <div>
                             <span>{num1}</span> + <span>{num2}</span> =
                             <input
@@ -226,7 +236,7 @@ const Contact = () => {
                             type="submit"
                             className="btn btn-danger-gradiant mt-3 text-white border-0 px-3 py-2"
                           >
-                            <span> SUBMIT</span>
+                            <span> {intl.formatMessage({ id: "Submit" })}</span>
                           </button>
                         </div>
                       </div>
@@ -244,7 +254,9 @@ const Contact = () => {
                         <img src="https://www.wrappixel.com/demos/ui-kit/wrapkit/assets/images/contact/icon1.png" />
                       </div>
                       <div className="">
-                        <h6 className="font-weight-medium">Address</h6>
+                        <h6 className="font-weight-medium">
+                          {intl.formatMessage({ id: "Address" })}
+                        </h6>
                         <p className="">
                           Rajshahi
                           <br /> Bangladesh
@@ -258,7 +270,9 @@ const Contact = () => {
                         <img src="https://www.wrappixel.com/demos/ui-kit/wrapkit/assets/images/contact/icon2.png" />
                       </div>
                       <div className="">
-                        <h6 className="font-weight-medium">Phone</h6>
+                        <h6 className="font-weight-medium">
+                          {intl.formatMessage({ id: "Phone" })}
+                        </h6>
                         <p className="">
                           o17-
                           <br /> 017-
@@ -272,7 +286,9 @@ const Contact = () => {
                         <img src="https://www.wrappixel.com/demos/ui-kit/wrapkit/assets/images/contact/icon3.png" />
                       </div>
                       <div className="">
-                        <h6 className="font-weight-medium">Email</h6>
+                        <h6 className="font-weight-medium">
+                          {intl.formatMessage({ id: "Email" })}
+                        </h6>
                         <p className="">
                           info@rajdoctors@gmail.com
                           <br /> admin@rajdoctors@gmail.com

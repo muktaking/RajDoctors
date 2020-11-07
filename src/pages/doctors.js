@@ -1,12 +1,19 @@
 import React from "react"
 import { graphql, useStaticQuery } from "gatsby"
 import Img from "gatsby-image"
+import { Container, Row, Col } from "react-bootstrap"
+
+import { useIntl } from "gatsby-plugin-intl"
+
+//imports components
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import { Container, Row, Col } from "react-bootstrap"
-import DoctorsPageComp from "../components/doctors.comp"
+import DoctorsWrapper from "../components/doctors/doctorsWrapper"
 
-const DoctorsComp = () => {
+const Doctors = () => {
+  // Making useIntl available in the code
+  const intl = useIntl()
+
   const data = useStaticQuery(graphql`
     query {
       all: allDoctorListsCsv {
@@ -18,6 +25,9 @@ const DoctorsComp = () => {
           contact1
           loc1
           visitTime1
+          fields {
+            slug
+          }
         }
       }
       img: file(relativePath: { eq: "hero1.jpg" }) {
@@ -42,7 +52,9 @@ const DoctorsComp = () => {
           <Row noGutters>
             <Col md={6} className="">
               <div className="text-center">
-                <h1 className="text-uppercase mt-5">List of All Doctors</h1>
+                <h1 className="text-uppercase mt-5">
+                  {intl.formatMessage({ id: "adl" })}
+                </h1>
               </div>
             </Col>
             <Col md={6}>
@@ -52,11 +64,11 @@ const DoctorsComp = () => {
         </div>
         <hr className="w-75" />
         <div className="main">
-          <DoctorsPageComp data={data} />
+          <DoctorsWrapper data={data} />
         </div>
       </Container>
     </Layout>
   )
 }
 
-export default DoctorsComp
+export default Doctors

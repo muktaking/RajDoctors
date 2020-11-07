@@ -1,6 +1,5 @@
 import React from "react"
-import { Link } from "gatsby"
-import { menu } from "../../meta.data"
+import { menu } from "../utils/meta.data"
 import {
   FaHome,
   FaHubspot,
@@ -25,6 +24,8 @@ import {
   SubMenu,
 } from "react-pro-sidebar"
 
+import { useIntl, Link } from "gatsby-plugin-intl"
+
 const menuKeys = Object.keys(menu)
 const Sidebar = ({
   collapsed,
@@ -32,6 +33,11 @@ const Sidebar = ({
   handleToggleSidebar,
   handleCollapsedChange,
 }) => {
+  // Making useIntl available in the code
+  const intl = useIntl()
+  // Use language iso for the routes
+  //const locale = intl.locale !== "en" ? `/${intl.locale}` : ""
+
   return (
     <ProSidebar
       breakPoint="md"
@@ -62,23 +68,23 @@ const Sidebar = ({
       <SidebarContent>
         <Menu iconShape="square">
           <MenuItem icon={<FaHome />}>
-            Home
-            <Link to="/"></Link>
+            {intl.formatMessage({ id: "home" })}
+            <Link to={`/`}></Link>
           </MenuItem>
           <MenuItem icon={<FaHubspot />}>
-            Doctors
-            <Link to="/doctors"></Link>
+            {intl.formatMessage({ id: "Doctors" })}
+            <Link to={`/doctors`}></Link>
           </MenuItem>
           <MenuItem icon={<FaGraduationCap />}>
-            Speciality
-            <Link to="/speciality"></Link>
+            {intl.formatMessage({ id: "Speciality" })}
+            <Link to={`/speciality`}></Link>
           </MenuItem>
 
           {menuKeys.map((key, ind) =>
             typeof menu[key] !== "string" ? (
               <SubMenu
                 key={key + ind}
-                title={key}
+                title={intl.formatMessage({ id: `${key}` })}
                 icon={
                   key === "Medicine" ? (
                     <FaPills />
@@ -93,8 +99,8 @@ const Sidebar = ({
               >
                 {menu[key].map((item, index) => (
                   <MenuItem key={index}>
-                    {item}
-                    <Link to={"/speciality/" + item.toLowerCase()}></Link>
+                    {intl.formatMessage({ id: `${item}` })}
+                    <Link to={`/speciality/${item.toLowerCase()}`}></Link>
                   </MenuItem>
                 ))}
               </SubMenu>
@@ -113,8 +119,8 @@ const Sidebar = ({
                   )
                 }
               >
-                {menu[key]}
-                <Link to={"/speciality/" + menu[key].toLowerCase()}></Link>
+                {intl.formatMessage({ id: `${key}` })}
+                <Link to={`/speciality/${menu[key].toLowerCase()}`}></Link>
               </MenuItem>
             )
           )}

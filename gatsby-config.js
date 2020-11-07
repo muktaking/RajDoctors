@@ -47,13 +47,14 @@ module.exports = {
     {
       resolve: "@gatsby-contrib/gatsby-plugin-elasticlunr-search",
       options: {
-        fields: ["Name", "Speciality", "uid"],
+        fields: ["Name", "Speciality", "Slug", "Lang"],
         resolvers: {
           //MarkdownRemark
           DoctorListsCsv: {
             Name: node => node.Name,
             Speciality: node => node.Speciality,
-            uid: node => node.uid,
+            Lang: node => node.lang,
+            Slug: node => node.fields.slug,
           },
         },
       },
@@ -90,5 +91,19 @@ module.exports = {
       },
     },
     "gatsby-plugin-offline",
+
+    {
+      resolve: `gatsby-plugin-intl`,
+      options: {
+        // Directory with the strings JSON
+        path: `${__dirname}/src/intl`,
+        // Supported languages
+        languages: [`en`, `bn`],
+        // Default site language
+        defaultLanguage: `en`,
+        // Redirects to `/pt` in the route `/`
+        redirect: false,
+      },
+    },
   ],
 }

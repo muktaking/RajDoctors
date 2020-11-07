@@ -1,18 +1,19 @@
 import React from "react"
 import { graphql, useStaticQuery } from "gatsby"
 import Img from "gatsby-image"
-import Layout from "../components/layout"
-import Doctors from "../components/doctors"
-import SEO from "../components/seo"
 import { Container, Row, Col } from "react-bootstrap"
-//import { FixedSizeList as List } from "react-window"
+
+// Import hook
+import { useIntl } from "gatsby-plugin-intl"
 
 //importing component
+import Layout from "../components/layout"
+import SEO from "../components/seo"
+import Doctors from "../components/doctors/doctors"
 import Share from "../components/share"
 
-//import HeroImg from "../images/hero.jpg"
-
-const WindowRow = ({ title, data }) => (
+//
+const ContentSection = ({ title, data }) => (
   <>
     <div className="med-section">
       <h3 className="text-center">{title}</h3>
@@ -43,6 +44,7 @@ const IndexPage = () => {
           fields {
             slug
           }
+          lang
         }
       }
       sur: allDoctorListsCsv(
@@ -60,6 +62,7 @@ const IndexPage = () => {
           fields {
             slug
           }
+          lang
         }
       }
       gy: allDoctorListsCsv(
@@ -77,6 +80,7 @@ const IndexPage = () => {
           fields {
             slug
           }
+          lang
         }
       }
       site: site {
@@ -97,10 +101,15 @@ const IndexPage = () => {
       }
     }
   `)
+  // Making useIntl available in the code
+  const intl = useIntl()
+  // Use language iso for the routes
+  const locale = intl.locale !== "en" ? `/${intl.locale}` : ""
+
   const gallary = [
-    { title: "Top Medicine Specialist", data: data.med.nodes },
-    { title: "Top Surgery Specialist", data: data.sur.nodes },
-    { title: "Top Gynaecology Specialist", data: data.gy.nodes },
+    { title: intl.formatMessage({ id: "tms" }), data: data.med.nodes },
+    { title: intl.formatMessage({ id: "tss" }), data: data.sur.nodes },
+    { title: intl.formatMessage({ id: "tgs" }), data: data.gy.nodes },
   ]
 
   return (
@@ -111,10 +120,11 @@ const IndexPage = () => {
           <Row noGutters>
             <Col md={6} className="my-auto">
               <div className="text-center">
-                <h1 className="text-uppercase">Raj Doctors</h1>
+                <h1 className="text-uppercase">
+                  {intl.formatMessage({ id: "siteMetaData.title" })}
+                </h1>
                 <p className="text-muted lead p-3">
-                  Find Doctor's Chamber's Location, Time, Contact Information
-                  and Details.
+                  {intl.formatMessage({ id: "siteMetaData.description" })}
                 </p>
                 <Share />
               </div>
@@ -129,7 +139,11 @@ const IndexPage = () => {
 
         <div className="main">
           {gallary.map((item, index) => (
-            <WindowRow key={item.title} title={item.title} data={item.data} />
+            <ContentSection
+              key={item.title}
+              title={item.title}
+              data={item.data}
+            />
           ))}
           {/* <div className="med-section">
             <h3 className="text-center">Top Surgery Specialist</h3>

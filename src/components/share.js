@@ -14,12 +14,15 @@ import {
   PinterestIcon,
 } from "react-share"
 import { Overlay, Tooltip } from "react-bootstrap"
-//import Image from "../images/logo.svg"
+
+import { useIntl } from "gatsby-plugin-intl"
 
 const Share = () => {
   const { href } = useLocation()
+  // Making useIntl available in the code
+  const intl = useIntl()
   const data = useStaticQuery(graphql`
-    query MyQuery {
+    query {
       site: site {
         siteMetadata {
           title
@@ -48,7 +51,7 @@ const Share = () => {
   const Image = data.img.childImageSharp.fluid.src
   return (
     <div className="share">
-      <p className="">Share Us</p>
+      <p className="">{intl.formatMessage({ id: "share-us" })}</p>
       <FacebookShareButton
         url={href}
         quote={data.site.siteMetadata.description}
