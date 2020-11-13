@@ -41,7 +41,7 @@ function SEO({ description, useDefault = true, meta, title, ogImg }) {
     <>
       <Helmet
         htmlAttributes={{
-          lang: seo.lang,
+          lang,
         }}
         title={seo.title}
         titleTemplate={

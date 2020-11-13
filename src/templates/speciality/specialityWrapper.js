@@ -13,7 +13,7 @@ function capitalizeFirstLetter(string) {
 
 export const query = graphql`
   query($Speciality: String!) {
-    allDoctorListsCsv(filter: { Speciality: { eq: $Speciality } }, limit: 3) {
+    allDoctorListsCsv(filter: { Speciality: { eq: $Speciality } }) {
       nodes {
         Degree
         Name
@@ -34,20 +34,17 @@ export const query = graphql`
 const SpecialityWrapper = ({ pageContext, data }) => {
   const intl = useIntl()
   let speciality = pageContext.Speciality.toLowerCase()
-  console.log(speciality)
   speciality = menuWithSynonyms
     .filter(item => item[0].toLowerCase() === speciality)[0]
     .join(" and ")
 
-  let top3 = data.allDoctorListsCsv.nodes.reduce(
-    (accumulator, currentValue) =>
-      accumulator +
-      `${currentValue.Name}, Contact: ${currentValue.contact1.replace(
-        /\*/g,
-        ","
-      )}; `,
-    ""
-  )
+  let top3 = data.allDoctorListsCsv.nodes
+    .slice(0, 3)
+    .reduce(
+      (accumulator, currentValue) => accumulator + `${currentValue.Name}; `,
+      ""
+    )
+  //, Contact: ${currentValue.contact1.replace(/\*/g,",")}
   top3 =
     intl.locale === "en"
       ? `Top Doctors: ${top3} at rajshahi city in bangladesh`
