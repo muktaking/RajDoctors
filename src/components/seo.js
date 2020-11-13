@@ -11,33 +11,32 @@ import { useLocation } from "@reach/router"
 import { Helmet } from "react-helmet"
 import { useStaticQuery, graphql } from "gatsby"
 import { useIntl } from "gatsby-plugin-intl"
+import defaultOgImg from "../images/gatsby-icon.png"
 
 const query = graphql`
   query {
     site {
       siteMetadata {
-        defaultTitle: title
-        defaultDescription: description
         author
-        siteUrl: url
       }
     }
   }
 `
 
-function SEO({ description, lang, meta, title }) {
+function SEO({ description, useDefault = true, meta, title, ogImg }) {
   const intl = useIntl()
   const location = useLocation()
   const { site } = useStaticQuery(query)
-  const { defaultTitle, defaultDescription, siteUrl } = site.siteMetadata
+  const url = location.href
+  const lang = intl.locale
+  const ogImage = ogImg || defaultOgImg
 
   const seo = {
-    title: title || defaultTitle,
-    description: description || defaultDescription,
-    url: `${siteUrl}${location.pathname}`,
-    lang: intl.locale,
+    title: title || intl.formatMessage({ id: "siteMetaData.title" }),
+    description:
+      description || intl.formatMessage({ id: "siteMetaData.description" }),
+    //url: `${siteUrl}${location.pathname}`,
   }
-
   return (
     <>
       <Helmet
@@ -45,7 +44,11 @@ function SEO({ description, lang, meta, title }) {
           lang: seo.lang,
         }}
         title={seo.title}
-        titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : null}
+        titleTemplate={
+          useDefault
+            ? `%s | ${intl.formatMessage({ id: "siteMetaData.tagLine" })}`
+            : null
+        }
         meta={[
           {
             name: `description`,
@@ -64,6 +67,14 @@ function SEO({ description, lang, meta, title }) {
             content: `website`,
           },
           {
+            property: `og:url`,
+            content: url,
+          },
+          {
+            property: `og:image`,
+            content: ogImage,
+          },
+          {
             name: `twitter:card`,
             content: `summary`,
           },
@@ -80,9 +91,10 @@ function SEO({ description, lang, meta, title }) {
             content: seo.description,
           },
         ].concat(meta)}
+        // link={[{ rel: `icon`, href: `/favicon.png` }]}
       />
       <Helmet>
-        <link rel="alternate" href={seo.url} hrefLang={intl.locale} />
+        <link rel="alternate" href={url} hrefLang={intl.locale} />
         <meta http-equiv="content-language" content={intl.locale} />
       </Helmet>
     </>

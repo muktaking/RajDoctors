@@ -56,19 +56,23 @@ const Doctor = ({ intl, ...props }) => {
   return (
     <Layout>
       <SEO
-        title={`${Name} | ${Designation} at ${Institute}`}
-        description={` ${Speciality} Specialist. Contact information: ${contact1.replace(
-          /\*/g,
-          ","
-        )}, ${
+        title={`${Name} | ${Designation} ${intl.formatMessage({
+          id: "at",
+        })} ${Institute}`}
+        useDefault={false}
+        description={` ${Speciality} ${intl.formatMessage({
+          id: "Specialist",
+        })}. ${intl.formatMessage({
+          id: "chamber.contact-info",
+        })}: ${contact1.replace(/\*/g, ",")}, ${
           contact2 ? contact2.replace(/\*/g, ",") : ""
-        }, Chamber location: ${locDetail1.replace(
-          /\*/g,
-          ","
-        )} Visiting time: ${visitTime1.replace(
-          /\*/g,
-          ","
-        )} at rajshahi city in bangladesh`}
+        }, ${intl.formatMessage({
+          id: "chamber.location",
+        })}: ${locDetail1.replace(/\*/g, ",")} ${intl.formatMessage({
+          id: "chamber.time",
+        })}: ${visitTime1.replace(/\*/g, ",")} ${intl.formatMessage({
+          id: "at rajshahi city in bangladesh",
+        })}`}
       />
       <Jumbotron>
         <div className="doctor-heading">

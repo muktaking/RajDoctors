@@ -21,7 +21,7 @@ const About = () => {
 
   return (
     <Layout>
-      <SEO title="About Us" />
+      <SEO title={intl.formatMessage({ id: "about-us" })} />
       <div className="about">
         <h2>{intl.formatMessage({ id: "about-us" })}</h2>
         <div className="about-inner">

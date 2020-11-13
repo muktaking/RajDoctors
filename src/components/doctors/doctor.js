@@ -72,7 +72,7 @@ const Doctor = ({
         </div>
         <br />
         <div className="d-flex justify-content-between">
-          <Link to={`/doctor/${link}`}>
+          <Link to={`/doctor/${link}/`}>
             {intl.formatMessage({ id: "more" })}
           </Link>
           {!index && <Flag uid={uid} />}

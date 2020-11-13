@@ -45,7 +45,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link to={`/speciality/dental%20surgery`}>
-                  {intl.formatMessage({ id: "DentalSurgery" })}
+                  {intl.formatMessage({ id: "Dental Surgery" })}
                 </Link>
               </li>
               <li>

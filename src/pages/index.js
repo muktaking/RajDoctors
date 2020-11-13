@@ -114,7 +114,7 @@ const IndexPage = () => {
 
   return (
     <Layout>
-      <SEO title="RajDoctors" />
+      <SEO />
       <Container fluid className="p-0">
         <div className="hero">
           <Row noGutters>

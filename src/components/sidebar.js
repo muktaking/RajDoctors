@@ -73,11 +73,11 @@ const Sidebar = ({
           </MenuItem>
           <MenuItem icon={<FaHubspot />}>
             {intl.formatMessage({ id: "Doctors" })}
-            <Link to={`/doctors`}></Link>
+            <Link to={`/doctors/`}></Link>
           </MenuItem>
           <MenuItem icon={<FaGraduationCap />}>
             {intl.formatMessage({ id: "Speciality" })}
-            <Link to={`/speciality`}></Link>
+            <Link to={`/speciality/`}></Link>
           </MenuItem>
 
           {menuKeys.map((key, ind) =>
@@ -100,7 +100,7 @@ const Sidebar = ({
                 {menu[key].map((item, index) => (
                   <MenuItem key={index}>
                     {intl.formatMessage({ id: `${item}` })}
-                    <Link to={`/speciality/${item.toLowerCase()}`}></Link>
+                    <Link to={`/speciality/${item.toLowerCase()}/`}></Link>
                   </MenuItem>
                 ))}
               </SubMenu>
@@ -110,7 +110,7 @@ const Sidebar = ({
                 icon={
                   key === "Gynaecology" ? (
                     <FaFemale />
-                  ) : key === "DentalSurgery" ? (
+                  ) : key === "Dental Surgery" ? (
                     <FaTooth />
                   ) : key === "Paediatrics" ? (
                     <FaBaby />
@@ -120,7 +120,7 @@ const Sidebar = ({
                 }
               >
                 {intl.formatMessage({ id: `${key}` })}
-                <Link to={`/speciality/${menu[key].toLowerCase()}`}></Link>
+                <Link to={`/speciality/${menu[key].toLowerCase()}/`}></Link>
               </MenuItem>
             )
           )}

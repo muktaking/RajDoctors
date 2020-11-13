@@ -113,7 +113,7 @@ const Topbar = ({ handleToggleSidebar }) => {
             )}
             {intl.locale === "en" && (
               <Dropdown.Item>
-                <Link className="nav-link" to={`/bn`}>
+                <Link className="nav-link" to={`/bn/`}>
                   <span className="bg-light text-dark">বাংলা</span>
                 </Link>
               </Dropdown.Item>

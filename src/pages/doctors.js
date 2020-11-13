@@ -44,8 +44,13 @@ const Doctors = () => {
   return (
     <Layout>
       <SEO
-        title="Doctors"
-        description="Lists of all doctors with thier chamber location, duration and contact information at rajshahi city in bangladesh"
+        title={intl.formatMessage({ id: "adl" })}
+        description={intl.formatMessage({
+          id: "seo.doctors.des",
+          defaultMessage:
+            "Lists of all doctors with thier chamber location, duration and contact information at rajshahi city in bangladesh",
+        })}
+        useDefault={false}
       />
       <Container fluid className="p-0">
         <div className="hero non-landing">

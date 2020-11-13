@@ -11,7 +11,8 @@ module.exports.onCreateNode = ({ node, actions }) => {
   const { createNode, createNodeField } = actions
   if (node.internal.type === "DoctorListsCsv") {
     //if (node.lang === "en") {
-    const slug = node.Name.replace(/\s|\./g, "_") + "_" + node.uid
+    //const slug = node.Name.replace(/\s|\./g, "_") + "_" + node.uid
+    const slug = node.Name.toLowerCase().replace(/(\.?\s)/g, "-")
     createNodeField({
       node,
       name: "slug",

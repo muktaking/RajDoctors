@@ -9,7 +9,7 @@ const IndexPage = () => {
   return (
     <Layout>
       <SEO
-        title="Contact Us"
+        title={intl.formatMessage({ id: "contact-us" })}
         description="You can contact us with Email: info@rajdoctors@gmail.com, admin@rajdoctors@gmail.com. Loacated at rajshahi, Bangladesh. Online hub of doctors."
       />
       <Contact />

@@ -13,7 +13,7 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
-const Speciality = ({ location, data }) => {
+const Speciality = ({ speciality, data }) => {
   // Making useIntl available in the code
   const intl = useIntl()
 
@@ -37,13 +37,7 @@ const Speciality = ({ location, data }) => {
             {`${intl.formatMessage({
               id: "adl",
             })} ${intl.formatMessage({
-              id: `${capitalizeFirstLetter(
-                location.pathname
-                  .split("/")
-                  .reverse()[0]
-                  .replace(/%20/g, " ")
-                  .trim()
-              )}`,
+              id: `${capitalizeFirstLetter(speciality)}`,
             })}  ${intl.formatMessage({ id: "Speciality" })}`}
           </h3>
           <div className="divider"></div>

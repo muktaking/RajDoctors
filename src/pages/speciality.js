@@ -19,6 +19,7 @@ const Speciality = () => {
       allDoctorListsCsv {
         nodes {
           Speciality
+          lang
         }
       }
       img: file(relativePath: { eq: "hero1.jpg" }) {
@@ -33,14 +34,30 @@ const Speciality = () => {
     }
   `)
   const specArray = data.allDoctorListsCsv.nodes.map(spec => spec.Speciality)
-
+  const specDesArray = [
+    "Medicine",
+    "Gynaecology",
+    "Surgery",
+    "Orthopaedics",
+    "Paediatrics",
+  ]
   return (
     <Layout>
       <SEO
-        title="Speciality"
-        description={`Categories of All Speciality of Doctors- ${Array.from(
-          new Set(specArray)
-        ).join(", ")}`}
+        title={
+          intl.formatMessage({ id: "Speciality" }) +
+          " | " +
+          intl.formatMessage({ id: "siteMetaData.tagLine" })
+        }
+        useDefault={false}
+        description={
+          `${intl.formatMessage({
+            id: "List of All Doctor's Speciality",
+          })}-` +
+          specDesArray.map(spec => intl.formatMessage({ id: spec })) +
+          " " +
+          intl.formatMessage({ id: "more" })
+        }
       />
       <Container fluid className="p-0">
         <div className="hero non-landing">
@@ -49,7 +66,7 @@ const Speciality = () => {
               <div className="text-center">
                 <h1 className="text-uppercase mt-5">
                   {intl.formatMessage({
-                    id: "CATEGORIES OF ALL SPECIALITY OF DOCTORS",
+                    id: "List of All Doctor's Speciality",
                   })}
                 </h1>
               </div>
@@ -87,7 +104,7 @@ const Speciality = () => {
                         Some quick example text to build on the card title and
                         make up the bulk of the card's content.
                       </Card.Text> */}
-                      <Link to={`/speciality/${spec.toLowerCase()}`}>
+                      <Link to={`/speciality/${spec.toLowerCase()}/`}>
                         {intl.formatMessage({ id: "Enter" })}
                       </Link>
                     </Card.Body>
