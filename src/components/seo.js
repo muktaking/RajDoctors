@@ -23,19 +23,19 @@ const query = graphql`
   }
 `
 
-function SEO({ description, useDefault = true, meta, title, ogImg }) {
+function SEO({ description, useDefault, meta, title, ogImg }) {
   const intl = useIntl()
   const location = useLocation()
   const { site } = useStaticQuery(query)
   const url = location.href
   const lang = intl.locale
-  const ogImage = ogImg || defaultOgImg
 
   const seo = {
     title: title || intl.formatMessage({ id: "siteMetaData.title" }),
     description:
       description || intl.formatMessage({ id: "siteMetaData.description" }),
     //url: `${siteUrl}${location.pathname}`,
+    ogImg: ogImg || defaultOgImg,
   }
   return (
     <>
@@ -72,7 +72,7 @@ function SEO({ description, useDefault = true, meta, title, ogImg }) {
           },
           {
             property: `og:image`,
-            content: ogImage,
+            content: seo.ogImg,
           },
           {
             name: `twitter:card`,
@@ -84,7 +84,7 @@ function SEO({ description, useDefault = true, meta, title, ogImg }) {
           },
           {
             name: `twitter:title`,
-            content: title,
+            content: seo.title,
           },
           {
             name: `twitter:description`,
@@ -106,6 +106,7 @@ SEO.defaultProps = {
   lang: `en`,
   meta: [],
   description: ``,
+  useDefault: true,
 }
 
 SEO.propTypes = {
