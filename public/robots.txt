@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://rajdoctors.com/sitemap.xml
+Host: https://rajdoctors.com

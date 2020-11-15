@@ -105,5 +105,13 @@ module.exports = {
         redirect: false,
       },
     },
+    {
+      resolve: "gatsby-plugin-robots-txt",
+      options: {
+        host: "https://rajdoctors.com",
+        sitemap: "https://rajdoctors.com/sitemap.xml",
+        policy: [{ userAgent: "*", allow: "/" }],
+      },
+    },
   ],
 }

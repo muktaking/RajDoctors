@@ -11,14 +11,17 @@ import { useLocation } from "@reach/router"
 import { Helmet } from "react-helmet"
 import { useStaticQuery, graphql } from "gatsby"
 import { useIntl } from "gatsby-plugin-intl"
-import defaultOgImg from "../images/gatsby-icon.png"
 
 const query = graphql`
   query {
-    site {
+    site: site {
       siteMetadata {
         author
+        url
       }
+    }
+    file: file(relativePath: { eq: "gatsby-icon.png" }) {
+      publicURL
     }
   }
 `
@@ -26,16 +29,18 @@ const query = graphql`
 function SEO({ description, useDefault, meta, title, ogImg }) {
   const intl = useIntl()
   const location = useLocation()
-  const { site } = useStaticQuery(query)
-  const url = location.href
+  const { site, file } = useStaticQuery(query)
+  const url =
+    location.pathname === "/"
+      ? site.siteMetadata.url
+      : site.siteMetadata.url + location.pathname
   const lang = intl.locale
-
   const seo = {
     title: title || intl.formatMessage({ id: "siteMetaData.title" }),
     description:
       description || intl.formatMessage({ id: "siteMetaData.description" }),
     //url: `${siteUrl}${location.pathname}`,
-    ogImg: ogImg || defaultOgImg,
+    ogImg: ogImg || site.siteMetadata.url + file.publicURL,
   }
   return (
     <>
