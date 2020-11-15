@@ -26,7 +26,7 @@ const query = graphql`
   }
 `
 
-function SEO({ description, useDefault, meta, title, ogImg }) {
+function SEO({ description, useDefault, meta, title, ogImg, schema }) {
   const intl = useIntl()
   const location = useLocation()
   const { site, file } = useStaticQuery(query)
@@ -101,6 +101,7 @@ function SEO({ description, useDefault, meta, title, ogImg }) {
       <Helmet>
         <link rel="alternate" href={url} hrefLang={intl.locale} />
         <meta http-equiv="content-language" content={intl.locale} />
+        <script type="application/ld+json">{schema}</script>
       </Helmet>
     </>
   )
@@ -112,6 +113,7 @@ SEO.defaultProps = {
   meta: [],
   description: ``,
   useDefault: true,
+  schema: ``,
 }
 
 SEO.propTypes = {

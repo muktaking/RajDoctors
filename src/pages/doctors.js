@@ -21,6 +21,8 @@ const Doctors = () => {
           id
           uid
           Name
+          Designation
+          Institute
           Degree
           contact1
           loc1
@@ -41,9 +43,32 @@ const Doctors = () => {
       }
     }
   `)
+  const top3Schema = data.all.nodes.slice(0, 3).map(
+    (doc, i) => `
+   {"@type": "ListItem",
+   "position": ${i + 1},
+   "item": {
+    "@type": "Person",
+    "name": ${doc.Name},
+    "url": ${"https://rajdoctors.com" + `/doctor/` + doc.fields.slug},
+    "jobTitle": ${doc.Designation},
+    "worksFor": {
+      "@type": "Organization",
+      "name": ${doc.Institute}
+    },
+    "telephone": ${doc.contact1} 
+   }}
+   `
+  )
+  const schema = `{
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": ${top3Schema}
+  }`
   return (
     <Layout>
       <SEO
+        schema={schema}
         title={intl.formatMessage({ id: "adl" })}
         description={intl.formatMessage({
           id: "seo.doctors.des",

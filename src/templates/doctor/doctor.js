@@ -29,11 +29,14 @@ export const query = graphql`
       locDetail2
       visitTime1
       visitTime2
+      fields {
+        slug
+      }
     }
   }
 `
 
-const Doctor = ({ intl, ...props }) => {
+const Doctor = ({ intl, pageContext, ...props }) => {
   // Internationalization
   //const intl = useIntl()
   //const locale = intl.locale !== "en" ? `/${intl.locale}` : ""
@@ -51,8 +54,23 @@ const Doctor = ({ intl, ...props }) => {
     locDetail2,
     visitTime1,
     visitTime2,
+    fields,
   } = props.data.doctorListsCsv
-
+  const schema = `
+{
+  "@context": "https://schema.org/",
+  "@type": "Person",
+  "name": ${Name},
+  "url": ${"https://rajdoctors.com" + `/doctor/` + fields.slug},
+  "image": ${"https://rajdoctors.com" + pageContext.imgSrc},
+  "jobTitle": ${Designation},
+  "worksFor": {
+    "@type": "Organization",
+    "name": ${Institute}
+  },
+  "telephone": ${contact1 + ", " + contact2}  
+}
+`
   return (
     <Layout>
       <SEO
@@ -73,6 +91,7 @@ const Doctor = ({ intl, ...props }) => {
         })}: ${visitTime1.replace(/\*/g, ",")} ${intl.formatMessage({
           id: "at rajshahi city in bangladesh",
         })}`}
+        schema={schema}
       />
       <Jumbotron>
         <div className="doctor-heading">

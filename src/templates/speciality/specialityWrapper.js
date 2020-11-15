@@ -17,6 +17,8 @@ export const query = graphql`
       nodes {
         Degree
         Name
+        Designation
+        Institute
         contact1
         loc1
         visitTime1
@@ -49,9 +51,33 @@ const SpecialityWrapper = ({ pageContext, data }) => {
     intl.locale === "en"
       ? `Top Doctors: ${top3} at rajshahi city in bangladesh`
       : "- তাদের চেম্বারের লোকেশন, সময় ও সিরিয়লের নাম্বারসহ প্রয়োজনীয় তথ্য"
+
+  const top3Schema = data.allDoctorListsCsv.nodes.slice(0, 3).map(
+    (doc, i) => `
+   {"@type": "ListItem",
+   "position": ${i + 1},
+   "item": {
+    "@type": "Person",
+    "name": ${doc.Name},
+    "url": ${"https://rajdoctors.com" + `/doctor/` + doc.fields.slug},
+    "jobTitle": ${doc.Designation},
+    "worksFor": {
+      "@type": "Organization",
+      "name": ${doc.Institute}
+    },
+    "telephone": ${doc.contact1} 
+   }}
+   `
+  )
+  const schema = `{
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": ${top3Schema}
+  }`
   return (
     <Layout>
       <SEO
+        schema={schema}
         title={intl.formatMessage({
           id: capitalizeFirstLetter(speciality),
         })}

@@ -29,7 +29,7 @@ module.exports.createPages = async ({ graphql, actions, reporter }) => {
   const doctorTemplate = path.resolve("./src/templates/doctor/doctor.js")
   const res = await graphql(`
     query {
-      allDoctorListsCsv {
+      allDoctorListsCsv: allDoctorListsCsv {
         edges {
           node {
             fields {
@@ -41,6 +41,19 @@ module.exports.createPages = async ({ graphql, actions, reporter }) => {
             lang
           }
         }
+      }
+      allImg: allFile(
+        filter: { relativePath: { regex: "/doctor/.*[png|jpeg|jpg|svg]$/" } }
+      ) {
+        edges {
+          node {
+            relativePath
+            publicURL
+          }
+        }
+      }
+      img: file(relativePath: { eq: "doctor/default.png" }) {
+        publicURL
       }
     }
   `)
@@ -57,6 +70,12 @@ module.exports.createPages = async ({ graphql, actions, reporter }) => {
     const locale = language !== "en" ? `/${language}` : ""
     //const path = `/doctor/${edge.node.uid}-${language}`
     const path = `/doctor/${edge.node.fields.slug}`
+    img = res.data.allImg.edges.filter(({ node }) =>
+      node.relativePath.includes("doctor/" + edge.node.uid + "_")
+    )
+    const imgDefault = {
+      src: img.length > 0 ? img[0].node.publicURL : res.data.img.publicURL,
+    }
     createPage({
       component: doctorTemplate,
       //path: "/doctor/" + edge.node.id,
@@ -71,6 +90,7 @@ module.exports.createPages = async ({ graphql, actions, reporter }) => {
         uid: edge.node.uid,
         lang: language,
         slug: edge.node.fields.slug,
+        imgSrc: imgDefault.src,
       },
     })
   })
