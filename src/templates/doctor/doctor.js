@@ -60,25 +60,30 @@ const Doctor = ({ intl, pageContext, ...props }) => {
 {
   "@context": "https://schema.org/",
   "@type": "Person",
-  "name": ${Name},
-  "url": ${"https://rajdoctors.com" + `/doctor/` + fields.slug},
-  "image": ${"https://rajdoctors.com" + pageContext.imgSrc},
-  "jobTitle": ${Designation},
+  "name": "${Name.replace(/\*/, ",")}",
+  "url": "${"https://rajdoctors.com" + `/doctor/` + fields.slug}",
+  "image": "${"https://rajdoctors.com" + pageContext.imgSrc}",
+  "jobTitle": "${Designation.replace(/\*/, ",")}",
   "worksFor": {
     "@type": "Organization",
-    "name": ${Institute}
+    "name": "${Institute.replace(/\*/, ",")}"
   },
-  "telephone": ${contact1 + ", " + contact2}  
+  "telephone": "${
+    contact1.replace(/\*/, ",") + ", " + contact2.replace(/\*/, ",")
+  }"  
 }
 `
   return (
     <Layout>
       <SEO
-        title={`${Name} | ${Designation} ${intl.formatMessage({
+        title={`${Name.replace(/\*/, ",")} | ${Designation.replace(
+          /\*/,
+          ","
+        )} ${intl.formatMessage({
           id: "at",
-        })} ${Institute}`}
+        })} ${Institute.replace(/\*/, ",")}`}
         useDefault={false}
-        description={` ${Speciality} ${intl.formatMessage({
+        description={` ${Speciality.replace(/\*/, ",")} ${intl.formatMessage({
           id: "Specialist",
         })}. ${intl.formatMessage({
           id: "chamber.contact-info",
@@ -103,16 +108,16 @@ const Doctor = ({ intl, pageContext, ...props }) => {
             <Flag uid={uid} className="" />
           </h1>
           <p>
-            <Badge variant="warning">{Degree}</Badge>
+            <Badge variant="warning">{Degree.replace(/\*/, ",")}</Badge>
           </p>
         </div>
         <div className="doctor-body px-3 pt-1">
           <div className="designation">
             <h5>{intl.formatMessage({ id: "designation" })}</h5>
             <p className="text-muted pl-3">
-              {`${Designation} ${intl.formatMessage({
+              {`${Designation.replace(/\*/, ",")} ${intl.formatMessage({
                 id: "at",
-              })} ${Institute}`}
+              })} ${Institute.replace(/\*/, ",")}`}
             </p>
           </div>
           <div className="chamber">

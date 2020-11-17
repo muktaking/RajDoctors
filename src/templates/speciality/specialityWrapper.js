@@ -55,24 +55,24 @@ const SpecialityWrapper = ({ pageContext, data }) => {
   const top3Schema = data.allDoctorListsCsv.nodes.slice(0, 3).map(
     (doc, i) => `
    {"@type": "ListItem",
-   "position": ${i + 1},
+   "position": "${i + 1}",
    "item": {
     "@type": "Person",
-    "name": ${doc.Name},
-    "url": ${"https://rajdoctors.com" + `/doctor/` + doc.fields.slug},
-    "jobTitle": ${doc.Designation},
+    "name": "${doc.Name.replace(/\*/, ",")}",
+    "url": "${"https://rajdoctors.com" + `/doctor/` + doc.fields.slug}",
+    "jobTitle": "${doc.Designation.replace(/\*/, ",")}",
     "worksFor": {
       "@type": "Organization",
-      "name": ${doc.Institute}
+      "name": "${doc.Institute.replace(/\*/, ",")}"
     },
-    "telephone": ${doc.contact1} 
+    "telephone": "${doc.contact1.replace(/\*/, ",")}" 
    }}
    `
   )
   const schema = `{
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "itemListElement": ${top3Schema}
+    "itemListElement": [${top3Schema}]
   }`
   return (
     <Layout>
