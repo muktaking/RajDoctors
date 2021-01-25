@@ -1,8 +1,11 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    title: `Online Hub of Doctors List in Rajshahi city Bangladesh`,
+    description: `RajDoctors is an online platform to ease the pain of finding doctors. Doctors are enlisted according to their speciality, degree. Get details location and contact info. Only for doctors at rajshahi city`,
+    url: `https://rajdoctors.com`,
+    siteUrl: `https://rajdoctors.com`,
+    apiUrl: "https://api.rajdoctors.com", // It is the backend url for contact, flag info
+    author: `@yas`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -30,5 +33,85 @@ module.exports = {
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
+    `gatsby-plugin-sass`,
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `data`,
+        path: `${__dirname}/src/data/`,
+        ignore: [`**/\.*`], // ignore files starting with a dot
+      },
+    },
+    `gatsby-transformer-remark`,
+    `gatsby-transformer-csv`,
+    {
+      resolve: "@gatsby-contrib/gatsby-plugin-elasticlunr-search",
+      options: {
+        fields: ["Name", "Speciality", "Slug", "Lang"],
+        resolvers: {
+          //MarkdownRemark
+          DoctorListsCsv: {
+            Name: node => node.Name,
+            Speciality: node => node.Speciality,
+            Lang: node => node.lang,
+            Slug: node => node.fields.slug,
+          },
+        },
+      },
+    },
+    `gatsby-plugin-sitemap`,
+    {
+      resolve: `gatsby-plugin-gtag`,
+      options: {
+        // your google analytics tracking id
+        trackingId: `G-MR1BSKXT3V`,
+        // Puts tracking script in the head instead of the body
+        head: false,
+        // enable ip anonymization
+        anonymize: true,
+      },
+    },
+
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: "RajDoctors",
+        short_name: "RajDoctors",
+        start_url: "/",
+        background_color: "#6b37bf",
+        theme_color: "#6b37bf",
+        // Enables "Add to Homescreen" prompt and disables browser UI (including back button)
+        // see https://developers.google.com/web/fundamentals/web-app-manifest/#display
+        display: "standalone",
+        icon: "src/images/gatsby-icon.png", // This path is relative to the root of the site.
+        // An optional attribute which provides support for CORS check.
+        // If you do not provide a crossOrigin option, it will skip CORS for manifest.
+        // Any invalid keyword or empty string defaults to `anonymous`
+        crossOrigin: `use-credentials`,
+      },
+    },
+    "gatsby-plugin-offline",
+
+    {
+      resolve: `gatsby-plugin-intl`,
+      options: {
+        // Directory with the strings JSON
+        path: `${__dirname}/src/intl`,
+        // Supported languages
+        languages: [`en`, `bn`],
+        // Default site language
+        defaultLanguage: `en`,
+        // Redirects to `/pt` in the route `/`
+        redirect: false,
+      },
+    },
+    {
+      resolve: "gatsby-plugin-robots-txt",
+      options: {
+        host: "https://rajdoctors.com",
+        sitemap: "https://rajdoctors.com/sitemap.xml",
+        policy: [{ userAgent: "*", allow: "/" }],
+      },
+    },
   ],
 }
