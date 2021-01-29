@@ -5,12 +5,12 @@
  * See: https://www.gatsbyjs.com/docs/use-static-query/
  */
 
-import React from "react"
-import PropTypes from "prop-types"
 import { useLocation } from "@reach/router"
-import { Helmet } from "react-helmet"
-import { useStaticQuery, graphql } from "gatsby"
+import { graphql, useStaticQuery } from "gatsby"
 import { useIntl } from "gatsby-plugin-intl"
+import PropTypes from "prop-types"
+import React from "react"
+import { Helmet } from "react-helmet"
 
 const query = graphql`
   query {
@@ -103,6 +103,7 @@ function SEO({ description, useDefault, meta, title, ogImg, schema }) {
         <link rel="canonical" href={url} />
         <meta http-equiv="content-language" content={intl.locale} />
         <script type="application/ld+json">{schema}</script>
+        <script data-ad-client="ca-pub-7807818541747006" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       </Helmet>
     </>
   )
