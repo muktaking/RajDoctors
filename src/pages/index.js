@@ -5,6 +5,7 @@ import { useIntl } from "gatsby-plugin-intl"
 import React from "react"
 import { Col, Container, Row } from "react-bootstrap"
 import Doctors from "../components/doctors/doctors"
+import Emergency from "../components/emergency"
 //importing component
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -139,7 +140,7 @@ const IndexPage = () => {
           </Row>
         </div>
         <hr className="w-75" />
-
+        <Emergency snippetVeiw={true}/>
         <div className="main">
           {gallary.map((item, index) => (
             <ContentSection

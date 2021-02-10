@@ -6,6 +6,7 @@ import { FaStar } from "react-icons/fa"
 import Avatar from "../../components/avatar"
 //importing components
 import Doctors from "../../components/doctors/doctors"
+import Emergency from "../../components/emergency"
 import Flag from "../../components/flag"
 import Layout from "../../components/layout"
 import SEO from "../../components/seo"
@@ -215,6 +216,7 @@ const Doctor = ({ intl, pageContext, ...props }) => {
           </div>
         </div>
         <Share />
+        <Emergency snippetVeiw={true}/>
         <div className="main">
           <div className="med-section">
             <h3 className="text-center">{"You may find helpful"}</h3>
