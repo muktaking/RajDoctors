@@ -80,7 +80,6 @@ const Doctor = ({ intl, pageContext, ...props }) => {
   } = props.data.doc
 
   const docs =  props.data.docs.nodes.filter(e=>e.Speciality ===props.data.doc.Speciality).slice(0,6)
-  console.log(docs)
   const schema = `
 {
   "@context": "https://schema.org/",

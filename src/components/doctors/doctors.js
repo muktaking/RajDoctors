@@ -34,10 +34,11 @@ const Doctors = ({ data, index }) => {
     const doctorFilterByLocale = queryData.all.nodes.filter(
       node => node.uid === doctor.uid && node.lang === intl.locale
     )[0]
+    if(doctorFilterByLocale === undefined) return;
     return (
       <Doctor
         key={i}
-        name={doctorFilterByLocale.Name}
+        name={doctorFilterByLocale  ? doctorFilterByLocale.Name : ''}
         rating={doctorFilterByLocale.Rating}
         speciality={doctorFilterByLocale.Degree}
         contact={doctorFilterByLocale.contact1}
