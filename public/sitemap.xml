@@ -235,6 +235,7 @@
 <url> <loc>https://rajdoctors.com/doctor/dr-md-enamul-haque(orthopaedics)</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://rajdoctors.com/doctor/dr-md-abdullah-al-kaiser</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://rajdoctors.com/doctor/dr-md-nafis-iqbal</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://rajdoctors.com/doctor/prof-dr-abdullah-al-mamun-hussain</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://rajdoctors.com/doctor/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://rajdoctors.com/bn/doctor/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://rajdoctors.com/bn/doctor/ডাঃ-আজিজুল-হক</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
@@ -468,6 +469,7 @@
 <url> <loc>https://rajdoctors.com/bn/doctor/এমডি-মো।-এনামুল-হক</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://rajdoctors.com/bn/doctor/ডাঃ-মোঃ-আবদুল্লাহ-আল-কায়সার</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://rajdoctors.com/bn/doctor/ডাঃ-মোঃ-নাফিস-ইকবাল</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://rajdoctors.com/bn/doctor/প্রফেসর-ডা।-আব্দুল্লাহ-আল-মামুন-হুসাইন</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://rajdoctors.com/speciality/medicine</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://rajdoctors.com/bn/speciality/medicine</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://rajdoctors.com/speciality/cardiology</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
@@ -488,8 +490,8 @@
 <url> <loc>https://rajdoctors.com/bn/speciality/rheumatology</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://rajdoctors.com/speciality/haematology</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://rajdoctors.com/bn/speciality/haematology</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://rajdoctors.com/speciality/psychology</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://rajdoctors.com/bn/speciality/psychology</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://rajdoctors.com/speciality/psychiatry</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://rajdoctors.com/bn/speciality/psychiatry</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://rajdoctors.com/speciality/hepatology</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://rajdoctors.com/bn/speciality/hepatology</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://rajdoctors.com/speciality/physical medicine</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
@@ -539,5 +541,4 @@
 <url> <loc>https://rajdoctors.com/bn/privacy-policy/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://rajdoctors.com/speciality/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://rajdoctors.com/bn/speciality/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://rajdoctors.com/bn/404.html</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 </urlset>

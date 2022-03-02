@@ -1,7 +1,7 @@
-import React from "react"
 import { useIntl } from "gatsby-plugin-intl"
-import Layout from "../components/layout"
+import React from "react"
 import Contact from "../components/contact"
+import Layout from "../components/layout"
 import SEO from "../components/seo"
 
 const IndexPage = () => {
@@ -10,7 +10,7 @@ const IndexPage = () => {
     <Layout>
       <SEO
         title={intl.formatMessage({ id: "contact-us" })}
-        description="You can contact us with Email: info@rajdoctors@gmail.com, admin@rajdoctors@gmail.com. Loacated at rajshahi, Bangladesh. Online hub of doctors."
+        description="You can contact us with Email: info@rajdoctors.com, admin@rajdoctors.com. Loacated at rajshahi, Bangladesh. Online hub of doctors."
       />
       <Contact />
     </Layout>

@@ -1,17 +1,12 @@
+import { useIntl } from "gatsby-plugin-intl"
 import React from "react"
 import {
-  FaCog,
-  FaInfoCircle,
-  FaGraduationCap,
-  FaFacebook,
-  FaTwitter,
-  FaMailBulk,
+  FaCog, FaFacebook, FaGraduationCap, FaInfoCircle, FaMailBulk, FaTwitter
 } from "react-icons/fa"
-
-import { useIntl } from "gatsby-plugin-intl"
-
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+
+
 
 const About = () => {
   // Making useIntl available in the code
@@ -57,13 +52,13 @@ const About = () => {
             </h5>
             <ul>
               <li>
-                <FaFacebook />
+               <a href="https://www.facebook.com/rajdoctors"><FaFacebook /></a>
               </li>
               <li>
                 <FaTwitter />
               </li>
               <li>
-                <FaMailBulk />
+              <a href="mailto:info@rajdoctors.com"><FaMailBulk /></a>
               </li>
             </ul>
           </div>

@@ -2,11 +2,11 @@ import { graphql } from "gatsby"
 import { injectIntl } from "gatsby-plugin-intl"
 import React from "react"
 import { Badge, Jumbotron } from "react-bootstrap"
-import { FaStar } from "react-icons/fa"
+import { FaPhoneSquare, FaStar } from "react-icons/fa"
+import Ad from "../../components/ad"
 import Avatar from "../../components/avatar"
 //importing components
 import Doctors from "../../components/doctors/doctors"
-import Emergency from "../../components/emergency"
 import Flag from "../../components/flag"
 import Layout from "../../components/layout"
 import SEO from "../../components/seo"
@@ -56,8 +56,27 @@ export const query = graphql`
         lang
       }
     }
+
+    img: file(relativePath: { eq: "pakhighorAd02.png" }) {
+      childImageSharp {
+        fluid(maxWidth: 350, maxHeight: 210) {
+          # Choose either the fragment including a small base64ed image, a traced placeholder SVG, or one without.
+          ...GatsbyImageSharpFluid_noBase64
+        }
+      }
+    }
+
   }
 `
+// img: file(relativePath: { eq: "pakhighorAd02.png" }) {
+    //   childImageSharp {
+    //     # Specify the image processing specifications right in the query.
+    //     # Makes it trivial to update as your page's design changes.
+    //     fixed(width: 350, height: 210) {
+    //       ...GatsbyImageSharpFixed
+    //     }
+    //   }
+    // }
 
 const Doctor = ({ intl, pageContext, ...props }) => {
   // Internationalization
@@ -168,9 +187,15 @@ const Doctor = ({ intl, pageContext, ...props }) => {
                     {intl.formatMessage({ id: "chamber.contact-info" })}
                   </h5>
                   <p className="card-text">
-                    <Badge variant="warning">
-                      {contact1.replace(/\*/g, ",")}
-                    </Badge>
+                    {
+                      contact1.split('*').map(contact=><>
+                        <a href={'tel:' + contact} >
+                          <FaPhoneSquare size='1.4rem'/> {contact}
+                        </a>
+                        <br />
+                        </>
+                      )
+                    }  
                   </p>
                   <h5 className="card-title">
                     {intl.formatMessage({ id: "chamber.location" })}
@@ -201,9 +226,15 @@ const Doctor = ({ intl, pageContext, ...props }) => {
                       {intl.formatMessage({ id: "chamber.contact-info" })}
                     </h5>
                     <p className="card-text">
-                      <Badge variant="warning">
-                        {contact2.replace(/\*/g, ",")}
-                      </Badge>
+                    {
+                      contact2.split('*').map(contact=><>
+                        <a href={'tel:' + contact} >
+                          <FaPhoneSquare size='1.4rem'/> {contact}
+                        </a>
+                        <br />
+                        </>
+                      )
+                    }
                     </p>
                     <h5 className="card-title">
                       {intl.formatMessage({ id: "chamber.location" })}
@@ -230,7 +261,7 @@ const Doctor = ({ intl, pageContext, ...props }) => {
           </div>
         </div>
         <Share />
-        <Emergency snippetVeiw={true}/>
+        <Ad title='Pakhighor- Get you pet birds' contact='01701256115' imgData={props.data.img.childImageSharp.fluid} />               
         <div className="main">
           <div className="med-section">
             <h3 className="text-center">{"You may find helpful"}</h3>

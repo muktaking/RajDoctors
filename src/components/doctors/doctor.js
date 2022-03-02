@@ -52,7 +52,9 @@ const Doctor = ({
           <div className="d-flex align-items-center">
             <FaAddressBook />
             <Badge className="doctor-item-content">
-              {contact.trim().replace(/\*/g, ",")}
+              {
+                contact.split('*').map(contact=><><a href={'tel:' + contact} >{contact}</a> <br /></>)
+              }
             </Badge>
           </div>
           {!index && (

@@ -32,7 +32,7 @@ const IndexPage = () => {
     query {
       med: allDoctorListsCsv(
         filter: { Speciality: { eq: "Medicine" } }
-        limit: 6
+        limit: 5
         sort: {fields: Rating, order: DESC}
       ) {
         nodes {
@@ -103,6 +103,7 @@ const IndexPage = () => {
           }
         }
       }
+
     }
   `)
   // Making useIntl available in the code

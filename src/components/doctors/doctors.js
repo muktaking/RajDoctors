@@ -2,6 +2,7 @@ import { graphql, useStaticQuery } from "gatsby"
 import { useIntl } from "gatsby-plugin-intl"
 import PropTypes from "prop-types"
 import React from "react"
+import Ad from "../ad"
 import Doctor from "./doctor"
 
 
@@ -24,8 +25,30 @@ const Doctors = ({ data, index }) => {
           }
         }
       }
+
+      img: file(relativePath: { eq: "pakhighorAd02.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 350, maxHeight: 210) {
+            # Choose either the fragment including a small base64ed image, a traced placeholder SVG, or one without.
+            ...GatsbyImageSharpFluid_noBase64
+          }
+        }
+      }
+
     }
   `)
+
+  // img: file(relativePath: { eq: "pakhighorAd02.png" }) {
+      //   childImageSharp {
+      //     # Specify the image processing specifications right in the query.
+      //     # Makes it trivial to update as your page's design changes.
+      //     fixed(width: 350, height: 210) {
+      //       ...GatsbyImageSharpFixed
+      //     }
+      //   }
+      // }
+
+  
   // Making useIntl available in the code
   const intl = useIntl()
   // Use language iso for the routes
@@ -35,7 +58,10 @@ const Doctors = ({ data, index }) => {
       node => node.uid === doctor.uid && node.lang === intl.locale
     )[0]
     if(doctorFilterByLocale === undefined) return;
-    return (
+    const docCom = <>
+    {((i%4===0 && i!==0) ? 
+    <Ad title='Pakhighor- Get you pet birds' contact='01701256115' imgData={queryData.img.childImageSharp.fluid} />
+    : null)}
       <Doctor
         key={i}
         name={doctorFilterByLocale  ? doctorFilterByLocale.Name : ''}
@@ -48,7 +74,8 @@ const Doctors = ({ data, index }) => {
         uid={doctorFilterByLocale.uid}
         index={index}
       />
-    )
+      </>
+    return docCom;
   })
 }
 

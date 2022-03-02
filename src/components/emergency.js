@@ -12,7 +12,7 @@ export default function emergency({snippetVeiw}) {
             <Alert  variant="danger">
                 <p className="text-center">Emergency Numbers</p>
                 <hr />
-                <div>
+                <div style={{overflow: 'auto'}}>
                     {
                         Emergency.map((cat,i)=>
                             cat.contacts.map((contact,ind)=><Badge as="span" variant="light" className="mr-2">{contact.name+": "+contact.phone+" "}</Badge>)

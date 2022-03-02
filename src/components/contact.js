@@ -1,9 +1,9 @@
-import React, { useState, useRef } from "react"
-import { useStaticQuery, graphql } from "gatsby"
 import axios from "axios"
-import validator from "validator"
 import { Formik } from "formik"
+import { graphql, useStaticQuery } from "gatsby"
 import { useIntl } from "gatsby-plugin-intl"
+import React, { useRef, useState } from "react"
+import validator from "validator"
 
 const randomSum = () => {
   const ranNum1 = Math.ceil(Math.random() * 100)
@@ -40,7 +40,7 @@ const Contact = () => {
       phone: values.phone,
       message: values.message,
     }
-    if (sum === +sumRef.current.value) {
+    // if (sum === +sumRef.current.value) {
       setError(false)
       axios
         .post(queryData.site.siteMetadata.apiUrl + "/contact", {
@@ -56,13 +56,13 @@ const Contact = () => {
         .catch(e => {
           console.log()
         })
-    } else {
-      setSubmitting(false)
-      setError(true)
-    }
-    ;[ranNum1, ranNum2, sum] = randomSum()
-    setNum1(ranNum1)
-    setNum2(ranNum2)
+    // } else {
+    //   setSubmitting(false)
+    //   setError(true)
+    // }
+    // ;[ranNum1, ranNum2, sum] = randomSum()
+    // setNum1(ranNum1)
+    // setNum2(ranNum2)
   }
 
   return (
@@ -204,7 +204,7 @@ const Contact = () => {
                             </p>
                           </div>
                         </div>
-                        <div className="col-lg-12">
+                        {/* <div className="col-lg-12">
                           <p>
                             {intl.formatMessage({
                               id: "Please Write the correct Result",
@@ -225,7 +225,7 @@ const Contact = () => {
                           {error && (
                             <span>The result of summation is wrong</span>
                           )}
-                        </div>
+                        </div> */}
                         <div className="col-lg-12 text-center text-success py-2 px-1">
                           {show && (
                             <span>Thank You {data.name} for contacting us</span>
@@ -274,8 +274,8 @@ const Contact = () => {
                           {intl.formatMessage({ id: "Phone" })}
                         </h6>
                         <p className="">
-                          o17-
-                          <br /> 017-
+                        +880-1641622541
+                          <br /> 
                         </p>
                       </div>
                     </div>
@@ -290,8 +290,8 @@ const Contact = () => {
                           {intl.formatMessage({ id: "Email" })}
                         </h6>
                         <p className="">
-                          info@rajdoctors@gmail.com
-                          <br /> admin@rajdoctors@gmail.com
+                          info@rajdoctors.com
+                          <br /> admin@rajdoctors.com
                         </p>
                       </div>
                     </div>

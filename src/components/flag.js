@@ -1,9 +1,9 @@
-import React, { useState } from "react"
 import axios from "axios"
-import { Modal, Button, OverlayTrigger, Tooltip, Form } from "react-bootstrap"
-import { FaExclamationCircle } from "react-icons/fa"
 import { Formik } from "formik"
 import { graphql, useStaticQuery } from "gatsby"
+import React, { useState } from "react"
+import { Button, Form, Modal, OverlayTrigger, Tooltip } from "react-bootstrap"
+import { FaExclamationCircle } from "react-icons/fa"
 
 const Flag = ({ className, uid }) => {
   const queryData = useStaticQuery(graphql`
@@ -26,12 +26,11 @@ const Flag = ({ className, uid }) => {
         overlay={<Tooltip>Flag as Wrong Information</Tooltip>}
       >
         <div
-          style={{ display: "inline" }}
-          className={className ? className : "" + " flag p-1"}
+          style={{ display: "inline", fontSize: '.8rem' }}
+          className={className ? className : "" + " text-muted flag p-1"}
           onClick={handleShow}
         >
-          {" "}
-          <FaExclamationCircle size={36} />
+          ( For wrong Info <FaExclamationCircle size={36} />)
         </div>
       </OverlayTrigger>
 
