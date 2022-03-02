@@ -12,9 +12,9 @@ const Ad = ({title, contact, imgData}) =>
   <Card.Body>
   <Img  fluid={imgData} />
   </Card.Body>
-  <Card.Footer>
-      Ad. 
-      <a href='tel:+880-1641622541' className='text-muted' style={{fontSize: '.8rem'}} >| For Ad. Call Now {' '}
+  <Card.Footer className='d-flex justify-content-between text-muted'>
+      <span>Ad. </span>
+      <a href='tel:+880-1641622541' >For Ad. Call Now {' '}
         <FaPhoneSquare size='1rem' />
       </a> 
   </Card.Footer>

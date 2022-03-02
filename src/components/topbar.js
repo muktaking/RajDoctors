@@ -1,12 +1,12 @@
-import React from "react"
-import { Link, graphql, useStaticQuery } from "gatsby"
-import Img from "gatsby-image"
 import { useLocation } from "@reach/router"
-import { FaBars, FaInfoCircle, FaHome, FaMobileAlt } from "react-icons/fa"
-import { Dropdown, Nav, NavItem, NavLink } from "react-bootstrap"
+import { graphql, Link, useStaticQuery } from "gatsby"
+import Img from "gatsby-image"
+import { useIntl } from "gatsby-plugin-intl"
+import React from "react"
+import { Button, Dropdown, Nav, NavItem, NavLink } from "react-bootstrap"
+import { FaBars, FaHome, FaInfoCircle, FaMobileAlt } from "react-icons/fa"
 import SearchWrapper from "./search/searchWrapper"
 
-import { useIntl } from "gatsby-plugin-intl"
 
 export const query = graphql`
   query {
@@ -98,8 +98,8 @@ const Topbar = ({ handleToggleSidebar }) => {
           </Nav>
         </div>
       </div>
-      <div>
-        <Dropdown as={NavItem} className="ml-auto" style={{ width: "10rem" }}>
+      <div className="d-flex flex-row-reverse flex-wrap mt-3">
+        <Dropdown as={NavItem}  style={{ width: "10rem" }}>
           <Dropdown.Toggle as={NavLink} className="nav-link">
             {intl.locale === "en" ? "বাংলাতে দেখুন" : "Change to English"}
           </Dropdown.Toggle>
@@ -120,6 +120,10 @@ const Topbar = ({ handleToggleSidebar }) => {
             )}
           </Dropdown.Menu>
         </Dropdown>
+        <div className='p-1'>
+          <Button as='a' href='https://forms.gle/a5mu19HjfeUEyPEN8' target='_blank' variant='outline-primary mr-2 mb-2'>Add a New Doctor</Button>
+          <Button as='a' href='https://forms.gle/kW2NFG9X34suvKXN6' target='_blank' variant='outline-info mb-2'>Ask For an Appointment</Button>
+        </div>
       </div>
     </>
   )

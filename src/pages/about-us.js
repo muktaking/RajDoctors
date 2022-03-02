@@ -52,7 +52,7 @@ const About = () => {
             </h5>
             <ul>
               <li>
-               <a href="https://www.facebook.com/rajdoctors"><FaFacebook /></a>
+               <a href="https://www.facebook.com/rajdoctors" target="_blank"><FaFacebook /></a>
               </li>
               <li>
                 <FaTwitter />

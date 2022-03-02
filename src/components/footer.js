@@ -1,7 +1,7 @@
+import { Link, useIntl } from "gatsby-plugin-intl"
 import React from "react"
 import { FaDribbble, FaFacebook, FaLinkedin, FaTwitter } from "react-icons/fa"
 
-import { useIntl, Link } from "gatsby-plugin-intl"
 
 const Footer = () => {
   // Making useIntl available in the code
@@ -94,7 +94,7 @@ const Footer = () => {
           <div className="col-md-4 col-sm-6 col-xs-12">
             <ul className="social-icons">
               <li>
-                <a className="facebook" href="#">
+                <a className="facebook" href="https://www.facebook.com/rajdoctors" target="_blank">
                   <FaFacebook />
                 </a>
               </li>
