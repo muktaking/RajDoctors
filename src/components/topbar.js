@@ -121,6 +121,7 @@ const Topbar = ({ handleToggleSidebar }) => {
           </Dropdown.Menu>
         </Dropdown>
         <div className='p-1'>
+        <span className='p-2 mr-2 text-white bg-warning'>For Advertisement, Call us: 01521500642, 01641622541 </span>
           <Button as='a' href='https://forms.gle/a5mu19HjfeUEyPEN8' target='_blank' variant='outline-primary mr-2 mb-2'>Add a New Doctor</Button>
           <Button as='a' href='https://forms.gle/kW2NFG9X34suvKXN6' target='_blank' variant='outline-info mb-2'>Ask For an Appointment</Button>
         </div>

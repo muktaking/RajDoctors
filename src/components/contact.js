@@ -274,6 +274,7 @@ const Contact = () => {
                           {intl.formatMessage({ id: "Phone" })}
                         </h6>
                         <p className="">
+                        +880-1521500642, 
                         +880-1641622541
                           <br /> 
                         </p>

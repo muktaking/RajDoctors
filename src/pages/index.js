@@ -51,7 +51,7 @@ const IndexPage = () => {
       }
       sur: allDoctorListsCsv(
         filter: { Speciality: { eq: "Surgery" } }
-        limit: 6
+        limit: 5
         sort: {fields: Rating, order: DESC}
       ) {
         nodes {
@@ -70,7 +70,7 @@ const IndexPage = () => {
       }
       gy: allDoctorListsCsv(
         filter: { Speciality: { eq: "Gynaecology" } }
-        limit: 6
+        limit: 5
         sort: {fields: Rating, order: DESC}
       ) {
         nodes {
