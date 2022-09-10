@@ -13,8 +13,9 @@ const Ad = ({title, contact, imgData}) =>
   <Img  fluid={imgData} />
   </Card.Body>
   <Card.Footer className='d-flex justify-content-between text-muted'>
-      <span>Ad. </span>
-      <a href='tel:+880-1641622541' >For Ad. Call Now {' '}
+      <span className='mr-3'>বিজ্ঞাপন</span>
+      <a href="mailto:info@rajdoctors.com">মেইল পাঠান</a>
+      <a href='tel:+880-1641622541' >বিজ্ঞাপনের জন্য ফোন করুন {' '}
         <FaPhoneSquare size='1rem' />
       </a> 
   </Card.Footer>

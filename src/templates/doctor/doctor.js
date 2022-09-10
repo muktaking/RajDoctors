@@ -37,6 +37,7 @@ export const query = graphql`
         slug
       }
       Protocol
+      Fee
     }
     docs: allDoctorListsCsv(sort: {fields: Rating, order: DESC}) {
       nodes {
@@ -98,7 +99,8 @@ const Doctor = ({ intl, pageContext, ...props }) => {
     visitTime1,
     visitTime2,
     fields,
-    Protocol
+    Protocol,
+    Fee
   } = props.data.doc
 
   const docs =  props.data.docs.nodes.filter(e=>e.Speciality ===props.data.doc.Speciality).slice(0,6)
@@ -210,6 +212,12 @@ const Doctor = ({ intl, pageContext, ...props }) => {
                     </h5>
                     <p>
                       {Protocol ? Protocol.replace(/\*/g, ',') : "Please phone to provided number to book a serial"}
+                    </p>
+                    <h5 className="card-title">
+                      Consultation Fee
+                    </h5>
+                    <p>
+                      {Fee ? Fee.replace(/\*/g, ',') : "Please phone to provided number."}
                     </p>
                 </div>
               </div>
