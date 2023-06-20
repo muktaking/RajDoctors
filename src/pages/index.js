@@ -168,9 +168,9 @@ const IndexPage = () => {
               <div className="mt-3" >
                 <Carousel className="" >
                   {
-                    data.carousel.nodes.map((caro, ind)=><Carousel.Item>
+                    data.carouselImg.edges.map((edge)=><Carousel.Item>
                       <Img
-                        fluid={ data.carouselImg.edges[ind].node.childImageSharp.fluid }
+                        fluid={ edge.node.childImageSharp.fluid }
                         style={{ width: "350px", margin: 'auto'}}
                       />
                     </Carousel.Item>)
