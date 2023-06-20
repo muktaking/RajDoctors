@@ -35,7 +35,7 @@ export const query = graphql`
 `
 
 const SpecialityWrapper = ({ pageContext, data }) => {
-  data.allDoctorListsCsv.nodes = _.sortBy(data.allDoctorListsCsv.nodes,["Rating"]).slice(1).reverse()
+  data.allDoctorListsCsv.nodes = _.sortBy(data.allDoctorListsCsv.nodes,["Rating"]).reverse()
   const intl = useIntl()
   let speciality = pageContext.Speciality.toLowerCase()
   speciality = menuWithSynonyms

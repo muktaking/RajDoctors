@@ -153,7 +153,7 @@ const Doctor = ({ intl, pageContext, ...props }) => {
           </div>
           <h1>
             {Name}
-            <Flag uid={uid} className="" />
+            {/* <Flag uid={uid} className="" /> */}
           </h1>
           <p>
             <Badge variant="warning">{Degree.replace(/\*/, ",")}</Badge>

@@ -16,8 +16,7 @@ function capitalizeFirstLetter(string) {
 const Speciality = ({ speciality, data }) => {
   // Making useIntl available in the code
   const intl = useIntl()
-
-  const pageCount = Math.ceil(data.allDoctorListsCsv.nodes.length / 10)
+  const pageCount = Math.ceil(data.allDoctorListsCsv.nodes.length / perPage)
   //const [currentPage, setCurrentPage] = useState(0)
   const [doctorsList, setDoctorsList] = useState(
     data.allDoctorListsCsv.nodes.slice(offset, offset + perPage)

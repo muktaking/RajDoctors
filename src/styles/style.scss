@@ -159,9 +159,8 @@ $sidebar-bg-color: #1d1d1d;
 }
 main {
   .hero {
-    height: 450px;
     overflow: hidden;
-    margin: 20px 0px;
+    margin: 10px 0px;
   }
   .hero.non-landing {
     height: 135px;
@@ -522,6 +521,27 @@ main {
     }
   }
 }
+
+.carousel-indicators{
+  bottom: -20px;
+}
+
+.carousel-indicators > li {
+border-radius: 12px;
+width: 12px;
+height: 12px;
+background-color: #404040;
+border-radius: 50%;
+}
+
+.carousel-control-prev span{
+display: none;
+} 
+
+.carousel-control-next{
+  display: none;
+} 
+
 //
 @media (max-width: 767px) {
   .social-icons li.title {

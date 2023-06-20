@@ -111,6 +111,39 @@ module.exports.createPages = async ({ graphql, actions, reporter }) => {
       },
     })
   })
+
+  // pages based on teledoctor
+  // const resTeleDoctor = await graphql(`
+  //   query {
+  //     allTelemediDoctorLists: allTelemediDoctorListsCsv {
+  //       edges {
+  //         node {
+  //           id
+  //         }
+  //       }
+  //     }
+  //   }
+  // `)
+  // Handle errors
+  // if (resTeleDoctor.errors) {
+  //   reporter.panicOnBuild(`Error while running GraphQL query.`)
+  //   return
+  // }
+  // const teledoctorTemplate = path.resolve(
+  //   "./src/templates/teledoctor/teledoctor.js"
+  // ) 
+  // resTeleDoctor.data.allTelemediDoctorLists.edges.forEach(edge => {
+  //   const path = `/teledoctor/${edge.node.id}` 
+  //   createPage({
+  //     component: teledoctorTemplate,
+  //     path,
+  //     context: {
+  //       //pagePath: edge.node.fields.slug,
+  //       id: edge.node.id,
+  //       imgRelativePath: `teledoctor/${edge.node.id}.jpg`
+  //     },
+  //   })
+  // })
 }
 
 exports.onCreatePage = ({ page, actions }) => {

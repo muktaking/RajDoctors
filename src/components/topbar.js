@@ -14,7 +14,7 @@ export const query = graphql`
       childImageSharp {
         # Specify the image processing specifications right in the query.
         # Makes it trivial to update as your page's design changes.
-        fixed(width: 55, height: 55) {
+        fixed(width: 35, height: 35) {
           ...GatsbyImageSharpFixed
         }
       }
@@ -47,9 +47,9 @@ const Topbar = ({ handleToggleSidebar }) => {
               <Img fixed={data.file.childImageSharp.fixed} />
             </div>
           </Link>
-          <h5 className="text-white pl-2">
+          <h6 className="text-white pl-2">
             {intl.formatMessage({ id: "siteMetaData.tagLine" })}
-          </h5>
+          </h6>
         </div>
         <SearchWrapper />
         {/* 2.navbar */}
@@ -98,7 +98,13 @@ const Topbar = ({ handleToggleSidebar }) => {
           </Nav>
         </div>
       </div>
-      <div className="d-flex flex-row-reverse flex-wrap mt-3">
+      <div className="d-flex flex-wrap justify-content-around align-items-center mt-2 mb-3">
+        <div className='p-1 mb-2 text-center text-white bg-warning'>বিজ্ঞাপনের জন্য ফোন করুনঃ  01521500642 অথবা মেইল করুনঃ contact@rajdoctors.com</div>
+        <div className="d-flex justify-content-center">
+          <Button as='a' href='https://forms.gle/a5mu19HjfeUEyPEN8' target='_blank' variant='outline-primary' size='sm' className="mr-2 mb-xs-2">Add a New Doctor</Button>
+          <Button as='a' href='https://forms.gle/a5mu19HjfeUEyPEN8' target='_blank' variant='outline-primary' size='sm'>Add a New Telemedicine Doctor</Button>
+            {/* <Button as='a' href='https://forms.gle/kW2NFG9X34suvKXN6' target='_blank' variant='outline-info mb-2'>Ask For an Appointment</Button> */}
+        </div>
         <Dropdown as={NavItem}  style={{ width: "10rem" }}>
           <Dropdown.Toggle as={NavLink} className="nav-link">
             {intl.locale === "en" ? "বাংলাতে দেখুন" : "Change to English"}
@@ -120,11 +126,6 @@ const Topbar = ({ handleToggleSidebar }) => {
             )}
           </Dropdown.Menu>
         </Dropdown>
-        <div className='p-1'>
-        <span className='p-2 mr-2 text-white bg-warning'>বিজ্ঞাপনের জন্য ফোন করুনঃ  01521500642, 01641622541 </span>
-          <Button as='a' href='https://forms.gle/a5mu19HjfeUEyPEN8' target='_blank' variant='outline-primary mr-2 mb-2'>Add a New Doctor</Button>
-          {/* <Button as='a' href='https://forms.gle/kW2NFG9X34suvKXN6' target='_blank' variant='outline-info mb-2'>Ask For an Appointment</Button> */}
-        </div>
       </div>
     </>
   )

@@ -3,7 +3,7 @@ import Img from "gatsby-image"
 // Import hook
 import { useIntl } from "gatsby-plugin-intl"
 import React from "react"
-import { Col, Container, Row } from "react-bootstrap"
+import { Carousel, Col, Container, Row } from "react-bootstrap"
 import Doctors from "../components/doctors/doctors"
 import Emergency from "../components/emergency"
 //importing component
@@ -87,6 +87,36 @@ const IndexPage = () => {
           lang
         }
       }
+      carousel: allCarouselDataCsv {
+        nodes {
+          id
+          uid
+          name
+          speciality
+          degree
+          designation
+          institute
+          contactNumber
+          ChamberLocation
+        }
+      }
+      carouselImg: allFile(
+        filter: { relativePath: { regex: "/promotional/.*[png|jpeg|jpg|svg]$/" } }
+      ) {
+        edges {
+          node {
+            relativePath
+            childImageSharp {
+              # Specify the image processing specifications right in the query.
+              # Makes it trivial to update as your page's design changes.
+              fluid(maxWidth: 400, maxHeight: 400) {
+                # Choose either the fragment including a small base64ed image, a traced placeholder SVG, or one without.
+                ...GatsbyImageSharpFluid
+              }
+            }
+          }
+        }
+      }
       site: site {
         siteMetadata {
           title
@@ -94,7 +124,7 @@ const IndexPage = () => {
           url
         }
       }
-      img: file(relativePath: { eq: "hero1.jpg" }) {
+      img: file(relativePath: { eq: "hero.jpg" }) {
         childImageSharp {
           # Specify the image processing specifications right in the query.
           # Makes it trivial to update as your page's design changes.
@@ -135,7 +165,20 @@ const IndexPage = () => {
               </div>
             </Col>
             <Col md={6}>
-              <Img fluid={data.img.childImageSharp.fluid} />
+              <div className="mt-3" >
+                <Carousel className="" >
+                  {
+                    data.carousel.nodes.map((caro, ind)=><Carousel.Item>
+                      <Img
+                        fluid={ data.carouselImg.edges[ind].node.childImageSharp.fluid }
+                        style={{ width: "350px", margin: 'auto'}}
+                      />
+                    </Carousel.Item>)
+                  }
+                </Carousel>
+              </div>
+              
+              {/* <Img fluid={data.img.childImageSharp.fluid} /> */}
               {/* <img src={HeroImg} alt="hero" height="450px" width="100%" /> */}
             </Col>
           </Row>

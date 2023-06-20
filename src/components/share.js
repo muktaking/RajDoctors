@@ -50,8 +50,8 @@ const Share = () => {
   const target5 = useRef(null)
   const Image = data.img.childImageSharp.fluid.src
   return (
-    <div className="share">
-      <p className="">{intl.formatMessage({ id: "share-us" })}</p>
+    <div className="share text-center">
+      {/* <p className="">{intl.formatMessage({ id: "share-us" })}</p> */}
       <FacebookShareButton
         url={href}
         quote={data.site.siteMetadata.description}
