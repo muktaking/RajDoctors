@@ -12,7 +12,11 @@ export default function HTML(props) {
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
         {props.headComponents}
-        <script data-ad-client="ca-pub-7807818541747006" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <script
+          data-ad-client="ca-pub-7807818541747006"
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+        ></script>
       </head>
       <body {...props.bodyAttributes}>
         {props.preBodyComponents}

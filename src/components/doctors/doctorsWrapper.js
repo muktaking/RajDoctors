@@ -4,20 +4,18 @@ It is a wrapper of doctors and pegination component to reduce the dom manupulati
 
 */
 import { useIntl } from "gatsby-plugin-intl"
-import * as _ from 'lodash'
+import * as _ from "lodash"
 import PropTypes from "prop-types"
 import React, { useState } from "react"
 import ReactPaginate from "react-paginate"
 import Doctors from "./doctors"
-
-
 
 //declaring some global variables
 const perPage = 6
 let offset = 0
 
 const DoctorsWrapper = ({ data }) => {
-  data.all.nodes = _.sortBy(data.all.nodes,["Rating"]).slice(1).reverse()
+  data.all.nodes = _.sortBy(data.all.nodes, ["Rating"]).slice(1).reverse()
   const intl = useIntl()
 
   const pageCount = Math.ceil(data.all.nodes.length / 10)

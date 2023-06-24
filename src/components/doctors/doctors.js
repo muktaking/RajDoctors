@@ -5,7 +5,6 @@ import React from "react"
 import Ad from "../ad"
 import Doctor from "./doctor"
 
-
 const Doctors = ({ data, index }) => {
   const queryData = useStaticQuery(graphql`
     query {
@@ -34,21 +33,19 @@ const Doctors = ({ data, index }) => {
           }
         }
       }
-
     }
   `)
 
   // img: file(relativePath: { eq: "pakhighorAd02.png" }) {
-      //   childImageSharp {
-      //     # Specify the image processing specifications right in the query.
-      //     # Makes it trivial to update as your page's design changes.
-      //     fixed(width: 350, height: 210) {
-      //       ...GatsbyImageSharpFixed
-      //     }
-      //   }
-      // }
+  //   childImageSharp {
+  //     # Specify the image processing specifications right in the query.
+  //     # Makes it trivial to update as your page's design changes.
+  //     fixed(width: 350, height: 210) {
+  //       ...GatsbyImageSharpFixed
+  //     }
+  //   }
+  // }
 
-  
   // Making useIntl available in the code
   const intl = useIntl()
   // Use language iso for the routes
@@ -57,25 +54,31 @@ const Doctors = ({ data, index }) => {
     const doctorFilterByLocale = queryData.all.nodes.filter(
       node => node.uid === doctor.uid && node.lang === intl.locale
     )[0]
-    if(doctorFilterByLocale === undefined) return;
-    const docCom = <>
-    {((i%2===0 && i!==0) ? 
-    <Ad title='Pakhighor- Get you pet birds' contact='01701256115' imgData={queryData.img.childImageSharp.fluid} />
-    : null)}
-      <Doctor
-        key={i}
-        name={doctorFilterByLocale  ? doctorFilterByLocale.Name : ''}
-        rating={doctorFilterByLocale.Rating}
-        speciality={doctorFilterByLocale.Degree}
-        contact={doctorFilterByLocale.contact1}
-        location={doctorFilterByLocale.loc1}
-        time={doctorFilterByLocale.visitTime1}
-        link={doctorFilterByLocale.fields.slug}
-        uid={doctorFilterByLocale.uid}
-        index={index}
-      />
+    if (doctorFilterByLocale === undefined) return
+    const docCom = (
+      <>
+        {i % 2 === 0 && i !== 0 ? (
+          <Ad
+            title="Pakhighor- Get you pet birds"
+            contact="01701256115"
+            imgData={queryData.img.childImageSharp.fluid}
+          />
+        ) : null}
+        <Doctor
+          key={i}
+          name={doctorFilterByLocale ? doctorFilterByLocale.Name : ""}
+          rating={doctorFilterByLocale.Rating}
+          speciality={doctorFilterByLocale.Degree}
+          contact={doctorFilterByLocale.contact1}
+          location={doctorFilterByLocale.loc1}
+          time={doctorFilterByLocale.visitTime1}
+          link={doctorFilterByLocale.fields.slug}
+          uid={doctorFilterByLocale.uid}
+          index={index}
+        />
       </>
-    return docCom;
+    )
+    return docCom
   })
 }
 

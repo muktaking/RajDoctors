@@ -42,7 +42,9 @@ const Contact = () => {
                 <h1 className="font-weight-light mt-2">
                   {intl.formatMessage({ id: "Quick Contact" })}
                 </h1>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdVPnpvv-krJUPRPSma93cEiRPmAlF4vEJ9XCDxtBIj2iqcvg/viewform?usp=sf_link">Let us know your problems</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdVPnpvv-krJUPRPSma93cEiRPmAlF4vEJ9XCDxtBIj2iqcvg/viewform?usp=sf_link">
+                  Let us know your problems
+                </a>
               </div>
             </div>
             <div className="col-lg-12">
@@ -74,9 +76,8 @@ const Contact = () => {
                           {intl.formatMessage({ id: "Phone" })}
                         </h6>
                         <p className="">
-                        +880-1521500642, 
-                        +880-1641622541
-                          <br /> 
+                          +880-1521500642, +880-1641622541
+                          <br />
                         </p>
                       </div>
                     </div>

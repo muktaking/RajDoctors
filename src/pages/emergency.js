@@ -8,8 +8,6 @@ import Emergency from "../components/emergency"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
-
-
 const EmergencyPage = () => {
   // Making useIntl available in the code
   const intl = useIntl()
@@ -27,7 +25,7 @@ const EmergencyPage = () => {
       }
     }
   `)
- 
+
   return (
     <Layout>
       <SEO
@@ -40,9 +38,7 @@ const EmergencyPage = () => {
           <Row noGutters>
             <Col md={6} className="">
               <div className="text-center">
-                <h1 className="text-uppercase mt-5">
-                  All Emergency Numbers
-                </h1>
+                <h1 className="text-uppercase mt-5">All Emergency Numbers</h1>
               </div>
             </Col>
             <Col md={6}>

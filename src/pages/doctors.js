@@ -8,15 +8,13 @@ import DoctorsWrapper from "../components/doctors/doctorsWrapper"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
-
-
 const Doctors = () => {
   // Making useIntl available in the code
   const intl = useIntl()
 
   const data = useStaticQuery(graphql`
     query {
-      all: allDoctorListsCsv(sort: {fields: Rating, order: DESC}) {
+      all: allDoctorListsCsv(sort: { fields: Rating, order: DESC }) {
         nodes {
           id
           uid

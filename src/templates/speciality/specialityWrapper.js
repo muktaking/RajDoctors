@@ -1,6 +1,6 @@
 import { graphql } from "gatsby"
 import { useIntl } from "gatsby-plugin-intl"
-import * as _ from 'lodash'
+import * as _ from "lodash"
 import React from "react"
 import Layout from "../../components/layout"
 import SEO from "../../components/seo"
@@ -35,7 +35,9 @@ export const query = graphql`
 `
 
 const SpecialityWrapper = ({ pageContext, data }) => {
-  data.allDoctorListsCsv.nodes = _.sortBy(data.allDoctorListsCsv.nodes,["Rating"]).reverse()
+  data.allDoctorListsCsv.nodes = _.sortBy(data.allDoctorListsCsv.nodes, [
+    "Rating",
+  ]).reverse()
   const intl = useIntl()
   let speciality = pageContext.Speciality.toLowerCase()
   speciality = menuWithSynonyms

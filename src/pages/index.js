@@ -11,8 +11,6 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Share from "../components/share"
 
-
-
 //
 const ContentSection = ({ title, data }) => (
   <>
@@ -33,7 +31,7 @@ const IndexPage = () => {
       med: allDoctorListsCsv(
         filter: { Speciality: { eq: "Medicine" } }
         limit: 5
-        sort: {fields: Rating, order: DESC}
+        sort: { fields: Rating, order: DESC }
       ) {
         nodes {
           id
@@ -52,7 +50,7 @@ const IndexPage = () => {
       sur: allDoctorListsCsv(
         filter: { Speciality: { eq: "Surgery" } }
         limit: 5
-        sort: {fields: Rating, order: DESC}
+        sort: { fields: Rating, order: DESC }
       ) {
         nodes {
           id
@@ -71,7 +69,7 @@ const IndexPage = () => {
       gy: allDoctorListsCsv(
         filter: { Speciality: { eq: "Gynaecology" } }
         limit: 5
-        sort: {fields: Rating, order: DESC}
+        sort: { fields: Rating, order: DESC }
       ) {
         nodes {
           id
@@ -101,7 +99,9 @@ const IndexPage = () => {
         }
       }
       carouselImg: allFile(
-        filter: { relativePath: { regex: "/promotional/.*[png|jpeg|jpg|svg]$/" } }
+        filter: {
+          relativePath: { regex: "/promotional/.*[png|jpeg|jpg|svg]$/" }
+        }
       ) {
         edges {
           node {
@@ -133,7 +133,6 @@ const IndexPage = () => {
           }
         }
       }
-
     }
   `)
   // Making useIntl available in the code
@@ -165,26 +164,26 @@ const IndexPage = () => {
               </div>
             </Col>
             <Col md={6}>
-              <div className="mt-3" >
-                <Carousel className="" >
-                  {
-                    data.carouselImg.edges.map((edge)=><Carousel.Item>
+              <div className="mt-3">
+                <Carousel className="">
+                  {data.carouselImg.edges.map(edge => (
+                    <Carousel.Item>
                       <Img
-                        fluid={ edge.node.childImageSharp.fluid }
-                        style={{ width: "350px", margin: 'auto'}}
+                        fluid={edge.node.childImageSharp.fluid}
+                        style={{ width: "350px", margin: "auto" }}
                       />
-                    </Carousel.Item>)
-                  }
+                    </Carousel.Item>
+                  ))}
                 </Carousel>
               </div>
-              
+
               {/* <Img fluid={data.img.childImageSharp.fluid} /> */}
               {/* <img src={HeroImg} alt="hero" height="450px" width="100%" /> */}
             </Col>
           </Row>
         </div>
         <hr className="w-75" />
-        <Emergency snippetVeiw={true}/>
+        <Emergency snippetVeiw={true} />
         <div className="main">
           {gallary.map((item, index) => (
             <ContentSection

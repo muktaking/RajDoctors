@@ -131,9 +131,9 @@ module.exports.createPages = async ({ graphql, actions, reporter }) => {
   // }
   // const teledoctorTemplate = path.resolve(
   //   "./src/templates/teledoctor/teledoctor.js"
-  // ) 
+  // )
   // resTeleDoctor.data.allTelemediDoctorLists.edges.forEach(edge => {
-  //   const path = `/teledoctor/${edge.node.id}` 
+  //   const path = `/teledoctor/${edge.node.id}`
   //   createPage({
   //     component: teledoctorTemplate,
   //     path,

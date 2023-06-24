@@ -5,12 +5,12 @@ import { Badge, Card } from "react-bootstrap"
 import {
   FaAddressBook,
   FaHospitalSymbol,
-  FaHourglass, FaStar, FaStethoscope
+  FaHourglass,
+  FaStar,
+  FaStethoscope,
 } from "react-icons/fa"
 import Avatar from "../avatar"
 import Flag from "../flag"
-
-
 
 const Doctor = ({
   name,
@@ -32,7 +32,7 @@ const Doctor = ({
     <Card style={{ width: "24rem" }}>
       <Card.Body>
         <Badge pill variant="dark" className="rating ml-2 mb-3 float-right">
-          <FaStar size="2em"/>
+          <FaStar size="2em" />
           <span className="pr-1">{rating && rating}</span>
         </Badge>
         <Card.Title className="d-flex align-items-center">
@@ -52,9 +52,11 @@ const Doctor = ({
           <div className="d-flex align-items-center">
             <FaAddressBook />
             <Badge className="doctor-item-content">
-              {
-                contact.split('*').map(contact=><><a href={'tel:' + contact} >{contact}</a> <br /></>)
-              }
+              {contact.split("*").map(contact => (
+                <>
+                  <a href={"tel:" + contact}>{contact}</a> <br />
+                </>
+              ))}
             </Badge>
           </div>
           {!index && (

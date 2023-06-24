@@ -12,7 +12,6 @@ import Layout from "../../components/layout"
 import SEO from "../../components/seo"
 import Share from "../../components/share"
 
-
 //uid: { eq: $uid }, lang: { eq: $lang }
 //$uid: String!, $lang: String!
 export const query = graphql`
@@ -39,7 +38,7 @@ export const query = graphql`
       Protocol
       Fee
     }
-    docs: allDoctorListsCsv(sort: {fields: Rating, order: DESC}) {
+    docs: allDoctorListsCsv(sort: { fields: Rating, order: DESC }) {
       nodes {
         id
         uid
@@ -66,18 +65,17 @@ export const query = graphql`
         }
       }
     }
-
   }
 `
 // img: file(relativePath: { eq: "pakhighorAd02.png" }) {
-    //   childImageSharp {
-    //     # Specify the image processing specifications right in the query.
-    //     # Makes it trivial to update as your page's design changes.
-    //     fixed(width: 350, height: 210) {
-    //       ...GatsbyImageSharpFixed
-    //     }
-    //   }
-    // }
+//   childImageSharp {
+//     # Specify the image processing specifications right in the query.
+//     # Makes it trivial to update as your page's design changes.
+//     fixed(width: 350, height: 210) {
+//       ...GatsbyImageSharpFixed
+//     }
+//   }
+// }
 
 const Doctor = ({ intl, pageContext, ...props }) => {
   // Internationalization
@@ -100,10 +98,12 @@ const Doctor = ({ intl, pageContext, ...props }) => {
     visitTime2,
     fields,
     Protocol,
-    Fee
+    Fee,
   } = props.data.doc
 
-  const docs =  props.data.docs.nodes.filter(e=>e.Speciality ===props.data.doc.Speciality).slice(0,6)
+  const docs = props.data.docs.nodes
+    .filter(e => e.Speciality === props.data.doc.Speciality)
+    .slice(0, 6)
   const schema = `
 {
   "@context": "https://schema.org/",
@@ -160,9 +160,7 @@ const Doctor = ({ intl, pageContext, ...props }) => {
             <Badge pill variant="dark" className="rating ml-3">
               <FaStar />
               <span className="pl-2">{Rating && Rating}</span>
-              
             </Badge>
-            
           </p>
         </div>
         <div className="doctor-body px-3 pt-1">
@@ -189,15 +187,14 @@ const Doctor = ({ intl, pageContext, ...props }) => {
                     {intl.formatMessage({ id: "chamber.contact-info" })}
                   </h5>
                   <p className="card-text">
-                    {
-                      contact1.split('*').map(contact=><>
-                        <a href={'tel:' + contact} >
-                          <FaPhoneSquare size='1.4rem'/> {contact}
+                    {contact1.split("*").map(contact => (
+                      <>
+                        <a href={"tel:" + contact}>
+                          <FaPhoneSquare size="1.4rem" /> {contact}
                         </a>
                         <br />
-                        </>
-                      )
-                    }  
+                      </>
+                    ))}
                   </p>
                   <h5 className="card-title">
                     {intl.formatMessage({ id: "chamber.location" })}
@@ -207,18 +204,18 @@ const Doctor = ({ intl, pageContext, ...props }) => {
                     {intl.formatMessage({ id: "chamber.time" })}
                   </h5>
                   <p className="card-text">{visitTime1.replace(/\*/g, ",")}</p>
-                  <h5 className="card-title">
-                      Chamber Protocol
-                    </h5>
-                    <p>
-                      {Protocol ? Protocol.replace(/\*/g, ',') : "Please phone to provided number to book a serial"}
-                    </p>
-                    <h5 className="card-title">
-                      Consultation Fee
-                    </h5>
-                    <p>
-                      {Fee ? Fee.replace(/\*/g, ',') : "Please phone to provided number."}
-                    </p>
+                  <h5 className="card-title">Chamber Protocol</h5>
+                  <p>
+                    {Protocol
+                      ? Protocol.replace(/\*/g, ",")
+                      : "Please phone to provided number to book a serial"}
+                  </p>
+                  <h5 className="card-title">Consultation Fee</h5>
+                  <p>
+                    {Fee
+                      ? Fee.replace(/\*/g, ",")
+                      : "Please phone to provided number."}
+                  </p>
                 </div>
               </div>
               {locDetail2 && (
@@ -234,15 +231,14 @@ const Doctor = ({ intl, pageContext, ...props }) => {
                       {intl.formatMessage({ id: "chamber.contact-info" })}
                     </h5>
                     <p className="card-text">
-                    {
-                      contact2.split('*').map(contact=><>
-                        <a href={'tel:' + contact} >
-                          <FaPhoneSquare size='1.4rem'/> {contact}
-                        </a>
-                        <br />
+                      {contact2.split("*").map(contact => (
+                        <>
+                          <a href={"tel:" + contact}>
+                            <FaPhoneSquare size="1.4rem" /> {contact}
+                          </a>
+                          <br />
                         </>
-                      )
-                    }
+                      ))}
                     </p>
                     <h5 className="card-title">
                       {intl.formatMessage({ id: "chamber.location" })}
@@ -256,12 +252,8 @@ const Doctor = ({ intl, pageContext, ...props }) => {
                     <p className="card-text">
                       {visitTime2.replace(/\*/g, ",")}
                     </p>
-                    <h5 className="card-title">
-                      Chamber Protocol
-                    </h5>
-                    <p>
-                      {Protocol.replace(/\*/g, ",")}
-                    </p>
+                    <h5 className="card-title">Chamber Protocol</h5>
+                    <p>{Protocol.replace(/\*/g, ",")}</p>
                   </div>
                 </div>
               )}
@@ -270,7 +262,7 @@ const Doctor = ({ intl, pageContext, ...props }) => {
         </div>
         <Share />
         <br />
-        <Ad />               
+        <Ad />
         <div className="main">
           <div className="med-section">
             <h3 className="text-center">{"You may find helpful"}</h3>
@@ -281,7 +273,6 @@ const Doctor = ({ intl, pageContext, ...props }) => {
           </div>
         </div>
       </Jumbotron>
-      
     </Layout>
   )
 }

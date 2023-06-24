@@ -8,7 +8,6 @@ import { FaBars, FaHome, FaInfoCircle, FaMobileAlt } from "react-icons/fa"
 import SearchWrapper from "./search/searchWrapper"
 import Ad from "./ad"
 
-
 export const query = graphql`
   query {
     file(relativePath: { eq: "gatsby-icon.png" }) {
@@ -100,13 +99,33 @@ const Topbar = ({ handleToggleSidebar }) => {
         </div>
       </div>
       <div className="d-flex flex-wrap justify-content-around align-items-center mt-2 mb-3">
-        <div className='p-1 mb-2 text-center text-white bg-warning'>বিজ্ঞাপনের জন্য ফোন করুনঃ  01521500642 অথবা মেইল করুনঃ contact@rajdoctors.com</div>
-        <div className="d-flex justify-content-center">
-          <Button as='a' href='https://forms.gle/a5mu19HjfeUEyPEN8' target='_blank' variant='outline-primary' size='sm' className="mr-2 mb-xs-2">Add a New Doctor</Button>
-          <Button as='a' href='https://forms.gle/a5mu19HjfeUEyPEN8' target='_blank' variant='outline-primary' size='sm'>Add a New Telemedicine Doctor</Button>
-            {/* <Button as='a' href='https://forms.gle/kW2NFG9X34suvKXN6' target='_blank' variant='outline-info mb-2'>Ask For an Appointment</Button> */}
+        <div className="p-1 mb-2 text-center text-white bg-warning">
+          বিজ্ঞাপনের জন্য ফোন করুনঃ 01521500642 অথবা মেইল করুনঃ
+          contact@rajdoctors.com
         </div>
-        <Dropdown as={NavItem}  style={{ width: "10rem" }}>
+        <div className="d-flex justify-content-center">
+          <Button
+            as="a"
+            href="https://forms.gle/a5mu19HjfeUEyPEN8"
+            target="_blank"
+            variant="outline-primary"
+            size="sm"
+            className="mr-2 mb-xs-2"
+          >
+            Add a New Doctor
+          </Button>
+          <Button
+            as="a"
+            href="https://forms.gle/a5mu19HjfeUEyPEN8"
+            target="_blank"
+            variant="outline-primary"
+            size="sm"
+          >
+            Add a New Telemedicine Doctor
+          </Button>
+          {/* <Button as='a' href='https://forms.gle/kW2NFG9X34suvKXN6' target='_blank' variant='outline-info mb-2'>Ask For an Appointment</Button> */}
+        </div>
+        <Dropdown as={NavItem} style={{ width: "10rem" }}>
           <Dropdown.Toggle as={NavLink} className="nav-link">
             {intl.locale === "en" ? "বাংলাতে দেখুন" : "Change to English"}
           </Dropdown.Toggle>
