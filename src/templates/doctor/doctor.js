@@ -146,7 +146,7 @@ const Doctor = ({ intl, pageContext, ...props }) => {
         })}`}
         schema={schema}
       />
-      <Jumbotron>
+      <Jumbotron className="mt-3">
         <div className="doctor-heading">
           <div className="avatar ml-5 mb-2">
             <Avatar height="200" width="200" img={uid} />
@@ -269,7 +269,8 @@ const Doctor = ({ intl, pageContext, ...props }) => {
           </div>
         </div>
         <Share />
-        <Ad title='Pakhighor- Get you pet birds' contact='01701256115' imgData={props.data.img.childImageSharp.fluid} />               
+        <br />
+        <Ad />               
         <div className="main">
           <div className="med-section">
             <h3 className="text-center">{"You may find helpful"}</h3>

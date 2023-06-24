@@ -6,6 +6,7 @@ import React from "react"
 import { Button, Dropdown, Nav, NavItem, NavLink } from "react-bootstrap"
 import { FaBars, FaHome, FaInfoCircle, FaMobileAlt } from "react-icons/fa"
 import SearchWrapper from "./search/searchWrapper"
+import Ad from "./ad"
 
 
 export const query = graphql`
@@ -126,6 +127,9 @@ const Topbar = ({ handleToggleSidebar }) => {
             )}
           </Dropdown.Menu>
         </Dropdown>
+      </div>
+      <div>
+        <Ad isHorizontal={true} />
       </div>
     </>
   )

@@ -1,24 +1,22 @@
-import Img from "gatsby-image";
 import React from 'react';
 import { Card } from "react-bootstrap";
-import { FaPhoneSquare } from "react-icons/fa";
 
-const Ad = ({title, contact, imgData}) =>
-<Card className='mt-3' style={{width: '390px'}}>
-  <Card.Header as="h5">
-      <p>{title}</p>
-      <a href={'tel:' + contact} className='text-muted' style={{fontSize: '.8rem'}} >Call Now <FaPhoneSquare size='1rem' /></a> 
-  </Card.Header>
-  <Card.Body>
-  <Img  fluid={imgData} />
+const Ad = ({isHorizontal = false}) =>
+<Card style={isHorizontal ? {height: '100px', overflow: 'hidden'} : {maxWidth: '24rem', overflow: 'hidden'}}>
+  <Card.Body className='p-0' >
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7807818541747006"
+      crossorigin="anonymous">
+    </script>
+    <ins class="adsbygoogle"
+        style={{display: "block"}}
+        data-ad-client="ca-pub-7807818541747006"
+        data-ad-slot="4648607007"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
   </Card.Body>
-  <Card.Footer className='d-flex justify-content-between text-muted'>
-      <span className='mr-3'>বিজ্ঞাপন</span>
-      <a href="mailto:info@rajdoctors.com">মেইল পাঠান</a>
-      <a href='tel:+880-1641622541' >বিজ্ঞাপনের জন্য ফোন করুন {' '}
-        <FaPhoneSquare size='1rem' />
-      </a> 
-  </Card.Footer>
 </Card> 
     
   

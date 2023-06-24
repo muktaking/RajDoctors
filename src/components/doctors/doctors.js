@@ -59,7 +59,7 @@ const Doctors = ({ data, index }) => {
     )[0]
     if(doctorFilterByLocale === undefined) return;
     const docCom = <>
-    {((i%4===0 && i!==0) ? 
+    {((i%2===0 && i!==0) ? 
     <Ad title='Pakhighor- Get you pet birds' contact='01701256115' imgData={queryData.img.childImageSharp.fluid} />
     : null)}
       <Doctor
