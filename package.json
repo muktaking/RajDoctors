@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "Rajdoctors",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
-  "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "description": "An online hub of doctor's information.",
+  "version": "3.0.0",
+  "author": "Yas",
   "dependencies": {
     "@formatjs/intl-numberformat": "^5.7.3",
     "@gatsby-contrib/gatsby-plugin-elasticlunr-search": "^2.4.2",
@@ -57,12 +57,5 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
-  },
-  "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
   }
 }

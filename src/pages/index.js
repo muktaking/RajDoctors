@@ -124,22 +124,10 @@ const IndexPage = () => {
           url
         }
       }
-      img: file(relativePath: { eq: "hero.jpg" }) {
-        childImageSharp {
-          # Specify the image processing specifications right in the query.
-          # Makes it trivial to update as your page's design changes.
-          fluid(maxHeight: 450) {
-            ...GatsbyImageSharpFluid_noBase64
-          }
-        }
-      }
     }
   `)
   // Making useIntl available in the code
   const intl = useIntl()
-  // Use language iso for the routes
-  const locale = intl.locale !== "en" ? `/${intl.locale}` : ""
-
   const gallary = [
     { title: intl.formatMessage({ id: "tms" }), speciality: 'medicine', data: data.med.nodes },
     { title: intl.formatMessage({ id: "tss" }), speciality:'surgery', data: data.sur.nodes },
@@ -177,8 +165,6 @@ const IndexPage = () => {
                 </Carousel>
               </div>
 
-              {/* <Img fluid={data.img.childImageSharp.fluid} /> */}
-              {/* <img src={HeroImg} alt="hero" height="450px" width="100%" /> */}
             </Col>
           </Row>
         </div>
@@ -193,21 +179,6 @@ const IndexPage = () => {
               data={item.data}
             />
           ))}
-          {/* <div className="med-section">
-            <h3 className="text-center">Top Surgery Specialist</h3>
-            <div className="divider"></div>
-            <div className="med-card">
-              <Doctors data={data.sur.nodes} />
-            </div>
-          </div>
-          <hr className="w-25" />
-          <div className="med-section">
-            <h3 className="text-center">Top Gynaecology Specialist</h3>
-            <div className="divider"></div>
-            <div className="med-card">
-              <Doctors data={data.gy.nodes} />
-            </div>
-          </div> */}
         </div>
       </Container>
     </Layout>
