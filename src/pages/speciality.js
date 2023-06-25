@@ -16,7 +16,13 @@ const Speciality = () => {
 
   const data = useStaticQuery(graphql`
     query {
-      allDoctorListsCsv {
+      allDoctorListsCsv: allDoctorListsCsv {
+        nodes {
+          Speciality
+          lang
+        }
+      }
+      allDoctorListsCopyCsv: allDoctorListsCopyCsv {
         nodes {
           Speciality
           lang
@@ -33,6 +39,7 @@ const Speciality = () => {
       }
     }
   `)
+  data.allDoctorListsCsv.nodes.push(...data.allDoctorListsCopyCsv.nodes)
   const specArray = data.allDoctorListsCsv.nodes.map(spec => spec.Speciality)
   const specDesArray = [
     "Medicine",

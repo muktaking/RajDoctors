@@ -85,6 +85,63 @@ const IndexPage = () => {
           lang
         }
       }
+      medCopy: allDoctorListsCopyCsv(
+        filter: { Speciality: { eq: "Medicine" } }
+        limit: 5
+        sort: { fields: Rating, order: DESC }
+      ) {
+        nodes {
+          id
+          uid
+          Name
+          Degree
+          contact1
+          loc1
+          visitTime1
+          fields {
+            slug
+          }
+          lang
+        }
+      }
+      surCopy: allDoctorListsCopyCsv(
+        filter: { Speciality: { eq: "Surgery" } }
+        limit: 5
+        sort: { fields: Rating, order: DESC }
+      ) {
+        nodes {
+          id
+          uid
+          Name
+          Degree
+          contact1
+          loc1
+          visitTime1
+          fields {
+            slug
+          }
+          lang
+        }
+      }
+      gyCopy: allDoctorListsCopyCsv(
+        filter: { Speciality: { eq: "Gynaecology" } }
+        limit: 5
+        sort: { fields: Rating, order: DESC }
+      ) {
+        nodes {
+          id
+          uid
+          Name
+          Degree
+          contact1
+          loc1
+          visitTime1
+          fields {
+            slug
+          }
+          lang
+        }
+      }
       carousel: allCarouselDataCsv {
         nodes {
           id
@@ -98,6 +155,7 @@ const IndexPage = () => {
           ChamberLocation
         }
       }
+
       carouselImg: allFile(
         filter: {
           relativePath: { regex: "/promotional/.*[png|jpeg|jpg|svg]$/" }
@@ -128,6 +186,9 @@ const IndexPage = () => {
   `)
   // Making useIntl available in the code
   const intl = useIntl()
+  data.med.nodes.push(...data.medCopy.nodes)
+  data.sur.nodes.push(...data.surCopy.nodes)
+  data.gy.nodes.push(...data.gyCopy.nodes)
   const gallary = [
     { title: intl.formatMessage({ id: "tms" }), speciality: 'medicine', data: data.med.nodes },
     { title: intl.formatMessage({ id: "tss" }), speciality:'surgery', data: data.sur.nodes },

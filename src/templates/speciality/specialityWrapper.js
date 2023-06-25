@@ -13,7 +13,25 @@ function capitalizeFirstLetter(string) {
 
 export const query = graphql`
   query($Speciality: String!) {
-    allDoctorListsCsv(filter: { Speciality: { eq: $Speciality } }) {
+    allDoctorListsCsv: allDoctorListsCsv(filter: { Speciality: { eq: $Speciality } }) {
+      nodes {
+        Degree
+        Name
+        Rating
+        Designation
+        Institute
+        contact1
+        loc1
+        visitTime1
+        id
+        uid
+
+        fields {
+          slug
+        }
+      }
+    }
+    allDoctorListsCopyCsv: allDoctorListsCopyCsv(filter: { Speciality: { eq: $Speciality } }) {
       nodes {
         Degree
         Name
@@ -35,6 +53,8 @@ export const query = graphql`
 `
 
 const SpecialityWrapper = ({ pageContext, data }) => {
+  
+  data.allDoctorListsCsv.nodes.push(...data.allDoctorListsCopyCsv.nodes)
   data.allDoctorListsCsv.nodes = _.sortBy(data.allDoctorListsCsv.nodes, [
     "Rating",
   ]).reverse()

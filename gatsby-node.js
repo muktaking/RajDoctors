@@ -9,7 +9,7 @@ const path = require("path")
 const flatMenu = require("./src/utils/meta.data").flatMenu
 module.exports.onCreateNode = ({ node, actions }) => {
   const { createNode, createNodeField } = actions
-  if (node.internal.type === "DoctorListsCsv") {
+  if (node.internal.type === "DoctorListsCsv" || node.internal.type === "DoctorListsCopyCsv") {
     //if (node.lang === "en") {
     //const slug = node.Name.replace(/\s|\./g, "_") + "_" + node.uid
     const slug = node.Name.toLowerCase().replace(/(\.?\s)/g, "-")
@@ -80,6 +80,7 @@ module.exports.createPages = async ({ graphql, actions, reporter }) => {
   // res.data.allDoctorListsCsv.edges = res.data.allDoctorListsCsv.edges.filter(
   //   edge => edge.node.lang === "en"
   // )
+  res.data.allDoctorListsCsv.edges.push(...res.data.allDoctorListsCopyCsv.edges)
   res.data.allDoctorListsCsv.edges.forEach(edge => {
     const language = edge.node.lang
     const locale = language !== "en" ? `/${language}` : ""

@@ -31,6 +31,23 @@ const Doctors = () => {
           }
         }
       }
+      allCopy: allDoctorListsCopyCsv(sort: { fields: Rating, order: DESC }) {
+        nodes {
+          id
+          uid
+          Name
+          Rating
+          Designation
+          Institute
+          Degree
+          contact1
+          loc1
+          visitTime1
+          fields {
+            slug
+          }
+        }
+      }
       img: file(relativePath: { eq: "hero1.jpg" }) {
         childImageSharp {
           # Specify the image processing specifications right in the query.
@@ -42,6 +59,7 @@ const Doctors = () => {
       }
     }
   `)
+  data.all.nodes.push(...data.allCopy.nodes)
   const top3Schema = data.all.nodes.slice(0, 3).map(
     (doc, i) => `
    {"@type": "ListItem",

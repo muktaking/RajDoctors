@@ -32,6 +32,30 @@ export const query = graphql`
       locDetail2
       visitTime1
       visitTime2
+      OpenTime1
+      fields {
+        slug
+      }
+      Protocol
+      Fee
+    }
+    docCopy: doctorListsCopyCsv(uid: { eq: $uid }, lang: { eq: $lang }) {
+      uid
+      Degree
+      Name
+      Rating
+      Designation
+      Institute
+      Speciality
+      contact1
+      contact2
+      loc1
+      loc2
+      locDetail1
+      locDetail2
+      visitTime1
+      visitTime2
+      OpenTime1
       fields {
         slug
       }
@@ -49,6 +73,27 @@ export const query = graphql`
         contact1
         loc1
         visitTime1
+        OpenTime1
+        fields {
+          slug
+        }
+        Protocol
+        lang
+      }
+    }
+
+    docsCopy: allDoctorListsCopyCsv(sort: { fields: Rating, order: DESC }) {
+      nodes {
+        id
+        uid
+        Name
+        Rating
+        Degree
+        Speciality
+        contact1
+        loc1
+        visitTime1
+        OpenTime1
         fields {
           slug
         }
@@ -81,7 +126,8 @@ const Doctor = ({ intl, pageContext, ...props }) => {
   // Internationalization
   //const intl = useIntl()
   //const locale = intl.locale !== "en" ? `/${intl.locale}` : ""
-
+  props.data.doc =  props.data.doc ?  props.data.doc :  props.data.docCopy
+  props.data.docs.nodes.push(...props.data.docsCopy.nodes)
   const {
     uid,
     Name,
@@ -92,10 +138,12 @@ const Doctor = ({ intl, pageContext, ...props }) => {
     Institute,
     contact1,
     contact2,
+    loc1,
     locDetail1,
     locDetail2,
     visitTime1,
     visitTime2,
+    OpenTime1,
     fields,
     Protocol,
     Fee,
@@ -199,11 +247,13 @@ const Doctor = ({ intl, pageContext, ...props }) => {
                   <h5 className="card-title">
                     {intl.formatMessage({ id: "chamber.location" })}
                   </h5>
+                  <p className="card-text">{loc1.replace(/\*/g, ",")}</p>
                   <p className="card-text">{locDetail1.replace(/\*/g, ",")}</p>
                   <h5 className="card-title">
                     {intl.formatMessage({ id: "chamber.time" })}
                   </h5>
                   <p className="card-text">{visitTime1.replace(/\*/g, ",")}</p>
+                  <p className="card-text">{OpenTime1.replace(/\*/g, ",")}</p>
                   <h5 className="card-title">Chamber Protocol</h5>
                   <p>
                     {Protocol

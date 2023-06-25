@@ -25,11 +25,28 @@ const Doctors = ({ speciality, data, index }) => {
         }
       }
 
+      allCopy: allDoctorListsCopyCsv {
+        nodes {
+          id
+          uid
+          Name
+          Rating
+          Degree
+          contact1
+          loc1
+          visitTime1
+          lang
+          fields {
+            slug
+          }
+        }
+      }
     }
   `)
 
   // Making useIntl available in the code
   const intl = useIntl()
+  queryData.all.nodes.push(...queryData.allCopy.nodes)
   // Use language iso for the routes
   //const locale = intl.locale !== "en" ? `/${intl.locale}` : ""
   return data.map((doctor, i) => {

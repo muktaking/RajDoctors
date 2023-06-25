@@ -147,7 +147,7 @@ const Topbar = ({ handleToggleSidebar }) => {
           </Dropdown.Menu>
         </Dropdown>
       </div>
-      <div>
+      <div className="px-1">
         {(pathname !== `${locale}/about-us` &&  pathname !== `${locale}/contact-us`) && <Ad isHorizontal={true} />}
       </div>
     </>
