@@ -5,7 +5,10 @@
   "siteMetaData": {
     "title": "Raj Doctors",
     "description": "Find Doctor's Chamber's Location, Time, Contact Information and Details.",
-    "tagLine": "Online Hub of Doctors in Rajshahi"
+    "tagLine": {
+      "Dhaka": "Online Hub of Doctors in Dhaka",
+      "Rajshahi":  "Online Hub of Doctors in Rajshahi"
+    }
   },
   "search": "Search",
   "Share-us": "Share Us",
@@ -17,7 +20,10 @@
   "aboutText": "RajDoctors is an online platform to ease the pain of finding doctors. It is always painful to find out which doctor is perfect, where the chamber of his/her. This platform gives you - Easy but efficient way to find doctors - Doctor's chamber location, contact information - Category of doctors according to their specialty Have a Good day ! and Get well Soon!!!",
   "pp": "Privacy Policy",
   "more": "More...",
-  "adl": "All Doctors List in Rajshahi",
+  "adl": {
+    "Dhaka": "All Doctors List in Dhaka",
+    "Rajshahi": "All Doctors List in Rajshahi"
+  },
   "advantages": {
     "tagLine": "What Will You Get Here",
     "1": "Easy but efficient way to find details of doctors",
@@ -37,5 +43,17 @@
   },
   "opps": "Opps, Sorry",
   "404": "404: Not Found",
-  "notExist": "You just hit a route that doesn&#39;t exist... the sadness."
+  "notExist": "You just hit a route that doesn&#39;t exist... the sadness.",
+  "seo": {
+    "doctors": {
+      "des": {
+        "Dhaka": "Lists of all doctors with thier chamber location, duration and contact information at Dhaka city in bangladesh",
+        "Rajshahi": "Lists of all doctors with thier chamber location, duration and contact information at Rajshahi city in bangladesh"
+      }
+    }
+  },
+  "arcib": {
+    "Dhaka": "Dhaka city in Bangladesh",
+    "Rajshahi": "Rajshahi city in Bangladesh"
+  }
 }

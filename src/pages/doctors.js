@@ -68,11 +68,11 @@ const Doctors = () => {
     <Layout>
       <SEO
         schema={schema}
-        title={intl.formatMessage({ id: "adl" })}
+        title={intl.formatMessage({ id: `adl.${process.env.GATSBY_DISTRICT}` })}
         description={intl.formatMessage({
-          id: "seo.doctors.des",
+          id: `seo.doctors.des.${process.env.GATSBY_DISTRICT}`,
           defaultMessage:
-            "Lists of all doctors with thier chamber location, duration and contact information at rajshahi city in bangladesh",
+            `Lists of all doctors with thier chamber location, duration and contact information at ${process.env.GATSBY_DISTRICT} city in bangladesh`,
         })}
         useDefault={false}
       />
@@ -82,7 +82,7 @@ const Doctors = () => {
             <Col md={6} className="">
               <div className="text-center">
                 <h1 className="text-uppercase mt-5">
-                  {intl.formatMessage({ id: "adl" })}
+                  {intl.formatMessage({ id: `adl.${process.env.GATSBY_DISTRICT}` })}
                 </h1>
               </div>
             </Col>

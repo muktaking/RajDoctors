@@ -142,7 +142,7 @@ const Doctor = ({ intl, pageContext, ...props }) => {
         })}: ${locDetail1.replace(/\*/g, ",")} ${intl.formatMessage({
           id: "chamber.time",
         })}: ${visitTime1.replace(/\*/g, ",")} ${intl.formatMessage({
-          id: "at rajshahi city in bangladesh",
+          id: `arcib.${process.env.GATSBY_DISTRICT}`,
         })}`}
         schema={schema}
       />

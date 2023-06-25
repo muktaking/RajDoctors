@@ -47,7 +47,7 @@ const Speciality = () => {
         title={
           intl.formatMessage({ id: "Speciality" }) +
           " | " +
-          intl.formatMessage({ id: "siteMetaData.tagLine" })
+          intl.formatMessage({ id: `siteMetaData.tagLine.${process.env.GATSBY_DISTRICT}` })
         }
         useDefault={false}
         description={

@@ -51,7 +51,7 @@ function SEO({ description, useDefault, meta, title, ogImg, schema }) {
         title={seo.title}
         titleTemplate={
           useDefault
-            ? `%s | ${intl.formatMessage({ id: "siteMetaData.tagLine" })}`
+            ? `%s | ${intl.formatMessage({ id: `siteMetaData.tagLine.${process.env.GATSBY_DISTRICT}` })}`
             : null
         }
         meta={[

@@ -2,11 +2,13 @@ import React from "react"
 import { Card } from "react-bootstrap"
 
 const Ad = ({ isHorizontal = false }) => (
-  <Card
+  <div>
+    <Card
+    className="mb-0"
     style={
       isHorizontal
         ? { height: "100px", overflow: "hidden" }
-        : { maxWidth: "24rem", overflow: "hidden" }
+        : { minWidth: "24rem", minHeight: "200px", overflow: "hidden" }
     }
   >
     <Card.Body className="p-0">
@@ -26,6 +28,10 @@ const Ad = ({ isHorizontal = false }) => (
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </Card.Body>
   </Card>
+  <p className="text-right text-white pr-2 bg-secondary" style={{fontSize: '.8rem'}}>
+    For placement of ads, please contact us. (ads)
+  </p>
+  </div>
 )
 
 export default Ad

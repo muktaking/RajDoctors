@@ -5,7 +5,7 @@ import React from "react"
 import Ad from "../ad"
 import Doctor from "./doctor"
 
-const Doctors = ({ data, index }) => {
+const Doctors = ({ speciality, data, index }) => {
   const queryData = useStaticQuery(graphql`
     query {
       all: allDoctorListsCsv {
@@ -25,26 +25,8 @@ const Doctors = ({ data, index }) => {
         }
       }
 
-      img: file(relativePath: { eq: "pakhighorAd02.png" }) {
-        childImageSharp {
-          fluid(maxWidth: 350, maxHeight: 210) {
-            # Choose either the fragment including a small base64ed image, a traced placeholder SVG, or one without.
-            ...GatsbyImageSharpFluid_noBase64
-          }
-        }
-      }
     }
   `)
-
-  // img: file(relativePath: { eq: "pakhighorAd02.png" }) {
-  //   childImageSharp {
-  //     # Specify the image processing specifications right in the query.
-  //     # Makes it trivial to update as your page's design changes.
-  //     fixed(width: 350, height: 210) {
-  //       ...GatsbyImageSharpFixed
-  //     }
-  //   }
-  // }
 
   // Making useIntl available in the code
   const intl = useIntl()
@@ -57,12 +39,8 @@ const Doctors = ({ data, index }) => {
     if (doctorFilterByLocale === undefined) return
     const docCom = (
       <>
-        {i % 2 === 0 && i !== 0 ? (
-          <Ad
-            title="Pakhighor- Get you pet birds"
-            contact="01701256115"
-            imgData={queryData.img.childImageSharp.fluid}
-          />
+        {speciality === 'medicine' && i % 2 === 0 && i !== 0 ? (
+          <Ad />
         ) : null}
         <Doctor
           key={i}

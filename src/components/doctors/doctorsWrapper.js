@@ -29,7 +29,7 @@ const DoctorsWrapper = ({ data }) => {
   return (
     <>
       <div className="med-section">
-        <h3 className="text-center">{intl.formatMessage({ id: "adl" })}</h3>
+        <h3 className="text-center">{intl.formatMessage({ id: `adl.${process.env.GATSBY_DISTRICT}` })}</h3>
         <div className="divider"></div>
         <div className="med-card">
           <Doctors data={doctorsList} />

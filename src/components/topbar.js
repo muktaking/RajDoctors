@@ -48,7 +48,7 @@ const Topbar = ({ handleToggleSidebar }) => {
             </div>
           </Link>
           <h6 className="text-white pl-2">
-            {intl.formatMessage({ id: "siteMetaData.tagLine" })}
+            {intl.formatMessage({ id: `siteMetaData.tagLine.${process.env.GATSBY_DISTRICT}` })}
           </h6>
         </div>
         <SearchWrapper />
@@ -100,7 +100,7 @@ const Topbar = ({ handleToggleSidebar }) => {
       </div>
       <div className="d-flex flex-wrap justify-content-around align-items-center mt-2 mb-3">
         <div className="p-1 mb-2 text-center text-white bg-warning">
-          বিজ্ঞাপনের জন্য ফোন করুনঃ 01521500642 অথবা মেইল করুনঃ
+          বিজ্ঞাপনের জন্য ফোন করুনঃ 01641622541 / 01521500642 অথবা মেইল করুনঃ
           contact@rajdoctors.com
         </div>
         <div className="d-flex justify-content-center">
@@ -148,7 +148,7 @@ const Topbar = ({ handleToggleSidebar }) => {
         </Dropdown>
       </div>
       <div>
-        <Ad isHorizontal={true} />
+        {(pathname !== `${locale}/about-us` &&  pathname !== `${locale}/contact-us`) && <Ad isHorizontal={true} />}
       </div>
     </>
   )

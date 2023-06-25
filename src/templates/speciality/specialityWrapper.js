@@ -87,7 +87,7 @@ const SpecialityWrapper = ({ pageContext, data }) => {
         })}
         description={[
           intl.formatMessage({
-            id: "adl",
+            id: `adl.${process.env.GATSBY_DISTRICT}`,
           }),
           intl.formatMessage({
             id: capitalizeFirstLetter(speciality),

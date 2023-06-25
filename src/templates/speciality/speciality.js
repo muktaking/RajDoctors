@@ -34,7 +34,7 @@ const Speciality = ({ speciality, data }) => {
         <div className="med-section">
           <h3 className="text-center">
             {`${intl.formatMessage({
-              id: "adl",
+              id: `adl.${process.env.GATSBY_DISTRICT}`,
             })} ${intl.formatMessage({
               id: `${capitalizeFirstLetter(speciality)}`,
             })}  ${intl.formatMessage({ id: "Speciality" })}`}

@@ -12,13 +12,13 @@ import SEO from "../components/seo"
 import Share from "../components/share"
 
 //
-const ContentSection = ({ title, data }) => (
+const ContentSection = ({ title, speciality, data }) => (
   <>
     <div className="med-section">
       <h3 className="text-center">{title}</h3>
       <div className="divider"></div>
       <div className="med-card">
-        <Doctors data={data} index={true} />
+        <Doctors speciality={speciality} data={data} index={true} />
       </div>
     </div>
     <hr className="w-25" />
@@ -141,9 +141,9 @@ const IndexPage = () => {
   const locale = intl.locale !== "en" ? `/${intl.locale}` : ""
 
   const gallary = [
-    { title: intl.formatMessage({ id: "tms" }), data: data.med.nodes },
-    { title: intl.formatMessage({ id: "tss" }), data: data.sur.nodes },
-    { title: intl.formatMessage({ id: "tgs" }), data: data.gy.nodes },
+    { title: intl.formatMessage({ id: "tms" }), speciality: 'medicine', data: data.med.nodes },
+    { title: intl.formatMessage({ id: "tss" }), speciality:'surgery', data: data.sur.nodes },
+    { title: intl.formatMessage({ id: "tgs" }), speciality: 'gynaecology', data: data.gy.nodes },
   ]
 
   return (
@@ -189,6 +189,7 @@ const IndexPage = () => {
             <ContentSection
               key={item.title}
               title={item.title}
+              speciality={item.speciality}
               data={item.data}
             />
           ))}

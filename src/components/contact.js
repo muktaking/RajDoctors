@@ -30,14 +30,6 @@ const Contact = () => {
         <div className="container">
           <div className="row">
             <div className="col-lg-6">
-              <div className="card-shadow">
-                <img
-                  src="https://www.wrappixel.com/demos/ui-kit/wrapkit/assets/images/contact/2.jpg"
-                  className="img-fluid"
-                />
-              </div>
-            </div>
-            <div className="col-lg-6">
               <div className="contact-box ml-3">
                 <h1 className="font-weight-light mt-2">
                   {intl.formatMessage({ id: "Quick Contact" })}
@@ -76,8 +68,10 @@ const Contact = () => {
                           {intl.formatMessage({ id: "Phone" })}
                         </h6>
                         <p className="">
-                          +880-1521500642, +880-1641622541
+                          +880-1641622541, 
                           <br />
+                          +880-1521500642
+                          
                         </p>
                       </div>
                     </div>
