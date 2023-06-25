@@ -43,6 +43,20 @@ module.exports.createPages = async ({ graphql, actions, reporter }) => {
           }
         }
       }
+      allDoctorListsCopyCsv: allDoctorListsCopyCsv {
+        edges {
+          node {
+            fields {
+              slug
+            }
+            id
+            uid
+            Name
+            lang
+            Speciality
+          }
+        }
+      }
       allImg: allFile(
         filter: { relativePath: { regex: "/doctor/.*[png|jpeg|jpg|svg]$/" } }
       ) {
@@ -146,13 +160,13 @@ module.exports.createPages = async ({ graphql, actions, reporter }) => {
   // })
 }
 
-exports.onCreatePage = ({ page, actions }) => {
-  const { createPage, deletePage } = actions
-  if (
-    page.path.includes("/en/") ||
-    (page.path.includes("/bn/") && page.context.lang === "en") ||
-    (!page.path.includes("/bn/") && page.context.lang === "bn")
-  ) {
-    deletePage(page)
-  }
-}
+// exports.onCreatePage = ({ page, actions }) => {
+//   const { createPage, deletePage } = actions
+//   if (
+//     page.path.includes("/en/") ||
+//     (page.path.includes("/bn/") && page.context.lang === "en") ||
+//     (!page.path.includes("/bn/") && page.context.lang === "bn")
+//   ) {
+//     deletePage(page)
+//   }
+// }
