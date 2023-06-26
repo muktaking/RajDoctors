@@ -16,24 +16,14 @@ const Ad = ({ isHorizontal = false }) => {
         : { minWidth: "350px", minHeight: "200px" }
     }
   >
-    {
-      process.env.GATSBY_DISTRIC === 'Dhaka' ?
-      <ins class="adsbygoogle"
+    
+    <ins class="adsbygoogle"
       style={{display: "block"}}
       data-ad-client="ca-pub-7807818541747006"
-      data-ad-slot="8192868833"
+      data-ad-slot={process.env.GATSBY_GOOGLE_DATA_AD_SLOT}
       data-ad-format="auto"
       data-full-width-responsive="true">
     </ins>
-      :
-      <ins class="adsbygoogle"
-        style={{display: "block"}}
-        data-ad-client="ca-pub-7807818541747006"
-        data-ad-slot="4648607007"
-        data-ad-format="auto"
-        data-full-width-responsive="true">
-      </ins>
-    }
   </div>
   <p className="text-right text-white pr-2 bg-secondary" style={{fontSize: '.8rem'}}>
     For placement of ads, please contact us. (ads)

@@ -106,7 +106,7 @@ const Topbar = ({ handleToggleSidebar }) => {
         <div className="d-flex justify-content-center">
           <Button
             as="a"
-            href="https://forms.gle/a5mu19HjfeUEyPEN8"
+            href= {process.env.GATSBY_GOOGLE_ADD_DOCTOR}
             target="_blank"
             variant="outline-primary"
             size="sm"
@@ -116,7 +116,7 @@ const Topbar = ({ handleToggleSidebar }) => {
           </Button>
           <Button
             as="a"
-            href="https://forms.gle/a5mu19HjfeUEyPEN8"
+            href={process.env.GATSBY_ADD_TELEMEDICINE_DOCTOR}
             target="_blank"
             variant="outline-primary"
             size="sm"
@@ -125,7 +125,7 @@ const Topbar = ({ handleToggleSidebar }) => {
           </Button>
           {/* <Button as='a' href='https://forms.gle/kW2NFG9X34suvKXN6' target='_blank' variant='outline-info mb-2'>Ask For an Appointment</Button> */}
         </div>
-        <Dropdown as={NavItem} style={{ width: "10rem" }}>
+        { process.env.GATSBY_DISTRICT === 'Rajshahi' && <Dropdown as={NavItem} style={{ width: "10rem" }}>
           <Dropdown.Toggle as={NavLink} className="nav-link">
             {intl.locale === "en" ? "বাংলাতে দেখুন" : "Change to English"}
           </Dropdown.Toggle>
@@ -145,7 +145,7 @@ const Topbar = ({ handleToggleSidebar }) => {
               </Dropdown.Item>
             )}
           </Dropdown.Menu>
-        </Dropdown>
+        </Dropdown> }
       </div>
       <div className="px-1">
         {(pathname !== `${locale}/about-us` &&  pathname !== `${locale}/contact-us`) && <Ad isHorizontal={true} />}
