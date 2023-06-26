@@ -85,7 +85,7 @@ module.exports.createPages = async ({ graphql, actions, reporter }) => {
     const language = edge.node.lang
     const locale = language !== "en" ? `/${language}` : ""
     //const path = `/doctor/${edge.node.uid}-${language}`
-    const path = `/doctor/${edge.node.fields.slug}`
+    const path = `/doctor/${edge.node.fields.slug}_${edge.node.uid}`
     img = res.data.allImg.edges.filter(({ node }) =>
       node.relativePath.includes("doctor/" + edge.node.uid + "_")
     )

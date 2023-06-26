@@ -67,7 +67,7 @@ const Doctors = ({ speciality, data, index }) => {
           contact={doctorFilterByLocale.contact1}
           location={doctorFilterByLocale.loc1}
           time={doctorFilterByLocale.visitTime1}
-          link={doctorFilterByLocale.fields.slug}
+          link={doctorFilterByLocale.fields.slug + "_" + doctorFilterByLocale.uid}
           uid={doctorFilterByLocale.uid}
           index={index}
         />
