@@ -57,6 +57,7 @@ typings/
 # gatsby files
 .cache/
 src/data/
+src/data - Copy
 meta.data.js
 
 # Mac files

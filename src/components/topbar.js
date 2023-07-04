@@ -3,6 +3,7 @@ import { graphql, Link, useStaticQuery } from "gatsby"
 import Img from "gatsby-image"
 import { useIntl } from "gatsby-plugin-intl"
 import React from "react"
+import { TypeAnimation } from 'react-type-animation';
 import { Button, Dropdown, Nav, NavItem, NavLink } from "react-bootstrap"
 import { FaBars, FaHome, FaInfoCircle, FaMobileAlt } from "react-icons/fa"
 import SearchWrapper from "./search/searchWrapper"
@@ -97,6 +98,26 @@ const Topbar = ({ handleToggleSidebar }) => {
             </Nav.Item>
           </Nav>
         </div>
+      </div>
+      <div className="text-center">
+        <TypeAnimation
+          sequence={[
+            // Same substring at the start will only be typed out once, initially
+            'এখন রাজ ডক্টরে টেলিমেডিসিন সার্ভিস যুক্ত হয়েছে',
+            1000, // wait 1s before replacing "Mice" with "Hamsters"
+            'টেলিমেডিসিন সার্ভিস পেতে ১৭৭০৬ নম্বরে যোগাযোগ করুন',
+            1000,
+            'বিস্তারিত জানতে নিম্নের লিংকটিতে ক্লিক করুন',
+            1000
+            
+          ]}
+          wrapper="span"
+          speed={150}
+          style={{ fontSize: '.8rem', display: 'inline-block' }}
+          repeat={Infinity}
+        />
+        <br />
+        <Link to="/teledoctor/">টেলিমেডিসিন</Link>
       </div>
       <div className="d-flex flex-wrap justify-content-around align-items-center mt-2 mb-3">
         <div className="p-1 mb-2 text-center text-white bg-warning">
