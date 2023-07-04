@@ -13,6 +13,7 @@ import {
   FaAngleDoubleLeft,
   FaAngleDoubleRight,
   FaGraduationCap,
+  FaMobileAlt
 } from "react-icons/fa"
 import {
   ProSidebar,
@@ -78,6 +79,10 @@ const Sidebar = ({
           <MenuItem icon={<FaGraduationCap />}>
             {intl.formatMessage({ id: "Speciality" })}
             <Link to={`/speciality/`}></Link>
+          </MenuItem>
+          <MenuItem icon={<FaMobileAlt />}>
+            {intl.formatMessage({ id: "TeleMedicine" })}
+            <Link to={`/teledoctor/`}></Link>
           </MenuItem>
 
           {menuKeys.map((key, ind) =>

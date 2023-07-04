@@ -96,7 +96,7 @@ const TeleDoc = ({ intl, pageContext, ...props }) => {
               />
             </div>
 
-            <Card.Body>
+            <Card.Body className="">
               <Card.Title className="text-center">{"Dr. " + name}</Card.Title>
               <Card.Text className="text-center">{degree}</Card.Text>
               <hr />
@@ -115,7 +115,7 @@ const TeleDoc = ({ intl, pageContext, ...props }) => {
               </Card.Text>
 
               <Card.Text className="text-center">
-                <Badge className="mr-2 mb-2">
+                <Badge className="mr-2 mb-2 text-wrap">
                   Available on: {consultationTime}
                 </Badge>
                 <Badge>Offday: {closeTime}</Badge>
