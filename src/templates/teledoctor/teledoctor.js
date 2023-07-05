@@ -124,7 +124,7 @@ const TeleDoc = ({ intl, pageContext, ...props }) => {
                 Consultation Fee: <Badge className="">{fee + " tk"}</Badge>
               </Card.Text>
               <Card.Text className="text-center">
-                For online consultation, Please call at 16007
+                টেলিমেডিসিন সেবা পেতে <a href={process.env.GATSBY_ADD_TELEMEDICINE_CLIENT} target="_blank">এই ফর্মটি</a> পূরণ করূন।
               </Card.Text>
             </Card.Body>
             <Card.Footer>

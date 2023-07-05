@@ -105,8 +105,6 @@ const Topbar = ({ handleToggleSidebar }) => {
             // Same substring at the start will only be typed out once, initially
             'এখন রাজ ডক্টরে টেলিমেডিসিন সার্ভিস যুক্ত হয়েছে',
             1000, // wait 1s before replacing "Mice" with "Hamsters"
-            'টেলিমেডিসিন সার্ভিস পেতে ১৭৭০৬ নম্বরে যোগাযোগ করুন',
-            1000,
             'বিস্তারিত জানতে নিম্নের লিংকটিতে ক্লিক করুন',
             1000
             
