@@ -29,7 +29,7 @@ const Doctor = ({
   //const locale = intl.locale !== "en" ? `/${intl.locale}` : ""
 
   return (
-    <Card style={{ width: "24rem" }}>
+    <Card className="mx-2" style={{ width: "24rem" }}>
       <Card.Body>
         <Badge pill variant="dark" className="rating ml-2 mb-3 float-right">
           <FaStar size="2em" />

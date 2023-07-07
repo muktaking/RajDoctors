@@ -115,7 +115,7 @@ const Topbar = ({ handleToggleSidebar }) => {
           repeat={Infinity}
         />
         <br />
-        <Link to="/teledoctor/">টেলিমেডিসিন</Link>
+        <Link to="/teledoctor#raj-telemed-heading">টেলিমেডিসিন</Link>
       </div>
       <div className="d-flex flex-wrap justify-content-around align-items-center mt-2 mb-3">
         <div className="p-1 mb-2 text-center text-white bg-warning">

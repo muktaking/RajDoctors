@@ -1,5 +1,4 @@
 import React, { useEffect } from "react"
-import { Card } from "react-bootstrap"
 
 const Ad = ({ isHorizontal = false }) => {
   useEffect(()=>{
@@ -7,13 +6,13 @@ const Ad = ({ isHorizontal = false }) => {
   }, [])
 
   return (
-  <div className=""  style={{overflow: 'hidden'}}>
+  <div className="px-2 mb-2 flex-fill">
     <div
     className="mb-0 bg-white border"
     style={
       isHorizontal
         ? { height: "100px" }
-        : { minWidth: "350px", minHeight: "200px" }
+        : { height: "300px", maxWidth: '24rem', minWidth: '300px' }
     }
   >
     
@@ -25,9 +24,6 @@ const Ad = ({ isHorizontal = false }) => {
       data-full-width-responsive="true">
     </ins>
   </div>
-  <p className="text-right text-white pr-2 bg-secondary" style={{fontSize: '.8rem'}}>
-    For placement of ads, please contact us. (ads)
-  </p>
   </div>
 )}
 

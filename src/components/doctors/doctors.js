@@ -56,7 +56,7 @@ const Doctors = ({ speciality, data, index }) => {
     if (doctorFilterByLocale === undefined) return
     const docCom = (
       <>
-        {speciality === 'medicine' && i % 2 === 0 && i !== 0 ? (
+        { i % 2 === 0 && i !== 0 ? (
           <Ad />
         ) : null}
         <Doctor
