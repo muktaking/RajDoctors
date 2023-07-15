@@ -2589,6 +2589,10 @@
 <url> <loc>https://dhaka.rajdoctors.com/bn/speciality/radiology and imaging</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://dhaka.rajdoctors.com/speciality/nuclear medicine</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://dhaka.rajdoctors.com/bn/speciality/nuclear medicine</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://dhaka.rajdoctors.com/teledoctor/1</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://dhaka.rajdoctors.com/bn/teledoctor/1</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://dhaka.rajdoctors.com/teledoctor/2</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://dhaka.rajdoctors.com/bn/teledoctor/2</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://dhaka.rajdoctors.com/bn/404/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://dhaka.rajdoctors.com/about-us/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://dhaka.rajdoctors.com/bn/about-us/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
@@ -2604,4 +2608,6 @@
 <url> <loc>https://dhaka.rajdoctors.com/bn/privacy-policy/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://dhaka.rajdoctors.com/speciality/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://dhaka.rajdoctors.com/bn/speciality/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://dhaka.rajdoctors.com/teledoctor/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://dhaka.rajdoctors.com/bn/teledoctor/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 </urlset>

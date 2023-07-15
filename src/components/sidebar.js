@@ -82,7 +82,7 @@ const Sidebar = ({
           </MenuItem>
           <MenuItem icon={<FaMobileAlt />}>
             {intl.formatMessage({ id: "TeleMedicine" })}
-            <Link to={`/teledoctor/`}></Link>
+            <Link to={`/teledoctor#raj-telemed-heading`}></Link>
           </MenuItem>
 
           {menuKeys.map((key, ind) =>

@@ -33,7 +33,7 @@ function SEO({ description, useDefault, meta, title, ogImg, schema }) {
   const url =
     location.pathname === "/"
       ? site.siteMetadata.url
-      : site.siteMetadata.url + location.pathname
+      : site.siteMetadata.url + location.pathname   
   const lang = intl.locale
   const seo = {
     title: title || intl.formatMessage({ id: "siteMetaData.title" }),

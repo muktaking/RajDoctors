@@ -60,8 +60,8 @@ const TeleDocs = ({ intl,...props }) => {
       />
       <hr />
       <Container fluid className="p-0">
-        <h3 className="text-center pb-3">Rajdoctors Telemedicine Service</h3>
- 
+        <h3 className="text-center pb-3" id="raj-telemed-heading">Rajdoctors Telemedicine Service</h3>
+        <div className="px-3 pb-3">টেলিমেডিসিন সেবা পেতে, প্রথমে <a href={process.env.GATSBY_ADD_TELEMEDICINE_CLIENT} target="_blank">এই ফর্মটি</a> যথাযথভাবে পূরণ করবেন। পরবর্তীতে, আমরা আপনার সাথে যোগাযোগ করব। যোগাযোগের পরে, <a href="https://shop.bkash.com/medionexam01521500642/pay/bdt300/DBZSNq" target="_blank" rel='noreferrer'>এই বিকাশ লিংকে</a> গিয়ে টেলিমেডিসিন সেবা চার্জ ৩০০ টাকা দিবেন । পরবর্তীতে আপনাকে sms এর মাধ্যমে কন্সাল্টেশন এর টাইম জানিয়ে দেওয়া হবে। যেকোন সমস্যার জন্য যোগাযোগ করুন - +880-1641622541, +880133343723 অথবা মেইল করুনঃ help@rajdoctors.com</div>
         <div className="d-flex flex-wrap justify-content-center">
             {
                 props.data?.teledocs.nodes.map((doc)=> <Card className="mx-2 my-1" style={{ width: "300px", backgroundColor: "#DDE6ED" }}>
@@ -96,7 +96,12 @@ const TeleDocs = ({ intl,...props }) => {
                     ))}
                   </Card.Text>
                   <Card.Text className="text-center">
-                    For online consultation, Please call at 16007
+                    টেলিমেডিসিন সেবা পেতে <a href={process.env.GATSBY_ADD_TELEMEDICINE_CLIENT} target="_blank">এই ফর্মটি</a> পূরণ করূন।
+                  </Card.Text>
+                  <Card.Text>
+                  <Link to={`${doc.id}`}>
+                        More...
+                    </Link>
                   </Card.Text>
                 </Card.Body>
               </Card>)
