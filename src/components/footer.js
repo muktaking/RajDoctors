@@ -11,6 +11,51 @@ const Footer = () => {
     // <!-- Site footer -->
     <footer className="site-footer">
       <div className="container">
+      <div className="mb-3">
+          <h6 className="text-center">Doctor Lists By District</h6>
+          <ul className="footer-links d-flex justify-content-center">
+            <li className="btn-primary p-1 mr-1">
+              <a className="text-white" href="https://dhaka.rajdoctors.com/">Dhaka</a>
+            </li>
+            <li className="btn-primary p-1 mr-1">
+              <a className="text-white" href="https://rajdoctors.com">Rajshahi</a>
+            </li>
+            <li className="btn-primary p-1 mr-1">
+              <a className="text-white" href="https://chittagong.rajdoctors.com">Chittagong</a>
+            </li>
+            <li className="btn-primary p-1 mr-1">
+              <a className="text-white" href="https://sylhet.rajdoctors.com">Sylhet</a>
+            </li>
+            <li className="btn-primary p-1 mr-1">
+              <a className="text-white" href="https://rangpur.rajdoctors.com">Rangpur</a>
+            </li>
+            <li className="btn-primary p-1 mr-1">
+              <a className="text-white" href="https://khulna.rajdoctors.com">Khulna</a>
+            </li>
+            <li className="btn-primary p-1 mr-1">
+              <a className="text-white" href="https://barisal.rajdoctors.com">Barisal</a>
+            </li>
+            <li className="btn-primary p-1 mr-1">
+              <a className="text-white" href="https://mymensingh.rajdoctors.com">Mymensingh</a>
+            </li>
+            <li className="btn-primary p-1 mr-1">
+              <a className="text-white" href="https://pabna.rajdoctors.com">Pabna</a>
+            </li>
+            <li className="btn-primary p-1 mr-1">
+              <a className="text-white" href="https://bogra.rajdoctors.com">Bogra</a>
+            </li>
+            <li className="btn-primary p-1 mr-1">
+              <a className="text-white" href="https://comilla.rajdoctors.com">Comilla</a>
+            </li>
+            <li className="btn-primary p-1 mr-1">
+              <a className="text-white" href="https://narayanganj.rajdoctors.com">Narayanganj</a>
+            </li>
+            <li className="btn-primary p-1 mr-1">
+              <a className="text-white" href="https://kushtia.rajdoctors.com">Kushtia</a>
+            </li>
+          </ul>
+        </div>
+        <hr/>
         <div className="row">
           <div className="col-sm-12 col-md-6">
             <h6>{intl.formatMessage({ id: "about-us" })}</h6>

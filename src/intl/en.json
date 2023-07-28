@@ -7,7 +7,9 @@
     "description": "Find Doctor's Chamber's Location, Time, Contact Information and Details.",
     "tagLine": {
       "Dhaka": "Online Hub of Doctors in Dhaka",
-      "Rajshahi":  "Online Hub of Doctors in Rajshahi"
+      "Rajshahi":  "Online Hub of Doctors in Rajshahi",
+      "Sylhet":  "Online Hub of Doctors in Sylhet",
+      "Rangpur":  "Online Hub of Doctors in Rangpur"
     }
   },
   "search": "Search",
@@ -22,7 +24,9 @@
   "more": "More...",
   "adl": {
     "Dhaka": "All Doctors List in Dhaka",
-    "Rajshahi": "All Doctors List in Rajshahi"
+    "Rajshahi": "All Doctors List in Rajshahi",
+    "Sylhet": "All Doctors List in Sylhet",
+    "Rangpur": "All Doctors List in Rangpur"
   },
   "advantages": {
     "tagLine": "What Will You Get Here",
@@ -48,12 +52,16 @@
     "doctors": {
       "des": {
         "Dhaka": "Lists of all doctors with thier chamber location, duration and contact information at Dhaka city in bangladesh",
-        "Rajshahi": "Lists of all doctors with thier chamber location, duration and contact information at Rajshahi city in bangladesh"
+        "Rajshahi": "Lists of all doctors with thier chamber location, duration and contact information at Rajshahi city in bangladesh",
+        "Sylhet": "Lists of all doctors with thier chamber location, duration and contact information at Sylhet city in bangladesh",
+        "Rangpur": "Lists of all doctors with thier chamber location, duration and contact information at Rangpur city in bangladesh"
       }
     }
   },
   "arcib": {
     "Dhaka": "Dhaka city in Bangladesh",
-    "Rajshahi": "Rajshahi city in Bangladesh"
+    "Rajshahi": "Rajshahi city in Bangladesh",
+    "Sylhet": "All Doctors List in Sylhet",
+    "Rangpur": "All Doctors List in Rangpur"
   }
 }
