@@ -8,6 +8,7 @@
     "tagLine": {
       "Dhaka": "Online Hub of Doctors in Dhaka",
       "Rajshahi":  "Online Hub of Doctors in Rajshahi",
+      "Chittagong":  "Online Hub of Doctors in Chittagong",
       "Sylhet":  "Online Hub of Doctors in Sylhet",
       "Rangpur":  "Online Hub of Doctors in Rangpur"
     }
@@ -25,6 +26,7 @@
   "adl": {
     "Dhaka": "All Doctors List in Dhaka",
     "Rajshahi": "All Doctors List in Rajshahi",
+    "Chittagong": "All Doctors List in Chittagong",
     "Sylhet": "All Doctors List in Sylhet",
     "Rangpur": "All Doctors List in Rangpur"
   },
@@ -53,6 +55,7 @@
       "des": {
         "Dhaka": "Lists of all doctors with thier chamber location, duration and contact information at Dhaka city in bangladesh",
         "Rajshahi": "Lists of all doctors with thier chamber location, duration and contact information at Rajshahi city in bangladesh",
+        "Chittagong": "Lists of all doctors with thier chamber location, duration and contact information at Chittagong city in bangladesh",
         "Sylhet": "Lists of all doctors with thier chamber location, duration and contact information at Sylhet city in bangladesh",
         "Rangpur": "Lists of all doctors with thier chamber location, duration and contact information at Rangpur city in bangladesh"
       }
@@ -61,6 +64,7 @@
   "arcib": {
     "Dhaka": "Dhaka city in Bangladesh",
     "Rajshahi": "Rajshahi city in Bangladesh",
+    "Chittagong": "All Doctors List in Chittagong",
     "Sylhet": "All Doctors List in Sylhet",
     "Rangpur": "All Doctors List in Rangpur"
   }
