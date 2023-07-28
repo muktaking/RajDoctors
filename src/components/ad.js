@@ -11,7 +11,7 @@ const Ad = ({ isHorizontal = false }) => {
     className="mb-0 bg-white border"
     style={
       isHorizontal
-        ? { height: "100px" }
+        ? { height: "100px", maxHeight: "100px" }
         : { height: "300px", maxWidth: '24rem', minWidth: '300px' }
     }
   >
