@@ -40,7 +40,7 @@ const Topbar = ({ handleToggleSidebar }) => {
       >
         <FaBars size={28} />
       </div>
-      <div className="topbar">
+      <div className="topbar py-1">
         {/* 1.leftbar */}
         <div className="branding my-auto pt-1 pb-2">
           <Link to="/">
@@ -53,52 +53,8 @@ const Topbar = ({ handleToggleSidebar }) => {
           </h6>
         </div>
         <SearchWrapper />
-        {/* 2.navbar */}
-        <div className="topbar-nav pt-1">
-          <Nav
-            className="justify-content-center"
-            defaultActiveKey="/home"
-            as="ul"
-          >
-            <Nav.Item as="li">
-              <Link className="nav-link" to={`${locale}/`}>
-                <div>
-                  <FaHome />
-                </div>
-                <span className={pathname === `${locale}/` ? "active" : ""}>
-                  {intl.formatMessage({ id: "home" })}
-                </span>
-              </Link>
-            </Nav.Item>
-            <Nav.Item as="li">
-              <Link className="nav-link" to={`${locale}/about-us`}>
-                <div>
-                  <FaInfoCircle />
-                </div>
-                <span
-                  className={pathname === `${locale}/about-us` ? "active" : ""}
-                >
-                  {intl.formatMessage({ id: "about-us" })}
-                </span>
-              </Link>
-            </Nav.Item>
-            <Nav.Item as="li">
-              <Link className="nav-link" to={`${locale}/contact-us`}>
-                <div>
-                  <FaMobileAlt />
-                </div>
-                <span
-                  className={
-                    pathname === `${locale}/contact-us` ? "active" : ""
-                  }
-                >
-                  {intl.formatMessage({ id: "contact-us" })}
-                </span>
-              </Link>
-            </Nav.Item>
-          </Nav>
-        </div>
       </div>
+      
       <div className="text-center">
         <TypeAnimation
           sequence={[
