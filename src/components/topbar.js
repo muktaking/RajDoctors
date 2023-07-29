@@ -55,29 +55,33 @@ const Topbar = ({ handleToggleSidebar }) => {
         <SearchWrapper />
       </div>
       
-      <div className="text-center">
-        <TypeAnimation
-          sequence={[
-            // Same substring at the start will only be typed out once, initially
-            'এখন রাজ ডক্টরে টেলিমেডিসিন সার্ভিস যুক্ত হয়েছে',
-            1000, // wait 1s before replacing "Mice" with "Hamsters"
-            'বিস্তারিত জানতে নিম্নের লিংকটিতে ক্লিক করুন',
-            1000
-            
-          ]}
-          wrapper="span"
-          speed={150}
-          style={{ fontSize: '.8rem', display: 'inline-block' }}
-          repeat={Infinity}
-        />
-        <br />
+      <div className="text-center mt-2">
+        <div className="text-center text-white bg-danger" style={{position: 'fixed', bottom: 0, zIndex: 10, width: '100%' }}>
+          <div className="py-1">
+            <TypeAnimation
+            sequence={[
+              // Same substring at the start will only be typed out once, initially
+              'এখন রাজ ডক্টরে টেলিমেডিসিন সার্ভিস যুক্ত হয়েছে',
+              1000, // wait 1s before replacing "Mice" with "Hamsters"
+              'বিস্তারিত জানতে টেলিমেডিসিন লিংকটিতে ক্লিক করুন',
+              1000,
+              'বিজ্ঞাপনের জন্য ফোন করুনঃ 01641622541',
+              1500
+            ]}
+            wrapper="span"
+            speed={150}
+            style={{ fontSize: '.8rem', display: 'inline-block'}}
+            repeat={Infinity}
+            />
+          </div>
+        </div>
         <Link to="/teledoctor#raj-telemed-heading">টেলিমেডিসিন</Link>
       </div>
       <div className="d-flex flex-wrap justify-content-around align-items-center mt-2 mb-3">
-        <div className="p-1 mb-2 text-center text-white bg-warning">
+        {/* <div className="p-1 mb-2 text-center text-white bg-warning">
           বিজ্ঞাপনের জন্য ফোন করুনঃ 01641622541 / 01521500642 অথবা মেইল করুনঃ
           contact@rajdoctors.com
-        </div>
+        </div> */}
         <div className="d-flex justify-content-center">
           <Button
             as="a"
