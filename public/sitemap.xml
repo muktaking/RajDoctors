@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
 <url> <loc>https://sylhet.rajdoctors.com/bn/offline-plugin-app-shell-fallback/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://sylhet.rajdoctors.com/doctor/prof-dr-md-shahnewaz-chowdhury_P82BU9</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://sylhet.rajdoctors.com/doctor/prof-dr-md-mokles-uddin_7uRklD</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://sylhet.rajdoctors.com/doctor/dr-mohammad-taimur-hossain-talukdar_LP6k6G</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://sylhet.rajdoctors.com/doctor/dr-sarder-baniul-ahmed_wBjjvS</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
@@ -397,9 +396,8 @@
 <url> <loc>https://sylhet.rajdoctors.com/doctor/dr-kaiser-ahmed-nobel_dkas9P</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://sylhet.rajdoctors.com/doctor/dr-md-shafiqul-islam-leon_a8gNYD</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://sylhet.rajdoctors.com/doctor/prof-dr-md-siddiqur-rahman_Fc29Hk</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://sylhet.rajdoctors.com/doctor/_</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://sylhet.rajdoctors.com/bn/doctor/_</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://sylhet.rajdoctors.com/doctor/dr-ashraful-islam-rana_rRmXSz</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://sylhet.rajdoctors.com/doctor/dr-md-abdul-halim_241</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://sylhet.rajdoctors.com/speciality/medicine</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://sylhet.rajdoctors.com/bn/speciality/medicine</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://sylhet.rajdoctors.com/speciality/cardiology</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>

@@ -9,7 +9,15 @@
       "Dhaka": "Online Hub of Doctors in Dhaka",
       "Rajshahi":  "Online Hub of Doctors in Rajshahi",
       "Sylhet":  "Online Hub of Doctors in Sylhet",
-      "Rangpur":  "Online Hub of Doctors in Rangpur"
+      "Rangpur":  "Online Hub of Doctors in Rangpur",
+      "Khulna":  "Online Hub of Doctors in Khulna",
+      "Barisal`":  "Online Hub of Doctors in Barisal",
+      "Mymensingh":  "Online Hub of Doctors in Mymensingh",
+      "Pabna":  "Online Hub of Doctors in Pabna",
+      "Bogra":  "Online Hub of Doctors in Bogra",
+      "Comilla":  "Online Hub of Doctors in Comilla",
+      "Narayanganj":  "Online Hub of Doctors in Narayanganj",
+      "Kushtia":  "Online Hub of Doctors in Kushtia"
     }
   },
   "search": "Search",
@@ -26,7 +34,15 @@
     "Dhaka": "All Doctors List in Dhaka",
     "Rajshahi": "All Doctors List in Rajshahi",
     "Sylhet": "All Doctors List in Sylhet",
-    "Rangpur": "All Doctors List in Rangpur"
+    "Rangpur": "All Doctors List in Rangpur",
+    "Khulna":  "All Doctors List in Khulna",
+    "Barisal`":  "All Doctors List in Barisal",
+    "Mymensingh":  "All Doctors List in Mymensingh",
+    "Pabna":  "All Doctors List in Pabna",
+    "Bogra":  "All Doctors List in Bogra",
+    "Comilla":  "All Doctors List in Comilla",
+    "Narayanganj":  "All Doctors List in Narayanganj",
+    "Kushtia":  "All Doctors List in Kushtia"
   },
   "advantages": {
     "tagLine": "What Will You Get Here",
@@ -54,7 +70,15 @@
         "Dhaka": "Lists of all doctors with thier chamber location, duration and contact information at Dhaka city in bangladesh",
         "Rajshahi": "Lists of all doctors with thier chamber location, duration and contact information at Rajshahi city in bangladesh",
         "Sylhet": "Lists of all doctors with thier chamber location, duration and contact information at Sylhet city in bangladesh",
-        "Rangpur": "Lists of all doctors with thier chamber location, duration and contact information at Rangpur city in bangladesh"
+        "Rangpur": "Lists of all doctors with thier chamber location, duration and contact information at Rangpur city in bangladesh",
+        "Khulna":  "Lists of all doctors with thier chamber location, duration and contact information at Khulna city in bangladesh",
+        "Barisal`":  "Lists of all doctors with thier chamber location, duration and contact information at Barisal city in bangladesh",
+        "Mymensingh":  "Lists of all doctors with thier chamber location, duration and contact information at Mymensingh city in bangladesh",
+        "Pabna":  "Lists of all doctors with thier chamber location, duration and contact information at Pabna city in bangladesh",
+        "Bogra":  "Lists of all doctors with thier chamber location, duration and contact information at Bogra city in bangladesh",
+        "Comilla":  "Lists of all doctors with thier chamber location, duration and contact information at Comilla city in bangladesh",
+        "Narayanganj":  "Lists of all doctors with thier chamber location, duration and contact information at Narayanganj city in bangladesh",
+        "Kushtia":  "Lists of all doctors with thier chamber location, duration and contact information at Kushtia city in bangladesh"
       }
     }
   },
@@ -62,6 +86,14 @@
     "Dhaka": "Dhaka city in Bangladesh",
     "Rajshahi": "Rajshahi city in Bangladesh",
     "Sylhet": "All Doctors List in Sylhet",
-    "Rangpur": "All Doctors List in Rangpur"
+    "Rangpur": "All Doctors List in Rangpur",
+    "Khulna":  "All Doctors List in Khulna",
+    "Barisal`":  "All Doctors List in Barisal",
+    "Mymensingh":  "All Doctors List in Mymensingh",
+    "Pabna":  "All Doctors List in Pabna",
+    "Bogra":  "All Doctors List in Bogra",
+    "Comilla":  "All Doctors List in Comilla",
+    "Narayanganj":  "All Doctors List in Narayanganj",
+    "Kushtia":  "All Doctors List in Kushtia"
   }
 }

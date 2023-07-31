@@ -555,9 +555,14 @@ display: none;
   #content {
     .btn-toggle {
       display: flex;
+      bottom: 35px;
     }
   }
+  .google-responsive-ad{
+    height: 100px;
+  }
 }
+
 // @media (max-width: 1365px) {
 //   .topbar {
 //     flex-direction: column;
