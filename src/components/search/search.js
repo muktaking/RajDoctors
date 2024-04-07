@@ -69,7 +69,7 @@ class Search extends Component {
                 <Link
                   to={
                     doctor.Lang === "en"
-                      ? "/doctor/" + doctor.Slug
+                      ? `/doctor/${doctor.Slug}${process.env.GATSBY_DISTRICT !== 'Rajshahi' && ('_' + doctor.uid) }`
                       : this.props.intl.locale + "/doctor/" + doctor.Slug
                   }
                 >
