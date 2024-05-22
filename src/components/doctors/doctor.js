@@ -6,6 +6,7 @@ import {
   FaAddressBook,
   FaHospitalSymbol,
   FaHourglass,
+  FaShieldAlt,
   FaStar,
   FaStethoscope,
 } from "react-icons/fa"
@@ -31,15 +32,24 @@ const Doctor = ({
   return (
     <Card className="mx-2" style={{ width: "24rem" }}>
       <Card.Body>
-        <Badge pill variant="dark" className="rating ml-2 mb-3 float-right">
-          <FaStar size="2em" />
-          <span className="pr-1">{rating && rating}</span>
-        </Badge>
+        
         <Card.Title className="d-flex align-items-center">
           {/* <FaUserMd />  */}
           <Avatar img={uid} />
           <span>{name.trim().replace(/\*/g, ",")}</span>
         </Card.Title>
+        {
+          rating &&
+          <div className="d-flex">
+            <Badge pill variant='dark' className="rating">
+              <FaStar size="2em" color={rating > 4.5 ? ' #FFD700' : ' white'} />
+              <span className="pr-1 text-white">{rating && rating}</span>
+            </Badge>
+            <div className="rating ml-2">              
+              {rating > 4.4 ? <FaShieldAlt className=" ml-2" size="3em" color='green' /> : '' } 
+            </div>
+          </div>
+        }
         <hr />
         <Card.Subtitle className="d-flex align-items-center text-muted pl-1">
           <FaStethoscope />
