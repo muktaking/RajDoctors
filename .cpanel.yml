@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/medionex/kushtia.rajdoctors.com/
+    - export DEPLOYPATH=/home/rajdoct1/kushtia.rajdoctors.com/
     - /bin/cp -R public/* $DEPLOYPATH
