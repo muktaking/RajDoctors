@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
 <url> <loc>https://chittagong.rajdoctors.com/bn/offline-plugin-app-shell-fallback/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://chittagong.rajdoctors.com/doctor/dr-satyajit-dhar_BZilXn</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://chittagong.rajdoctors.com/doctor/prof-dr-maswood-ahmed_mcZc2Q</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://chittagong.rajdoctors.com/doctor/dr-a.k.m-shamsul-alam_RoWLq0</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://chittagong.rajdoctors.com/doctor/dr-atiqur-rahman_J0xg1p</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
@@ -350,8 +349,6 @@
 <url> <loc>https://chittagong.rajdoctors.com/doctor/dr-md-surman-ali_PETUll</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://chittagong.rajdoctors.com/doctor/dr-surjit-ghosh_QF8Tw7</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://chittagong.rajdoctors.com/doctor/dr-pradip-kumar-nath_r2D6HB</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://chittagong.rajdoctors.com/doctor/_</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://chittagong.rajdoctors.com/bn/doctor/_</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://chittagong.rajdoctors.com/doctor/prof-dr-md-matiar-rahaman-khan_tbRql8</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://chittagong.rajdoctors.com/doctor/dr-md-nurul-amin-bhuiyan_Fki984</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://chittagong.rajdoctors.com/doctor/dr-md-sanaullah-shelly_T6s53R</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
@@ -736,6 +733,7 @@
 <url> <loc>https://chittagong.rajdoctors.com/doctor/prof-dr-md-saifuddin-siddique-suja_YlsjmC</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://chittagong.rajdoctors.com/doctor/dr-md-rafiqul-islam_qP52d8</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://chittagong.rajdoctors.com/doctor/dr-md-jamal-uddin_tRnHNG</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://chittagong.rajdoctors.com/doctor/dr-md-amzad-hossain-pramanik_258</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://chittagong.rajdoctors.com/speciality/medicine</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://chittagong.rajdoctors.com/bn/speciality/medicine</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://chittagong.rajdoctors.com/speciality/cardiology</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
