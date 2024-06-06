@@ -13,8 +13,8 @@ const Ad = ({ height }) => {
       style={{ display: "block", height: height ? height : '300px' , width: '100%', minWidth: '300px', maxWidth: '960px' }}
       data-ad-client="ca-pub-7807818541747006"
       data-ad-slot={process.env.GATSBY_GOOGLE_DATA_AD_SLOT}
-      // data-ad-format="auto"
-      // data-full-width-responsive="true"
+      data-ad-format="auto"
+      data-full-width-responsive="true"
       >
     </ins>
   </div>

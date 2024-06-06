@@ -196,7 +196,6 @@ const Doctor = ({ intl, pageContext, ...props }) => {
         schema={schema}
       />
       <CardSquare data={props.data.doc} />
-        <Ad height={'90px'} />
         <div className="main">
           <div className="med-section">
             <h3 className="text-center">{"You may find helpful"}</h3>
