@@ -10,6 +10,7 @@ import Emergency from "../components/emergency"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Share from "../components/share"
+import Ad from "../components/ad"
 
 //
 const ContentSection = ({ title, speciality, data }) => (
@@ -21,7 +22,6 @@ const ContentSection = ({ title, speciality, data }) => (
         <Doctors speciality={speciality} data={data} index={true} />
       </div>
     </div>
-    <hr className="w-25" />
   </>
 )
 
@@ -30,7 +30,7 @@ const IndexPage = () => {
     query {
       med: allDoctorListsCsv(
         filter: { Speciality: { eq: "Medicine" } }
-        limit: 5
+        limit: 3
         sort: { fields: Rating, order: DESC }
       ) {
         nodes {
@@ -49,7 +49,7 @@ const IndexPage = () => {
       }
       sur: allDoctorListsCsv(
         filter: { Speciality: { eq: "Surgery" } }
-        limit: 5
+        limit: 3
         sort: { fields: Rating, order: DESC }
       ) {
         nodes {
@@ -68,7 +68,7 @@ const IndexPage = () => {
       }
       gy: allDoctorListsCsv(
         filter: { Speciality: { eq: "Gynaecology" } }
-        limit: 5
+        limit: 3
         sort: { fields: Rating, order: DESC }
       ) {
         nodes {
@@ -87,7 +87,7 @@ const IndexPage = () => {
       }
       medCopy: allDoctorListsCopyCsv(
         filter: { Speciality: { eq: "Medicine" } }
-        limit: 5
+        limit: 3
         sort: { fields: Rating, order: DESC }
       ) {
         nodes {
@@ -106,7 +106,7 @@ const IndexPage = () => {
       }
       surCopy: allDoctorListsCopyCsv(
         filter: { Speciality: { eq: "Surgery" } }
-        limit: 5
+        limit: 3
         sort: { fields: Rating, order: DESC }
       ) {
         nodes {
@@ -125,7 +125,7 @@ const IndexPage = () => {
       }
       gyCopy: allDoctorListsCopyCsv(
         filter: { Speciality: { eq: "Gynaecology" } }
-        limit: 5
+        limit: 3
         sort: { fields: Rating, order: DESC }
       ) {
         nodes {
@@ -200,45 +200,32 @@ const IndexPage = () => {
       <SEO />
       <Container fluid className="p-0">
         <div className="hero">
-          <Row noGutters>
-            <Col md={6} className="my-auto">
+            <div className="my-auto">
               <div className="text-center">
                 <h1 className="text-uppercase">
                   {intl.formatMessage({ id: "siteMetaData.title" })}
                 </h1>
-                <p className="text-muted lead p-3">
+                <p className="text-muted lead px-3 mb-2">
                   {intl.formatMessage({ id: "siteMetaData.description" })}
                 </p>
                 <Share />
               </div>
-            </Col>
-            <Col md={6}>
-              <div className="mt-3">
-                <Carousel className="">
-                  {data.carouselImg.edges.map(edge => (
-                    <Carousel.Item>
-                      <Img
-                        fluid={edge.node.childImageSharp.fluid}
-                        style={{ width: "350px", margin: "auto" }}
-                      />
-                    </Carousel.Item>
-                  ))}
-                </Carousel>
-              </div>
-
-            </Col>
-          </Row>
+            </div>  
         </div>
-        <hr className="w-75" />
+        <Ad height={'90px'} />
         <Emergency snippetVeiw={true} />
         <div className="main">
           {gallary.map((item, index) => (
-            <ContentSection
-              key={item.title}
-              title={item.title}
-              speciality={item.speciality}
-              data={item.data}
-            />
+            <>
+              <ContentSection
+                key={item.title}
+                title={item.title}
+                speciality={item.speciality}
+                data={item.data}
+              />
+              <Ad height={"90px"} />
+              <hr className="w-25" />
+            </>
           ))}
         </div>
       </Container>

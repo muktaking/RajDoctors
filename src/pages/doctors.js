@@ -26,6 +26,7 @@ const Doctors = () => {
           contact1
           loc1
           visitTime1
+          Badges
           fields {
             slug
           }
@@ -43,6 +44,7 @@ const Doctors = () => {
           contact1
           loc1
           visitTime1
+          Badges
           fields {
             slug
           }

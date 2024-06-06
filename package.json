@@ -38,6 +38,8 @@
     "react-paginate": "^6.5.0",
     "react-pro-sidebar": "^0.4.4",
     "react-share": "^4.3.1",
+    "react-stars": "^2.2.5",
+    "react-type-animation": "^3.2.0",
     "react-virtualized-auto-sizer": "^1.0.2",
     "react-window": "^1.8.6",
     "validator": "^13.1.17"

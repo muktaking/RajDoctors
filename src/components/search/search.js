@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { Link } from "gatsby"
 import { FaSearch, FaTimes } from "react-icons/fa"
 import { Index } from "elasticlunr"
-import { injectIntl, FormattedMessage } from "gatsby-plugin-intl"
+import { injectIntl } from "gatsby-plugin-intl"
 
 // Search component
 class Search extends Component {

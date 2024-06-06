@@ -1,16 +1,12 @@
 import { graphql } from "gatsby"
 import { injectIntl } from "gatsby-plugin-intl"
 import React from "react"
-import { Badge, Jumbotron } from "react-bootstrap"
-import { FaPhoneSquare, FaStar } from "react-icons/fa"
 import Ad from "../../components/ad"
-import Avatar from "../../components/avatar"
 //importing components
 import Doctors from "../../components/doctors/doctors"
-import Flag from "../../components/flag"
 import Layout from "../../components/layout"
 import SEO from "../../components/seo"
-import Share from "../../components/share"
+import CardSquare from "../../components/cards/cardSquare"
 
 //uid: { eq: $uid }, lang: { eq: $lang }
 //$uid: String!, $lang: String!
@@ -38,6 +34,7 @@ export const query = graphql`
       }
       Protocol
       Fee
+      Badges
     }
     docCopy: doctorListsCopyCsv(uid: { eq: $uid }, lang: { eq: $lang }) {
       uid
@@ -61,6 +58,7 @@ export const query = graphql`
       }
       Protocol
       Fee
+      Badges
     }
     docs: allDoctorListsCsv(sort: { fields: Rating, order: DESC }) {
       nodes {
@@ -79,6 +77,7 @@ export const query = graphql`
         }
         Protocol
         lang
+        Badges
       }
     }
 
@@ -99,6 +98,7 @@ export const query = graphql`
         }
         Protocol
         lang
+        Badges
       }
     }
 
@@ -147,6 +147,7 @@ const Doctor = ({ intl, pageContext, ...props }) => {
     fields,
     Protocol,
     Fee,
+    Badges
   } = props.data.doc
 
   const docs = props.data.docs.nodes
@@ -194,125 +195,8 @@ const Doctor = ({ intl, pageContext, ...props }) => {
         })}`}
         schema={schema}
       />
-      <Jumbotron className="mt-3">
-        <div className="doctor-heading">
-          <div className="avatar ml-5 mb-2">
-            <Avatar height="200" width="200" img={uid} />
-          </div>
-          <h1>
-            {Name}
-            {/* <Flag uid={uid} className="" /> */}
-          </h1>
-          <p>
-            <Badge variant="warning">{Degree.replace(/\*/, ",")}</Badge>
-            <Badge pill variant="dark" className="rating ml-3">
-              <FaStar />
-              <span className="pl-2">{Rating && Rating}</span>
-            </Badge>
-          </p>
-        </div>
-        <div className="doctor-body px-3 pt-1">
-          <div className="designation">
-            <h5>{intl.formatMessage({ id: "designation" })}</h5>
-            <p className="text-muted pl-3">
-              {`${Designation.replace(/\*/, ",")} ${intl.formatMessage({
-                id: "at",
-              })} ${Institute.replace(/\*/, ",")}`}
-            </p>
-          </div>
-          <div className="chamber">
-            <h5>{intl.formatMessage({ id: "ci" })}</h5>
-            <div className="pl-3 d-flex flex-wrap justify-content-start mt-2">
-              <div
-                className="card bg-light mb-3 mr-3"
-                style={{ maxWidth: "22rem" }}
-              >
-                <div className="card-header">
-                  {intl.formatMessage({ id: "chamber.one" })}
-                </div>
-                <div className="card-body">
-                  <h5 className="card-title">
-                    {intl.formatMessage({ id: "chamber.contact-info" })}
-                  </h5>
-                  <p className="card-text">
-                    {contact1.split("*").map(contact => (
-                      <>
-                        <a href={"tel:" + contact}>
-                          <FaPhoneSquare size="1.4rem" /> {contact}
-                        </a>
-                        <br />
-                      </>
-                    ))}
-                  </p>
-                  <h5 className="card-title">
-                    {intl.formatMessage({ id: "chamber.location" })}
-                  </h5>
-                  <p className="card-text">{loc1.replace(/\*/g, ",")}</p>
-                  <p className="card-text">{locDetail1.replace(/\*/g, ",")}</p>
-                  <h5 className="card-title">
-                    {intl.formatMessage({ id: "chamber.time" })}
-                  </h5>
-                  <p className="card-text">{visitTime1.replace(/\*/g, ",")}</p>
-                  <p className="card-text">{OpenTime1.replace(/\*/g, ",")}</p>
-                  <h5 className="card-title">Chamber Protocol</h5>
-                  <p>
-                    {Protocol
-                      ? Protocol.replace(/\*/g, ",")
-                      : "Please phone to provided number to book a serial"}
-                  </p>
-                  <h5 className="card-title">Consultation Fee</h5>
-                  <p>
-                    {Fee
-                      ? Fee.replace(/\*/g, ",")
-                      : "Please phone to provided number."}
-                  </p>
-                </div>
-              </div>
-              {locDetail2 && (
-                <div
-                  className="card bg-light mb-3"
-                  style={{ maxWidth: "22rem" }}
-                >
-                  <div className="card-header">
-                    {intl.formatMessage({ id: "chamber.two" })}
-                  </div>
-                  <div className="card-body">
-                    <h5 className="card-title">
-                      {intl.formatMessage({ id: "chamber.contact-info" })}
-                    </h5>
-                    <p className="card-text">
-                      {contact2.split("*").map(contact => (
-                        <>
-                          <a href={"tel:" + contact}>
-                            <FaPhoneSquare size="1.4rem" /> {contact}
-                          </a>
-                          <br />
-                        </>
-                      ))}
-                    </p>
-                    <h5 className="card-title">
-                      {intl.formatMessage({ id: "chamber.location" })}
-                    </h5>
-                    <p className="card-text">
-                      {locDetail2.replace(/\*/g, ",")}
-                    </p>
-                    <h5 className="card-title">
-                      {intl.formatMessage({ id: "chamber.time" })}
-                    </h5>
-                    <p className="card-text">
-                      {visitTime2.replace(/\*/g, ",")}
-                    </p>
-                    <h5 className="card-title">Chamber Protocol</h5>
-                    <p>{Protocol.replace(/\*/g, ",")}</p>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-        <Share />
-        <br />
-        <Ad />
+      <CardSquare data={props.data.doc} />
+        <Ad height={'90px'} />
         <div className="main">
           <div className="med-section">
             <h3 className="text-center">{"You may find helpful"}</h3>
@@ -322,7 +206,6 @@ const Doctor = ({ intl, pageContext, ...props }) => {
             </div>
           </div>
         </div>
-      </Jumbotron>
     </Layout>
   )
 }

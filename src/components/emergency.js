@@ -5,11 +5,11 @@ import Emergency from "../data/emergency.json"
 
 export default function emergency({ snippetVeiw }) {
   return (
-    <div className="p-3">
+    <div className="px-2">
       {snippetVeiw ? (
-        <Alert variant="danger">
-          <p className="text-center">Emergency Numbers</p>
-          <hr />
+        <Alert variant="danger" className="py-0 mb-0">
+          <p className="text-center mb-0">Emergency Numbers</p>
+          <hr className="my-2" />
           <div style={{ overflow: "auto" }} className="text-center">
             {Emergency.map((cat, i) => {
               if (i < 2) {
@@ -21,8 +21,8 @@ export default function emergency({ snippetVeiw }) {
               }
             })}
           </div>
-          <hr />
-          <Link to="/emergency">More...</Link>
+          <hr className="my-2" />
+          <Link to="/emergency" className="btn btn-dark btn-sm mb-2">More...</Link>
         </Alert>
       ) : (
         <ListGroup as="ul">

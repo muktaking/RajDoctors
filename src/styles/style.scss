@@ -168,13 +168,13 @@ main {
     margin: 20px 0px;
   }
   .main {
-    padding: 24px 20px;
+    margin: 15px;
     .med-section {
       .med-card {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-around;
-        margin-top: 30px;
+        justify-content: center;
+        margin-top: 20px;
       }
     }
 

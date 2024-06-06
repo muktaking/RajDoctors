@@ -5,7 +5,7 @@ import React from "react"
 import Ad from "../ad"
 import Doctor from "./doctor"
 
-const Doctors = ({ speciality, data, index }) => {
+const Doctors = ({ data }) => {
   const queryData = useStaticQuery(graphql`
     query {
       all: allDoctorListsCsv {
@@ -14,11 +14,15 @@ const Doctors = ({ speciality, data, index }) => {
           uid
           Name
           Rating
+          Speciality
           Degree
+          Designation
+          Institute
           contact1
           loc1
           visitTime1
           lang
+          Badges
           fields {
             slug
           }
@@ -31,11 +35,15 @@ const Doctors = ({ speciality, data, index }) => {
           uid
           Name
           Rating
+          Speciality
           Degree
+          Designation
+          Institute
           contact1
           loc1
           visitTime1
           lang
+          Badges
           fields {
             slug
           }
@@ -56,20 +64,12 @@ const Doctors = ({ speciality, data, index }) => {
     if (doctorFilterByLocale === undefined) return
     const docCom = (
       <>
-        { i % 2 === 0 && i !== 0 ? (
-          <Ad />
+        { i % 3 === 0 && i !== 0 ? (
+          <Ad height={"90px"} />
         ) : null}
         <Doctor
           key={i}
-          name={doctorFilterByLocale ? doctorFilterByLocale.Name : ""}
-          rating={doctorFilterByLocale.Rating}
-          speciality={doctorFilterByLocale.Degree}
-          contact={doctorFilterByLocale.contact1}
-          location={doctorFilterByLocale.loc1}
-          time={doctorFilterByLocale.visitTime1}
-          link={doctorFilterByLocale.fields.slug}
-          uid={doctorFilterByLocale.uid}
-          index={index}
+          data={doctorFilterByLocale}
         />
       </>
     )

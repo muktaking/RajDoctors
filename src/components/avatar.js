@@ -2,7 +2,8 @@ import React from "react"
 import { graphql, useStaticQuery } from "gatsby"
 import Img from "gatsby-image"
 
-const Avatar = ({ img, height, width }) => {
+const Avatar = (props) => {
+  let { img, height, width } = props
   const data = useStaticQuery(graphql`
     query {
       allImg: allFile(
@@ -53,8 +54,9 @@ const Avatar = ({ img, height, width }) => {
       style={{
         width: imgDefault.width + "px",
         height: imgDefault.height + "px",
-        marginRight: "10px",
+        border: '.3rem solid #FFF'
       }}
+      {...props}
     />
   )
 }

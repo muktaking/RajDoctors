@@ -4,10 +4,9 @@ import Img from "gatsby-image"
 import { useIntl } from "gatsby-plugin-intl"
 import React from "react"
 import { TypeAnimation } from 'react-type-animation';
-import { Button, Dropdown, Nav, NavItem, NavLink } from "react-bootstrap"
-import { FaBars, FaHome, FaInfoCircle, FaMobileAlt } from "react-icons/fa"
+import { Button, Dropdown, DropdownButton, NavItem, NavLink } from "react-bootstrap"
+import { FaBars } from "react-icons/fa"
 import SearchWrapper from "./search/searchWrapper"
-import Ad from "./ad"
 
 export const query = graphql`
   query {
@@ -55,7 +54,7 @@ const Topbar = ({ handleToggleSidebar }) => {
         <SearchWrapper />
       </div>
       
-      <div className="text-center mt-2">
+      <div className="text-center">
         <div className="text-center text-white bg-danger" style={{position: 'fixed', bottom: 0, zIndex: 10, width: '100%' }}>
           <div className="py-1">
             <TypeAnimation
@@ -75,60 +74,33 @@ const Topbar = ({ handleToggleSidebar }) => {
             />
           </div>
         </div>
-        <Link to="/teledoctor#raj-telemed-heading">টেলিমেডিসিন</Link>
       </div>
-      <div className="d-flex flex-wrap justify-content-around align-items-center mt-2 mb-3">
-        {/* <div className="p-1 mb-2 text-center text-white bg-warning">
-          বিজ্ঞাপনের জন্য ফোন করুনঃ 01641622541 / 01521500642 অথবা মেইল করুনঃ
-          contact@rajdoctors.com
-        </div> */}
-        <div className="d-flex justify-content-center">
-          <Button
-            as="a"
-            href= {process.env.GATSBY_GOOGLE_ADD_DOCTOR}
-            target="_blank"
-            variant="outline-primary"
-            size="sm"
-            className="mr-2 mb-xs-2"
-          >
-            Add a New Doctor
-          </Button>
-          <Button
-            as="a"
-            href={process.env.GATSBY_ADD_TELEMEDICINE_DOCTOR}
-            target="_blank"
-            variant="outline-primary"
-            size="sm"
-          >
-            Add a New Telemedicine Doctor
-          </Button>
-          {/* <Button as='a' href='https://forms.gle/kW2NFG9X34suvKXN6' target='_blank' variant='outline-info mb-2'>Ask For an Appointment</Button> */}
-        </div>
-        { process.env.GATSBY_DISTRICT === 'Rajshahi' && <Dropdown as={NavItem} style={{ width: "10rem" }}>
-          <Dropdown.Toggle as={NavLink} className="nav-link">
-            {intl.locale === "en" ? "বাংলাতে দেখুন" : "Change to English"}
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            {intl.locale !== "en" && (
+      <div className="d-flex flex-wrap justify-content-center align-items-center mt-2">
+        <Link to="/teledoctor#raj-telemed-heading" className="btn btn-dark btn-md mb-1 mr-1" style={{fontWeight: '900', fontSize: '.7rem'}}>টেলিমেডিসিন সেবা</Link>
+        <DropdownButton  title="Doctor Registration" variant="dark" size='sm' className="mb-1 mr-1">
+          <Dropdown.Item href= {process.env.GATSBY_GOOGLE_ADD_DOCTOR}> Register A New Doctor</Dropdown.Item>
+          <Dropdown.Item href={process.env.GATSBY_ADD_TELEMEDICINE_DOCTOR}> Register A New Doctor For Telemedicine</Dropdown.Item>
+        </DropdownButton>
+        { process.env.GATSBY_DISTRICT === 'Rajshahi' && <DropdownButton  title={intl.locale === "en" ? "বাংলাতে দেখুন" : "Change to English"} variant="dark" size='sm' className="mb-1">
+        {intl.locale !== "en" && (
               <Dropdown.Item>
                 <Link className="nav-link" to={`/`}>
                   <span className="bg-light text-dark">English</span>
                 </Link>
               </Dropdown.Item>
             )}
-            {intl.locale === "en" && (
+          {intl.locale === "en" && (
               <Dropdown.Item>
                 <Link className="nav-link" to={`/bn/`}>
                   <span className="bg-light text-dark">বাংলা</span>
                 </Link>
               </Dropdown.Item>
             )}
-          </Dropdown.Menu>
-        </Dropdown> }
+        </DropdownButton>}
       </div>
-      <div className="px-1">
+      {/* <div className="px-1">
         {(pathname !== `${locale}/about-us` &&  pathname !== `${locale}/contact-us`) && <Ad isHorizontal={true} />}
-      </div>
+      </div> */}
     </>
   )
 }
