@@ -126,7 +126,7 @@ const Doctor = ({ intl, pageContext, ...props }) => {
   // Internationalization
   //const intl = useIntl()
   //const locale = intl.locale !== "en" ? `/${intl.locale}` : ""
-  props.data.doc =  props.data.doc ?  props.data.doc :  props.data.docCopy
+  props.data.doc = props.data.doc ? props.data.doc : props.data.docCopy
   props.data.docs.nodes.push(...props.data.docsCopy.nodes)
   const {
     uid,
@@ -215,9 +215,8 @@ const Doctor = ({ intl, pageContext, ...props }) => {
           <div className="designation">
             <h5>{intl.formatMessage({ id: "designation" })}</h5>
             <p className="text-muted pl-3">
-              {`${Designation.replace(/\*/, ",")} ${intl.formatMessage({
-                id: "at",
-              })} ${Institute.replace(/\*/, ",")}`}
+              <span>{Designation.replace(/\*/, ",")}</span>
+              <span>{Institute && `at ${Institute.replace(/\*/, ",")}`}</span>
             </p>
           </div>
           <div className="chamber">
