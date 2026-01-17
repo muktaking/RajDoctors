@@ -190,9 +190,21 @@ const IndexPage = () => {
   data.sur.nodes.push(...data.surCopy.nodes)
   data.gy.nodes.push(...data.gyCopy.nodes)
   const gallary = [
-    { title: intl.formatMessage({ id: "tms" }), speciality: 'medicine', data: data.med.nodes },
-    { title: intl.formatMessage({ id: "tss" }), speciality:'surgery', data: data.sur.nodes },
-    { title: intl.formatMessage({ id: "tgs" }), speciality: 'gynaecology', data: data.gy.nodes },
+    {
+      title: intl.formatMessage({ id: "tms" }),
+      speciality: "medicine",
+      data: data.med.nodes,
+    },
+    {
+      title: intl.formatMessage({ id: "tss" }),
+      speciality: "surgery",
+      data: data.sur.nodes,
+    },
+    {
+      title: intl.formatMessage({ id: "tgs" }),
+      speciality: "gynaecology",
+      data: data.gy.nodes,
+    },
   ]
 
   return (
@@ -225,7 +237,6 @@ const IndexPage = () => {
                   ))}
                 </Carousel>
               </div>
-
             </Col>
           </Row>
         </div>
