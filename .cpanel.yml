@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/rajdoct1/mymensingh.rajdoctors.com/
+    - export DEPLOYPATH=/home/monergho/mymensingh.rajdoctors.com/
     - /bin/cp -R public/* $DEPLOYPATH
