@@ -190,9 +190,21 @@ const IndexPage = () => {
   data.sur.nodes.push(...data.surCopy.nodes)
   data.gy.nodes.push(...data.gyCopy.nodes)
   const gallary = [
-    { title: intl.formatMessage({ id: "tms" }), speciality: 'medicine', data: data.med.nodes },
-    { title: intl.formatMessage({ id: "tss" }), speciality:'surgery', data: data.sur.nodes },
-    { title: intl.formatMessage({ id: "tgs" }), speciality: 'gynaecology', data: data.gy.nodes },
+    {
+      title: intl.formatMessage({ id: "tms" }),
+      speciality: "medicine",
+      data: data.med.nodes,
+    },
+    {
+      title: intl.formatMessage({ id: "tss" }),
+      speciality: "surgery",
+      data: data.sur.nodes,
+    },
+    {
+      title: intl.formatMessage({ id: "tgs" }),
+      speciality: "gynaecology",
+      data: data.gy.nodes,
+    },
   ]
 
   return (
@@ -201,7 +213,7 @@ const IndexPage = () => {
       <Container fluid className="p-0">
         <div className="hero">
           <Row noGutters>
-            <Col md={6} className="my-auto">
+            <Col md={12} className="my-auto">
               <div className="text-center">
                 <h1 className="text-uppercase">
                   {intl.formatMessage({ id: "siteMetaData.title" })}
@@ -212,7 +224,7 @@ const IndexPage = () => {
                 <Share />
               </div>
             </Col>
-            <Col md={6}>
+            {/* <Col md={6}>
               <div className="mt-3">
                 <Carousel className="">
                   {data.carouselImg.edges.map(edge => (
@@ -226,7 +238,7 @@ const IndexPage = () => {
                 </Carousel>
               </div>
 
-            </Col>
+            </Col> */}
           </Row>
         </div>
         <hr className="w-75" />
