@@ -111,6 +111,12 @@ body {
   align-items: center;
   box-shadow: none;
 }
+.search:focus-within {
+  @include md-focus-ring;
+}
+.wrapper .search-input:focus-visible {
+  outline: none;
+}
 .search-input {
   color: $md-on-surface;
   margin-top: 0;
@@ -749,6 +755,17 @@ main .main .med-section .med-card > .speciality {
 }
 
 @media (max-width: $md-mobile) {
+  .search-inner-wrapper {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 4px;
+    width: 100%;
+    max-width: 420px;
+  }
+  .search {
+    flex: 1 1 240px;
+    min-width: 0;
+  }
   main .hero {
     margin: 12px;
     padding: 24px 12px;
