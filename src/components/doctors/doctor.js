@@ -1,16 +1,10 @@
 import PropTypes from "prop-types"
 import React from "react"
-import CardTopComponent from "../cards/card-top-component"
+import DoctorMiniCard from "../doctor-page/doctor-mini-card"
 
-const Doctor = ({
-  data
-}) => {
-  return (
-    <div className="mr-2 mb-2">
-      <CardTopComponent data={data} avatarHeight={60} avaterWidth={60} avatarTop={'-5px'} isSnippet={true} />
-    </div>
-  )
-}
+// One card in a doctor list (home, all doctors, speciality pages). Same compact
+// card as "You may find helpful" on the doctor page.
+const Doctor = ({ data }) => <DoctorMiniCard data={data} />
 
 Doctor.propTypes = {
   data: PropTypes.object,

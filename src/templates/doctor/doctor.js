@@ -49,10 +49,14 @@ export const query = graphql`
         slug
       }
     }
-    # "You may find helpful": same speciality in this district, main list
+    # "You may find helpful": same speciality in this district (not this doctor), main list
     # first, then isNew rows, each by rating.
     docs: allDoctor(
-      filter: { district: { eq: $district }, specialty: { eq: $specialty } }
+      filter: {
+        district: { eq: $district }
+        specialty: { eq: $specialty }
+        doctorId: { ne: $doctorId }
+      }
       sort: [{ isNew: ASC }, { rating: DESC }]
       limit: 6
     ) {
