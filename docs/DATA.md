@@ -38,6 +38,10 @@ Conventions:
 
 * `*` stands for a comma (commas inside a cell are allowed too if the cell is
   quoted, but the existing data uses `*`).
+* Keep every value in its own column. Bangla rows were once found "shifted"
+  (e.g. the address in `chamber2Name`, the visiting time in `chamber2Address`,
+  the phone in `chamber2VisitTime`); compare with the `en` row of the same
+  `doctorId` when something looks wrong on a page.
 * Row order matters: if two rows produce the same URL, the **first** row wins
   and later ones are skipped with a build warning (`Duplicate doctor slug`).
 * The current data contains 3 completely blank rows; they produce the empty
@@ -54,9 +58,8 @@ Text fields (`name`, `specialty`, `degrees`, `designation`, `institute`, `fee`,
 * `clinicalExpertise: [String!]!` – list items
 * `isNew: Boolean!`
 * `chambers: [DoctorChamber!]!` – `{ number, name, address, phone, phones, visitTime, hours, days, offDays }`,
-  cleaned, with `phones` split into a list. Chamber 1 is listed when it has any
-  data; chamber 2 only when it has a phone number (the rule the site always
-  used; `SHOW_CHAMBER2_WITHOUT_PHONE` in `gatsby-node.js` changes it).
+  cleaned, with `phones` split into a list. A chamber is listed when it has a
+  name, address, phone or visiting time (empty chambers are skipped).
 * `raw { … }` – every column exactly as written in the CSV.
 * `fields.slug` – URL slug.
 

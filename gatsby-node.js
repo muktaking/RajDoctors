@@ -44,7 +44,6 @@ const RAW_FIELDS = [
   ...[1, 2].flatMap(n => CHAMBER_PARTS.map(p => `chamber${n}${p}`)),
   ...CLEAN_FIELDS,
 ]
-const SHOW_CHAMBER2_WITHOUT_PHONE = false
 const chambersOf = source =>
   [1, 2]
     .map(n => {
@@ -61,15 +60,8 @@ const chambersOf = source =>
         offDays: cleanText(get("OffDays")),
       }
     })
-    // Chamber 1 is listed when it has any data. Chamber 2 is listed only when
-    // it has a phone number: that is the rule the site always used, and some
-    // rows hold unpublished chamber-2 details (e.g. a residence) without a
-    // phone. Set SHOW_CHAMBER2_WITHOUT_PHONE to true to publish those as well.
-    .filter(c =>
-      c.number === 1 || SHOW_CHAMBER2_WITHOUT_PHONE
-        ? c.name || c.address || c.phone || c.visitTime || c.hours
-        : c.phone
-    )
+    // A chamber is listed when it has a name, address, phone or time.
+    .filter(c => c.name || c.address || c.phone || c.visitTime || c.hours)
 
 module.exports.createSchemaCustomization = ({ actions, schema }) => {
   const { createTypes } = actions
