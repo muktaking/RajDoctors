@@ -79,6 +79,22 @@ class Search extends Component {
 
   t = id => this.props.intl.formatMessage({ id })
 
+  scopeToggle() {
+    if (!this.props.district) return null
+    return (
+      <li className="search-panel__scope">
+        <label className="search-scope search-all">
+          <input
+            type="checkbox"
+            checked={this.state.all}
+            onChange={e => this.setState({ all: e.target.checked }, () => this.runSearch(this.state.query))}
+          />
+          {this.t("district.searchAll")}
+        </label>
+      </li>
+    )
+  }
+
   renderPanel() {
     const { show, query, results, specialties, recent } = this.state
     if (!show) return null
@@ -86,6 +102,7 @@ class Search extends Component {
     if (!query && recent.length > 0) {
       return (
         <ul className="search-panel">
+          {this.scopeToggle()}
           <li className="search-panel__head">
             <MdHistory aria-hidden="true" /> {this.t("nav.recent")}
           </li>
@@ -100,9 +117,13 @@ class Search extends Component {
         </ul>
       )
     }
-    if (!query || (results.length === 0 && specialties.length === 0)) return null
+    if (!query || (results.length === 0 && specialties.length === 0)) {
+      const toggle = this.scopeToggle()
+      return toggle && <ul className="search-panel">{toggle}</ul>
+    }
     return (
       <ul className="search-panel">
+        {this.scopeToggle()}
         {base && specialties.length > 0 && (
           <li className="search-panel__specs">
             <span className="search-panel__label">{this.t("nav.specialties")}:</span>
@@ -162,8 +183,8 @@ class Search extends Component {
         onKeyDown={e => {
           if (e.key === "Escape" && this.state.show && !this.props.overlay) {
             e.stopPropagation()
+            e.preventDefault() // keep the query (type=search would clear it)
             this.close()
-            this.input.current.focus()
           }
         }}
       >
@@ -177,22 +198,11 @@ class Search extends Component {
             placeholder={this.t("search")}
             aria-label={this.t("search")}
             autoComplete="off"
+            data-autofocus={this.props.autoFocus ? "" : undefined}
             onChange={this.search}
             onFocus={this.open}
             onClick={() => !this.state.show && this.open()}
           />
-          {this.props.district && (
-            <label className="search-scope search-all" title={this.t("district.searchAll")}>
-              <input
-                type="checkbox"
-                checked={this.state.all}
-                onChange={e =>
-                  this.setState({ all: e.target.checked }, () => this.runSearch(this.state.query))
-                }
-              />
-              {this.t("district.searchAll")}
-            </label>
-          )}
         </div>
         {this.renderPanel()}
       </div>

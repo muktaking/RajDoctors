@@ -134,7 +134,7 @@ const Doctor = ({ intl, pageContext, ...props }) => {
       <Breadcrumbs
         items={[
           { label: districtName(intl, district), to: `/${district.slug}/` },
-          {
+          specialty && {
             label: intl.formatMessage({ id: specialty }),
             to: flatMenu.some(s => s.toLowerCase() === (specialty || "").toLowerCase())
               ? `/${district.slug}/speciality/${specialty.toLowerCase()}/`

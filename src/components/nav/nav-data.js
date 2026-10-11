@@ -10,19 +10,20 @@ export function useSpecialtyCounts() {
   const data = useStaticQuery(graphql`
     query NavSpecialtyCounts {
       allDoctor {
-        group(field: { district: SELECT }) {
+        group(field: { specialty: SELECT }) {
           fieldValue
-          group(field: { specialty: SELECT }) {
-            fieldValue
-            totalCount
-          }
+          distinct(field: { district: SELECT })
         }
       }
     }
   `)
+  // { rajshahi: { Medicine: true, ... }, ... }
   const out = {}
-  data.allDoctor.group.forEach(d => {
-    out[d.fieldValue] = Object.fromEntries(d.group.map(s => [s.fieldValue, s.totalCount]))
+  data.allDoctor.group.forEach(s => {
+    s.distinct.forEach(d => {
+      out[d] = out[d] || {}
+      out[d][(s.fieldValue || "").toLowerCase()] = true
+    })
   })
   return out
 }
@@ -33,7 +34,7 @@ export function useSpecialtyCounts() {
  */
 export function useSpecialtyGroups(district) {
   const counts = useSpecialtyCounts()
-  const has = s => !district || (counts[district.slug] && counts[district.slug][s] > 0)
+  const has = s => !district || (counts[district.slug] && counts[district.slug][s.toLowerCase()])
   const groups = []
   const singles = []
   Object.entries(menu).forEach(([group, items]) => {

@@ -85,6 +85,7 @@ function SpecialtyMenu({ nav, active }) {
       icon={<MdApps aria-hidden="true" />}
       className={`nav-link${active ? " is-active" : ""}`}
       panelClassName="nav-mega"
+      wrapClass="nav-pop--static"
       align="end"
     >
       <div className="nav-mega__grid">
@@ -175,7 +176,8 @@ export default function AppBar() {
             <SpecialtyMenu nav={nav} active={is("/speciality/")} />
             <Link
               to="/teledoctor/"
-              className={`nav-link${path.startsWith("/teledoctor/") ? " is-active" : ""}`}
+              className={`nav-link nav-link--compact${path.startsWith("/teledoctor/") ? " is-active" : ""}`}
+              title={t("nav.telemedicine")}
               aria-current={cur(path.startsWith("/teledoctor/"))}
             >
               <MdVideoCall aria-hidden="true" />
@@ -183,7 +185,8 @@ export default function AppBar() {
             </Link>
             <Link
               to={to("/emergency/")}
-              className={`nav-link nav-link--emergency${is("/emergency/") ? " is-active" : ""}`}
+              className={`nav-link nav-link--compact nav-link--emergency${is("/emergency/") ? " is-active" : ""}`}
+              title={t("nav.emergency")}
               aria-current={cur(is("/emergency/"))}
             >
               <MdLocalHospital aria-hidden="true" />
@@ -192,7 +195,7 @@ export default function AppBar() {
             {showLanguage(district) && (
               <LanguageLink>
                 {({ href, other }) => (
-                  <PlainLink to={href} className="nav-link nav-lang" hrefLang={other} lang={other}>
+                  <PlainLink to={href} className="nav-link nav-link--compact nav-lang" hrefLang={other} lang={other} title={other === "bn" ? "বাংলা" : "English"}>
                     <MdTranslate aria-hidden="true" />
                     <span>{other === "bn" ? "বাংলা" : "English"}</span>
                   </PlainLink>

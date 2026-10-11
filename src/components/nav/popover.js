@@ -8,7 +8,7 @@ let uid = 0
  * Button + dropdown panel. Keyboard: Enter/Space/ArrowDown opens and focuses
  * the first item, arrows move, Esc closes and returns focus to the button.
  */
-export default function Popover({ label, icon, className = "", panelClassName = "", ariaLabel, align = "start", children, chevron = true }) {
+export default function Popover({ label, icon, className = "", panelClassName = "", ariaLabel, align = "start", children, chevron = true, wrapClass = "" }) {
   const [open, setOpen] = useState(false)
   const btn = useRef(null)
   const panel = useRef(null)
@@ -16,7 +16,7 @@ export default function Popover({ label, icon, className = "", panelClassName = 
   const close = () => setOpen(false)
   useDismiss(open, close, { ref: panel, ignoreRef: btn, returnRef: btn })
   return (
-    <div className={`nav-pop${open ? " is-open" : ""}`}>
+    <div className={`nav-pop ${wrapClass}${open ? " is-open" : ""}`}>
       <button
         ref={btn}
         type="button"

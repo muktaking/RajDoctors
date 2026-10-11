@@ -2,7 +2,7 @@
 // announcement banner and breadcrumbs (components/nav/*).
 // Imported by site.scss.
 
-$nav-max: 1200px;
+$nav-max: 1280px;
 
 // Normal document scrolling (the old sidebar layout scrolled #content).
 // `clip` keeps horizontal overflow hidden without breaking position: sticky.
@@ -41,6 +41,7 @@ $nav-max: 1200px;
   font-family: $md-font-stack;
 }
 .nav-bar__inner {
+  position: relative;
   max-width: $nav-max;
   margin: 0 auto;
   height: $nav-bar-h;
@@ -82,6 +83,14 @@ $nav-max: 1200px;
 .nav-pop {
   position: relative;
   flex: none;
+  // mega-menu: panel aligns to the app bar, not to its button
+  &--static {
+    position: static;
+    > .nav-pop__panel {
+      right: 16px;
+      top: calc(100% - 4px);
+    }
+  }
 }
 .nav-pop__btn {
   @extend %nav-reset-btn;
@@ -215,8 +224,8 @@ $nav-max: 1200px;
 // ---- search --------------------------------------------------------------------
 .nav-search {
   flex: 1 1 auto;
-  min-width: 160px;
-  max-width: 460px;
+  min-width: 140px;
+  max-width: 440px;
   margin: 0 8px;
 }
 .search-inner-wrapper {
@@ -251,18 +260,26 @@ $nav-max: 1200px;
   color: $md-on-surface;
   font-size: 0.95rem;
   outline: none;
+  &:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border: 0 !important;
+  }
   &::-webkit-search-cancel-button {
     cursor: pointer;
   }
 }
+.search-panel__scope {
+  padding: 4px 12px 8px;
+  border-bottom: 1px solid $md-outline-variant;
+  margin-bottom: 4px;
+}
 .search-all {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   margin: 0;
-  font-size: 0.72rem;
-  line-height: 1.1;
-  max-width: 76px;
+  font-size: 0.85rem;
   color: $md-on-surface-variant;
   cursor: pointer;
   input {
@@ -316,6 +333,20 @@ $nav-max: 1200px;
   padding: 6px 12px 10px;
   border-bottom: 1px solid $md-outline-variant;
   margin-bottom: 4px;
+}
+.search-panel__specs .dp-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 2px 12px;
+  border-radius: $md-radius-xs;
+  background: $md-primary-container;
+  color: $md-on-primary-container !important;
+  font-size: 0.85rem;
+  text-decoration: none !important;
+  &:focus-visible {
+    @include md-focus-ring;
+  }
 }
 .search-panel__label {
   font-size: 0.78rem;
@@ -394,16 +425,29 @@ $nav-max: 1200px;
     font-size: 18px;
   }
 }
-// tight desktop widths: icon-only links (text stays for screen readers)
-@media (min-width: $nav-desktop) and (max-width: 1239px) {
+// Narrower desktops: Telemedicine / Emergency / language become icon buttons
+// (title tooltip; the text stays for screen readers), below 1180px all links.
+@mixin nav-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+@media (min-width: $nav-desktop) and (max-width: 1439px) {
+  .nav-link--compact {
+    padding: 0 10px !important;
+    span {
+      @include nav-sr-only;
+    }
+  }
+}
+@media (min-width: $nav-desktop) and (max-width: 1179px) {
   .nav-links > .nav-link span,
-  .nav-links > .nav-pop .nav-link .nav-pop__label {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    white-space: nowrap;
+  .nav-links > .nav-pop .nav-link .nav-pop__label,
+  .nav-logo__text {
+    @include nav-sr-only;
   }
   .nav-link {
     padding: 0 10px !important;
