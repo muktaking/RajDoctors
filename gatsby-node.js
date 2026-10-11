@@ -339,7 +339,7 @@ module.exports.createPages = async ({ graphql, actions, reporter }) => {
     createPage({
       component: tpl("district/home.js"),
       path: `/${d}/`,
-      context: { ...base, emergency },
+      context: base, // (emergency numbers card removed from the home page)
     })
     createPage({
       component: tpl("district/emergency.js"),

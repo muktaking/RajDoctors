@@ -723,3 +723,81 @@ $nav-max: 1280px;
     transition: none;
   }
 }
+
+// ---- ad slots (components/ad.js, docs/ADS.md) ---------------------------------
+.ad-slot {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  max-width: 970px;
+  margin: 24px auto;
+  padding: 8px 12px 12px;
+  border-radius: $md-radius;
+  background: $md-surface;
+  border: 1px solid $md-outline-variant;
+  font-family: $md-font-stack;
+  overflow: hidden;
+  // reserved height for label + ad: no layout shift while it loads
+  min-height: calc(var(--ad-h, 120px) + 30px);
+}
+.ad-slot__label {
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: $md-on-surface-variant;
+  line-height: 1;
+}
+.ad-slot__ins,
+.ad-slot__placeholder {
+  width: 100%;
+  height: var(--ad-h, 120px);
+}
+.ad-slot__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $md-radius-xs;
+  border: 1px dashed $md-outline;
+  background: repeating-linear-gradient(45deg, $md-surface-container, $md-surface-container 10px, $md-background 10px, $md-background 20px);
+  color: $md-on-surface-variant;
+  font-size: 0.8rem;
+}
+// AdSense: hide unfilled slots (JS also removes them; :has covers the gap)
+.ad-slot:has(ins[data-ad-status="unfilled"]) {
+  display: none;
+}
+// in-feed: spans the whole card grid row
+.med-card > .ad-slot--row {
+  grid-column: 1 / -1;
+  margin: 8px 0;
+  max-width: none;
+}
+.ad-slot--section {
+  margin: 32px auto;
+  width: calc(100% - 32px);
+}
+.ad-slot--footer {
+  margin: 32px auto 24px;
+  width: calc(100% - 32px);
+}
+.dp-aside > .ad-slot--aside {
+  margin: 0;
+  max-width: none;
+}
+// doctor page: generous gap from the chamber cards' call buttons
+.dp-ad-mobile {
+  max-width: 1100px;
+  width: calc(100% - 32px);
+  margin: 32px auto 8px;
+}
+@media (max-width: 991px) {
+  .ad-only-desktop {
+    display: none !important;
+  }
+}
+@media (min-width: 992px) {
+  .ad-only-mobile {
+    display: none !important;
+  }
+}

@@ -21,7 +21,7 @@ const DoctorsWrapper = ({ data, currentPage, pageCount }) => {
         <h3 className="text-center">{districtMessage(intl, "adl", district)}</h3>
         <div className="divider"></div>
         <div className="med-card">
-          <Doctors data={data.all.nodes} />
+          <Doctors data={data.all.nodes} ad />
         </div>
       </div>
       <div className="d-flex justify-content-center">

@@ -3,6 +3,7 @@ import { injectIntl } from "gatsby-plugin-intl"
 import React from "react"
 //importing components
 import RelatedDoctors from "../../components/doctor-page/related-doctors"
+import Ad from "../../components/ad"
 import Layout from "../../components/layout"
 import SEO from "../../components/seo"
 import CardSquare from "../../components/cards/cardSquare"
@@ -145,6 +146,8 @@ const Doctor = ({ intl, pageContext, ...props }) => {
       />
       <div className="dp">
         <CardSquare data={doc} />
+        {/* phones/tablets: after the chambers, before "You may find helpful" */}
+        <Ad variant="block" className="ad-only-mobile dp-ad-mobile" />
         <RelatedDoctors data={docs} />
       </div>
     </Layout>

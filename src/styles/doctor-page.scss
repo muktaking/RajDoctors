@@ -233,21 +233,6 @@
     outline-offset: 2px;
   }
 }
-.dp-ad {
-  border-radius: $dp-radius-sm;
-  overflow: hidden;
-  // the Ad component's own white bordered box
-  > div {
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-  .border {
-    border-color: $dp-outline-variant !important;
-    border-radius: $dp-radius-sm;
-    background: transparent !important;
-  }
-}
-
 // ---- related doctors --------------------------------------------------------
 .dp-related {
   max-width: 1100px;

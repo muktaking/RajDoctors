@@ -103,5 +103,8 @@
     "breadcrumb": "Breadcrumb",
     "announcement": "Announcement",
     "dismiss": "Close"
+  },
+  "ad": {
+    "label": "Advertisement"
   }
 }

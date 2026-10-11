@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import Ad from "../components/ad"
 
 const About = () => {
   // Making useIntl available in the code
@@ -71,6 +72,8 @@ const About = () => {
           </div>
         </div>
       </div>
+      {/* one ad above the footer */}
+      <Ad variant="block" className="ad-slot--footer" />
     </Layout>
   )
 }

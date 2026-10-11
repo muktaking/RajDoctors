@@ -5,6 +5,7 @@ import React from "react"
 import { Badge, Card, Col, Container, Row } from "react-bootstrap"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import Ad from "../components/ad"
 //imports components
 
 export const query = graphql`
@@ -103,6 +104,8 @@ const TeleDocs = ({ intl,...props }) => {
           
         </div>
       </Container>
+      {/* one ad above the footer */}
+      <Ad variant="block" className="ad-slot--footer" />
     </Layout>
   )
 }

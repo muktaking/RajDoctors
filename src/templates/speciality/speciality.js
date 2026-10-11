@@ -41,7 +41,7 @@ const Speciality = ({ speciality, doctors }) => {
           </h3>
           <div className="divider"></div>
           <div className="med-card">
-            <Doctors data={doctorsList} />
+            <Doctors data={doctorsList} ad />
           </div>
         </div>
         <div className="d-flex justify-content-center">

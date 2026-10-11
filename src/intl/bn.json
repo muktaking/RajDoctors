@@ -174,5 +174,8 @@
     "breadcrumb": "ব্রেডক্রাম্ব",
     "announcement": "ঘোষণা",
     "dismiss": "বন্ধ করুন"
+  },
+  "ad": {
+    "label": "বিজ্ঞাপন"
   }
 }

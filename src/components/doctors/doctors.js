@@ -8,8 +8,17 @@ import Doctor from "./doctor"
 //   localized(lang: $language, fallback: true) { ...DoctorCard }
 // i.e. each doctor's row in the page language (or the row itself when the
 // district has no row in that language, e.g. Bangla on /bn/dhaka/).
-const Doctors = ({ data }) => {
+// `ad`: one in-feed ad after the first full block of cards (6, or all of
+// them when the page lists 3-5); never more than one per list.
+const AD_AFTER = 6
+const Doctors = ({ data, ad = false }) => {
   useIntl()
+  const shown = data.filter(d => {
+    const c = d && ("localized" in d ? d.localized : d)
+    return c && c.fields
+  }).length
+  const adAt = ad && shown >= 3 ? Math.min(AD_AFTER, shown) : -1
+  let n = 0
   return data.map((doctor, i) => {
     // localized is null when the doctor has no row in the page language
     // (only happens in districts that do have rows in that language): skip it
@@ -17,8 +26,8 @@ const Doctors = ({ data }) => {
     if (!card || !card.fields) return null
     return (
       <React.Fragment key={card.id || i}>
-        {i % 3 === 0 && i !== 0 ? <Ad height={"90px"} /> : null}
         <Doctor data={card} />
+        {++n === adAt ? <Ad variant="infeed" className="ad-slot--row" /> : null}
       </React.Fragment>
     )
   })
@@ -27,6 +36,7 @@ const Doctors = ({ data }) => {
 Doctors.propTypes = {
   data: PropTypes.array,
   index: PropTypes.bool, // is it index page or not
+  ad: PropTypes.bool, // show the in-feed ad
 }
 
 export default Doctors
