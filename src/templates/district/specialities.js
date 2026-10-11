@@ -10,7 +10,8 @@ import SEO from "../../components/seo"
 
 //imports utils
 import { flatMenu } from "../../utils/meta.data"
-import { districtMessage, districtPath, useDistrict } from "../../utils/district"
+import { districtMessage, districtName, districtPath, useDistrict } from "../../utils/district"
+import Breadcrumbs from "../../components/nav/breadcrumbs"
 
 // /<district>/speciality/: every speciality with its number of doctor rows.
 export const query = graphql`
@@ -61,6 +62,7 @@ const Speciality = ({ data }) => {
           intl.formatMessage({ id: "more" })
         }
       />
+      <Breadcrumbs items={[{ label: districtName(intl, district), to: `/${district.slug}/` }, { label: intl.formatMessage({ id: "nav.specialties" }), to: `/${district.slug}/speciality/` }]} />
       <Container fluid className="p-0">
         <div className="hero non-landing">
           <Row noGutters>

@@ -8,6 +8,7 @@ import Emergency from "../../components/emergency"
 import Layout from "../../components/layout"
 import SEO from "../../components/seo"
 import { districtName, useDistrict } from "../../utils/district"
+import Breadcrumbs from "../../components/nav/breadcrumbs"
 
 export const query = graphql`
   query {
@@ -35,6 +36,7 @@ const EmergencyPage = ({ data, pageContext }) => {
         description="all emergency numbers including ambulence of fireservice , public and private hospitals and clinic"
         useDefault={false}
       />
+      <Breadcrumbs items={[{ label: districtName(intl, district), to: `/${district.slug}/` }, { label: intl.formatMessage({ id: "nav.emergency" }), to: `/${district.slug}/emergency/` }]} />
       <Container fluid className="p-0">
         <div className="hero non-landing">
           <Row noGutters>

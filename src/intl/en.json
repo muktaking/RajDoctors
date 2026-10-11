@@ -87,5 +87,21 @@
     "toolbar": "Quick links",
     "goHome": "Go to home",
     "callNumber": "Call {phone}"
+  },
+  "nav": {
+    "main": "Main navigation",
+    "district": "District",
+    "chooseDistrict": "Choose district",
+    "doctors": "Doctors",
+    "specialties": "Specialties",
+    "allSpecialties": "All specialties",
+    "telemedicine": "Telemedicine",
+    "emergency": "Emergency",
+    "register": "Register as doctor",
+    "more": "More",
+    "recent": "Recently viewed",
+    "breadcrumb": "Breadcrumb",
+    "announcement": "Announcement",
+    "dismiss": "Close"
   }
 }

@@ -2,6 +2,7 @@ import React from "react"
 import { withPrefix } from "gatsby"
 import Search from "./search"
 import { ENABLED_DISTRICTS, useDistrict } from "../../utils/district"
+import { useLinkDistrict } from "../../utils/nav-state"
 
 // The search indexes are static files written by gatsby-node.js
 // (public/search/<district>.json); they are fetched the first time the search
@@ -18,17 +19,19 @@ export const loadIndex = slug => {
   return indexCache[slug]
 }
 
-const Header = () => {
+const SearchWrapper = ({ autoFocus, overlay }) => {
   const district = useDistrict() // null on global pages -> search all districts
+  const linkDistrict = useLinkDistrict(district) // for speciality suggestions
   return (
-    <div className="">
-      <Search
-        district={district}
-        districts={ENABLED_DISTRICTS}
-        loadIndex={loadIndex}
-      />
-    </div>
+    <Search
+      district={district}
+      linkDistrict={linkDistrict}
+      districts={ENABLED_DISTRICTS}
+      loadIndex={loadIndex}
+      autoFocus={autoFocus}
+      overlay={overlay}
+    />
   )
 }
 
-export default Header
+export default SearchWrapper

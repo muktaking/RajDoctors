@@ -6,7 +6,10 @@ import RelatedDoctors from "../../components/doctor-page/related-doctors"
 import Layout from "../../components/layout"
 import SEO from "../../components/seo"
 import CardSquare from "../../components/cards/cardSquare"
-import { districtMessage, districtPath, useDistrict } from "../../utils/district"
+import { districtMessage, districtName, districtPath, useDistrict } from "../../utils/district"
+import Breadcrumbs from "../../components/nav/breadcrumbs"
+import { flatMenu } from "../../utils/meta.data"
+import { rememberDoctor } from "../../utils/nav-state"
 
 // district + doctorId + lang identify one row of src/data/doctors/<district>.csv
 // (page context set in gatsby-node.js). Text fields are already cleaned
@@ -91,6 +94,10 @@ const Doctor = ({ intl, pageContext, ...props }) => {
   const chamber2 = chamber(2)
 
   const docs = props.data.docs.nodes
+  // "recently viewed" list of the search box
+  React.useEffect(() => {
+    rememberDoctor({ name, specialty, path: `/${district.slug}/doctor/${fields.slug}/` })
+  }, [name, specialty, district.slug, fields.slug])
   const schema = `
 {
   "@context": "https://schema.org/",
@@ -123,6 +130,18 @@ const Doctor = ({ intl, pageContext, ...props }) => {
           id: "chamber.time",
         })}: ${chamber1.visitTime || ""} ${districtMessage(intl, "arcib", district)}`}
         schema={schema}
+      />
+      <Breadcrumbs
+        items={[
+          { label: districtName(intl, district), to: `/${district.slug}/` },
+          {
+            label: intl.formatMessage({ id: specialty }),
+            to: flatMenu.some(s => s.toLowerCase() === (specialty || "").toLowerCase())
+              ? `/${district.slug}/speciality/${specialty.toLowerCase()}/`
+              : `/${district.slug}/speciality/`,
+          },
+          { label: name, to: `/${district.slug}/doctor/${fields.slug}/` },
+        ]}
       />
       <div className="dp">
         <CardSquare data={doc} />

@@ -26,6 +26,9 @@ $md-radius-xs: 8px;
 $md-elev-1: 0 1px 2px rgba(0, 0, 0, 0.08), 0 1px 3px 1px rgba(0, 0, 0, 0.05);
 $md-elev-2: 0 1px 2px rgba(0, 0, 0, 0.1), 0 2px 6px 2px rgba(0, 0, 0, 0.06);
 $md-mobile: 767px;
+$nav-bar-h: 64px; // top app bar
+$nav-bottom-h: 64px; // mobile navigation bar (without safe-area inset)
+$nav-desktop: 992px;
 $md-font-stack: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Bengali",
   "Hind Siliguri", "SolaimanLipi", "Vrinda", "Helvetica Neue", Arial, sans-serif;
 

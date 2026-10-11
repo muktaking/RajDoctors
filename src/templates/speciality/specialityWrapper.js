@@ -6,7 +6,8 @@ import Layout from "../../components/layout"
 import SEO from "../../components/seo"
 import { menuWithSynonyms } from "../../utils/meta.data"
 import Speciality from "./speciality"
-import { districtMessage, districtPath, useDistrict } from "../../utils/district"
+import { districtMessage, districtName, districtPath, useDistrict } from "../../utils/district"
+import Breadcrumbs from "../../components/nav/breadcrumbs"
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
@@ -100,6 +101,13 @@ const SpecialityWrapper = ({ pageContext, data }) => {
           }),
           top3,
         ].join(" ")}
+      />
+      <Breadcrumbs
+        items={[
+          { label: districtName(intl, district), to: `/${district.slug}/` },
+          { label: intl.formatMessage({ id: "nav.specialties" }), to: `/${district.slug}/speciality/` },
+          { label: intl.formatMessage({ id: capitalizeFirstLetter(speciality) }), to: `/${district.slug}/speciality/${pageContext.specialty.toLowerCase()}/` },
+        ]}
       />
       <Speciality
         speciality={speciality}

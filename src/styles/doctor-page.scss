@@ -324,14 +324,13 @@
   .dp-section-title {
     font-size: 1.1rem;
   }
-  // Sticky call button above the fixed telemedicine ticker, leaving room for
-  // the sidebar toggle (48px at right: 15px) on the right.
+  // Sticky call button just above the bottom navigation bar (nav.scss).
   .dp-callbar {
     display: block;
     position: fixed;
     left: 12px;
-    right: 75px;
-    bottom: 34px;
+    right: 12px;
+    bottom: calc(#{$nav-bottom-h} + 10px + env(safe-area-inset-bottom, 0px));
     z-index: 900;
     .dp-btn {
       min-height: 48px;

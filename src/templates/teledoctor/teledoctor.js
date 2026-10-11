@@ -7,6 +7,7 @@ import { Badge, Card, Col, Container, Row } from "react-bootstrap"
 import Layout from "../../components/layout"
 import SEO from "../../components/seo"
 import Share from "../../components/share"
+import Breadcrumbs from "../../components/nav/breadcrumbs"
 
 export const query = graphql`
   query($id: String!) {
@@ -70,6 +71,12 @@ const TeleDoc = ({ intl, pageContext, ...props }) => {
         })}`}
       />
       <hr />
+      <Breadcrumbs
+        items={[
+          { label: intl.formatMessage({ id: "nav.telemedicine" }), to: "/teledoctor/" },
+          { label: "Dr. " + name, to: `/teledoctor/${id}/` },
+        ]}
+      />
       <Container fluid className="md-page">
         {/* <div className="hero non-landing">
           <Row noGutters>

@@ -7,7 +7,8 @@ import DoctorsWrapper from "../../components/doctors/doctorsWrapper"
 //imports components
 import Layout from "../../components/layout"
 import SEO from "../../components/seo"
-import { districtMessage, districtPath, useDistrict } from "../../utils/district"
+import { districtMessage, districtName, districtPath, useDistrict } from "../../utils/district"
+import Breadcrumbs from "../../components/nav/breadcrumbs"
 
 // /<district>/doctors/ and /<district>/doctors/<n>/ (gatsby-node.js decides the
 // order and passes the ids shown on this page plus the 3 used in the schema).
@@ -85,6 +86,7 @@ const Doctors = ({ data, pageContext }) => {
         description={districtMessage(intl, "seo.doctors.des", district)}
         useDefault={false}
       />
+      <Breadcrumbs items={[{ label: districtName(intl, district), to: `/${district.slug}/` }, { label: intl.formatMessage({ id: "nav.doctors" }), to: `/${district.slug}/doctors/` }]} />
       <Container fluid className="p-0">
         <div className="hero non-landing">
           <Row noGutters>
