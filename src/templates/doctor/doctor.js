@@ -35,6 +35,7 @@ export const query = graphql`
       Protocol
       Fee
       Badges
+      ClinicalExpertise
     }
     docCopy: doctorListsCopyCsv(uid: { eq: $uid }, lang: { eq: $lang }) {
       uid
@@ -59,6 +60,7 @@ export const query = graphql`
       Protocol
       Fee
       Badges
+      ClinicalExpertise
     }
     docs: allDoctorListsCsv(sort: { fields: Rating, order: DESC }) {
       nodes {

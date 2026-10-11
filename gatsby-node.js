@@ -7,6 +7,19 @@
 // You can delete this file if you're not using it
 const path = require("path")
 const flatMenu = require("./src/utils/meta.data").flatMenu
+// Explicit types so ClinicalExpertise is always a String field, even when every
+// row in a CSV leaves it empty (Gatsby would otherwise not infer the field).
+module.exports.createSchemaCustomization = ({ actions }) => {
+  actions.createTypes(`
+    type DoctorListsCsv implements Node @infer {
+      ClinicalExpertise: String
+    }
+    type DoctorListsCopyCsv implements Node @infer {
+      ClinicalExpertise: String
+    }
+  `)
+}
+
 module.exports.onCreateNode = ({ node, actions }) => {
   const { createNode, createNodeField } = actions
   if (node.internal.type === "DoctorListsCsv" || node.internal.type === "DoctorListsCopyCsv") {

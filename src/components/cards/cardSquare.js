@@ -3,6 +3,7 @@ import { Col, Container, Row } from 'react-bootstrap'
 import CardTopComponent from './card-top-component'
 import CardChamberInfo from './Card-chamber-info'
 import CardReview from './card-review'
+import CardClinicalExpertise from './card-clinical-expertise'
 
 export default function CardSquare({data}) {
   return (
@@ -10,6 +11,7 @@ export default function CardSquare({data}) {
       <Row>
         <Col xs={12} md={6} className='p-1'>
           <CardTopComponent data={data} />
+          <CardClinicalExpertise text={data.ClinicalExpertise} />
         </Col>
         <Col xs={12} md={{order: 'last'}} className='p-1'>
           <CardChamberInfo data={data} />
