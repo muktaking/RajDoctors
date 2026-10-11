@@ -144,5 +144,11 @@
     "searchAll": "সকল জেলায় খুঁজুন",
     "division": "{division} বিভাগ",
     "page": "পৃষ্ঠা {page} / {pages}"
+  },
+  "doctorPage": {
+    "call": "কল করুন",
+    "callForSerial": "সিরিয়ালের জন্য কল",
+    "callNumber": "{phone} নম্বরে কল করুন",
+    "share": "শেয়ার করুন"
   }
 }

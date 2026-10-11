@@ -1,0 +1,585 @@
+// Doctor page (src/templates/doctor/doctor.js), Material 3-inspired.
+// Everything is scoped under .dp so the rest of the site is unaffected.
+
+$dp-primary: #006a6a; // calm medical teal, 6.4:1 on white
+$dp-on-primary: #fff;
+$dp-primary-hover: #005353;
+$dp-primary-container-hover: #b5e0de;
+$dp-primary-container: #cdeceb;
+$dp-on-primary-container: #002020;
+$dp-surface: #fff;
+$dp-background: #f3f6f6;
+$dp-on-surface: #191c1c;
+$dp-on-surface-variant: #3f4948; // 9.5:1 on white
+$dp-outline: #6f7979;
+$dp-outline-variant: #dae2e1;
+$dp-radius: 16px;
+$dp-radius-sm: 12px;
+$dp-elev-1: 0 1px 2px rgba(0, 0, 0, 0.08), 0 1px 3px 1px rgba(0, 0, 0, 0.05);
+$dp-elev-2: 0 1px 2px rgba(0, 0, 0, 0.1), 0 2px 6px 2px rgba(0, 0, 0, 0.06);
+$dp-mobile: 767px;
+
+.dp {
+  --dp-primary: #{$dp-primary};
+  background: $dp-background;
+  color: $dp-on-surface;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Bengali",
+    "Hind Siliguri", "SolaimanLipi", "Vrinda", "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.5;
+  padding: 24px 16px 48px;
+  -webkit-font-smoothing: antialiased;
+
+  p {
+    margin: 0;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 3px solid $dp-primary;
+    outline-offset: 2px;
+  }
+}
+
+// ---- layout ---------------------------------------------------------------
+.dp-layout {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 20px;
+  align-items: start;
+}
+.dp-main,
+.dp-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.dp-aside {
+  position: sticky;
+  top: 16px;
+}
+
+// ---- surfaces ---------------------------------------------------------------
+.dp-card {
+  background: $dp-surface;
+  border-radius: $dp-radius;
+  box-shadow: $dp-elev-1;
+  padding: 20px;
+}
+.dp-title {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: $dp-on-surface;
+  margin: 0 0 12px;
+}
+.dp-section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 16px;
+  color: $dp-on-surface;
+}
+.dp-text {
+  font-size: 0.95rem;
+  color: $dp-on-surface-variant;
+}
+
+// ---- chips / buttons --------------------------------------------------------
+.dp-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.dp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.3;
+  color: $dp-on-surface-variant;
+  svg {
+    flex: none;
+  }
+}
+.dp-chip--primary {
+  background: $dp-primary-container;
+  color: $dp-on-primary-container;
+}
+.dp-chip--tonal {
+  background: #eef2f1;
+  color: $dp-on-surface;
+}
+.dp-chip--outline {
+  border: 1px solid $dp-outline-variant;
+  background: $dp-surface;
+}
+.dp-chips--sm .dp-chip {
+  min-height: 24px;
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  border-radius: 6px;
+}
+
+.dp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: box-shadow 0.15s, background-color 0.15s;
+  svg {
+    font-size: 1.2rem;
+  }
+  &:hover {
+    text-decoration: none;
+  }
+}
+.dp-btn--filled {
+  background: $dp-primary;
+  color: $dp-on-primary;
+  &:hover,
+  &:focus {
+    color: $dp-on-primary;
+    background: $dp-primary-hover;
+    box-shadow: $dp-elev-1;
+  }
+}
+.dp-btn--tonal {
+  background: $dp-primary-container;
+  color: $dp-on-primary-container;
+  &:hover {
+    background: $dp-primary-container-hover;
+  }
+}
+.dp-btn--block {
+  width: 100%;
+}
+.dp-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 50%;
+  background: $dp-primary-container;
+  color: $dp-on-primary-container;
+  font-size: 1.2rem;
+  &:hover,
+  &:focus {
+    color: $dp-on-primary-container;
+    background: $dp-primary-container-hover;
+  }
+}
+
+// ---- rating -----------------------------------------------------------------
+.dp-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: $dp-on-surface-variant;
+}
+.dp-stars {
+  display: inline-flex;
+  gap: 1px;
+  color: #f2a900;
+  svg {
+    display: block;
+  }
+}
+.dp-rating__value {
+  font-weight: 600;
+  color: $dp-on-surface;
+}
+.dp-rating--sm {
+  font-size: 0.8rem;
+}
+
+// ---- avatar -----------------------------------------------------------------
+.dp-avatar {
+  border-radius: 50%;
+  flex: none;
+  overflow: hidden;
+  box-shadow: 0 0 0 4px $dp-surface, 0 0 0 5px $dp-outline-variant;
+  img {
+    border-radius: 50%;
+  }
+}
+
+// ---- hero -------------------------------------------------------------------
+.dp-hero {
+  padding: 24px;
+}
+.dp-hero__head {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.dp-hero__id {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+.dp-hero__name {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0;
+  color: $dp-on-surface;
+  overflow-wrap: anywhere;
+}
+.dp-hero__specialty {
+  margin: 0;
+}
+.dp-hero__body {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid $dp-outline-variant;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.dp-hero__degrees {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: $dp-on-surface;
+}
+.dp-hero__role {
+  font-size: 0.95rem;
+  color: $dp-on-surface-variant;
+}
+.dp-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.dp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+// ---- clinical expertise -----------------------------------------------------
+.dp-checklist {
+  display: grid;
+  gap: 10px;
+  li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 0.95rem;
+    color: $dp-on-surface-variant;
+  }
+  svg {
+    flex: none;
+    margin-top: 3px;
+    color: $dp-primary;
+    font-size: 1.05rem;
+  }
+}
+
+// ---- chambers ---------------------------------------------------------------
+.dp-chambers {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.dp-chamber__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.dp-chamber__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: $dp-primary;
+  color: $dp-on-primary;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.dp-rows {
+  margin: 0;
+}
+.dp-row {
+  display: flex;
+  gap: 14px;
+  padding: 12px 0;
+  & + & {
+    border-top: 1px solid $dp-outline-variant;
+  }
+}
+.dp-row__icon {
+  flex: none;
+  width: 24px;
+  color: $dp-primary;
+  font-size: 1.3rem;
+  line-height: 1;
+  padding-top: 2px;
+}
+.dp-row__content {
+  min-width: 0;
+  flex: 1;
+}
+.dp-row__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: $dp-outline;
+  margin-bottom: 2px;
+}
+.dp-row__value {
+  margin: 0;
+  font-size: 0.95rem;
+  color: $dp-on-surface;
+  overflow-wrap: anywhere;
+}
+.dp-phones {
+  display: grid;
+  gap: 6px;
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+}
+.dp-phone {
+  font-weight: 600;
+  font-size: 1rem;
+  color: $dp-primary;
+  font-variant-numeric: tabular-nums;
+  &:hover,
+  &:focus {
+    color: $dp-primary-hover;
+  }
+}
+
+// ---- reviews / share / ads --------------------------------------------------
+.dp-empty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: $dp-on-surface-variant;
+  svg {
+    flex: none;
+    font-size: 1.4rem;
+    color: $dp-outline;
+  }
+}
+.dp-share {
+  .share {
+    text-align: left !important;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  &:focus {
+    outline: 3px solid $dp-primary;
+    outline-offset: 2px;
+  }
+}
+.dp-ad {
+  border-radius: $dp-radius-sm;
+  overflow: hidden;
+  // the Ad component's own white bordered box
+  > div {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .border {
+    border-color: $dp-outline-variant !important;
+    border-radius: $dp-radius-sm;
+    background: transparent !important;
+  }
+}
+
+// ---- related doctors --------------------------------------------------------
+.dp-related {
+  max-width: 1100px;
+  margin: 40px auto 0;
+}
+.dp-related__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+.dp-related__ad {
+  grid-column: 1 / -1;
+}
+.dp-mini {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  transition: box-shadow 0.15s;
+  &:hover,
+  &:focus-within {
+    box-shadow: $dp-elev-2;
+  }
+}
+.dp-mini__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.dp-avatar--sm {
+  box-shadow: 0 0 0 1px $dp-outline-variant;
+}
+.dp-mini__id {
+  min-width: 0;
+}
+.dp-mini__name {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.3;
+  color: $dp-on-surface;
+}
+.dp-mini__specialty {
+  font-size: 0.85rem;
+  color: $dp-primary;
+  font-weight: 500;
+}
+.dp-mini__degrees,
+.dp-mini__role {
+  font-size: 0.8rem;
+  color: $dp-on-surface-variant;
+}
+.dp-mini__degrees {
+  font-weight: 500;
+}
+.dp-mini__link {
+  margin-top: auto;
+  align-self: flex-end;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: $dp-primary;
+  &:hover,
+  &:focus {
+    color: $dp-primary-hover;
+  }
+}
+
+// ---- mobile call bar ------------------------------------------------------
+.dp-callbar {
+  display: none;
+}
+.dp-callbar__num {
+  font-weight: 500;
+  opacity: 0.9;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 991px) {
+  .dp-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .dp-aside {
+    position: static;
+  }
+}
+
+@media (max-width: $dp-mobile) {
+  .dp {
+    padding: 12px 12px 40px;
+  }
+  .dp-card {
+    padding: 16px;
+  }
+  .dp-hero {
+    padding: 20px 16px;
+  }
+  .dp-hero__head {
+    flex-direction: column;
+    text-align: center;
+    gap: 14px;
+  }
+  .dp-hero__id {
+    align-items: center;
+  }
+  .dp-hero__name {
+    font-size: 1.35rem;
+  }
+  .dp-hero__meta {
+    justify-content: center;
+  }
+  .dp-hero__body {
+    text-align: center;
+  }
+  .dp-actions {
+    .dp-btn {
+      flex: 1 1 0;
+      padding: 0 16px;
+    }
+  }
+  .dp-related {
+    margin-top: 28px;
+  }
+  .dp-related__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .dp-section-title {
+    font-size: 1.1rem;
+  }
+  // Sticky call button above the fixed telemedicine ticker, leaving room for
+  // the sidebar toggle (48px at right: 15px) on the right.
+  .dp-callbar {
+    display: block;
+    position: fixed;
+    left: 12px;
+    right: 75px;
+    bottom: 34px;
+    z-index: 900;
+    .dp-btn {
+      min-height: 48px;
+      box-shadow: $dp-elev-2;
+      padding: 0 16px;
+      flex-wrap: wrap;
+      line-height: 1.2;
+    }
+  }
+  .dp-layout--has-call {
+    padding-bottom: 64px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dp * {
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

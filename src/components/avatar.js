@@ -6,7 +6,7 @@ import { GatsbyImage } from "gatsby-plugin-image"
 // see the DoctorCard fragment). Doctor.photo already falls back to
 // doctor/default.png; the static query covers rows queried without a photo.
 const Avatar = props => {
-  const { image, height, width } = props
+  const { image, height, width, alt = "", border = ".3rem solid #FFF" } = props
   const data = useStaticQuery(graphql`
     query {
       img: file(relativePath: { eq: "doctor/default.png" }) {
@@ -24,12 +24,12 @@ const Avatar = props => {
   return (
     <GatsbyImage
       image={imgDefault.src}
-      alt=""
+      alt={alt}
       className={props.className}
       style={{
         width: imgDefault.width + "px",
         height: imgDefault.height + "px",
-        border: '.3rem solid #FFF'
+        border
       }}
     />
   )

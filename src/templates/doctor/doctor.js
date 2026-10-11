@@ -1,12 +1,12 @@
 import { graphql } from "gatsby"
 import { injectIntl } from "gatsby-plugin-intl"
 import React from "react"
-import Ad from "../../components/ad"
 //importing components
-import Doctors from "../../components/doctors/doctors"
+import RelatedDoctors from "../../components/doctor-page/related-doctors"
 import Layout from "../../components/layout"
 import SEO from "../../components/seo"
 import CardSquare from "../../components/cards/cardSquare"
+import "../../styles/doctor-page.scss"
 import { districtMessage, districtPath, useDistrict } from "../../utils/district"
 
 // district + doctorId + lang identify one row of src/data/doctors/<district>.csv
@@ -121,16 +121,10 @@ const Doctor = ({ intl, pageContext, ...props }) => {
         })}: ${chamber1.visitTime || ""} ${districtMessage(intl, "arcib", district)}`}
         schema={schema}
       />
-      <CardSquare data={doc} />
-        <div className="main">
-          <div className="med-section">
-            <h3 className="text-center">{"You may find helpful"}</h3>
-            <div className="divider"></div>
-            <div className="med-card">
-              <Doctors data={docs} index={true} />
-            </div>
-          </div>
-        </div>
+      <div className="dp">
+        <CardSquare data={doc} />
+        <RelatedDoctors data={docs} />
+      </div>
     </Layout>
   )
 }

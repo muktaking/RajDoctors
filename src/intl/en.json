@@ -73,5 +73,11 @@
     "searchAll": "Search all districts",
     "division": "{division} Division",
     "page": "Page {page} of {pages}"
+  },
+  "doctorPage": {
+    "call": "Call",
+    "callForSerial": "Call for serial",
+    "callNumber": "Call {phone}",
+    "share": "Share"
   }
 }
