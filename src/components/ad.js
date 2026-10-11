@@ -45,6 +45,12 @@ export default function Ad({ variant = "block", className = "" }) {
       entries => {
         if (!entries.some(e => e.isIntersecting)) return
         io.disconnect()
+        // page fully loaded but the async ad script never ran (blocked/offline)
+        const a = window.adsbygoogle
+        if (document.readyState === "complete" && !(a && a.loaded === true)) {
+          setState("hidden")
+          return
+        }
         try {
           ;(window.adsbygoogle = window.adsbygoogle || []).push({})
         } catch (e) {
