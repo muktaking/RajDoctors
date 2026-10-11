@@ -47,7 +47,7 @@
 }
 .dp-aside {
   position: sticky;
-  top: 16px;
+  top: calc(#{$nav-bar-h} + 16px); // below the sticky app bar
 }
 
 // ---- hero -------------------------------------------------------------------
