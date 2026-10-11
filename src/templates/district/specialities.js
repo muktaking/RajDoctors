@@ -96,7 +96,7 @@ const Speciality = ({ data }) => {
                     </Card.Header>
                     <Card.Body>
                       <Card.Title>
-                        <FaPoll size={"36px"} />
+                        <FaPoll size={"36px"} aria-hidden="true" />
                         {intl.formatMessage({ id: "Doctors Found" })}{" "}
                         <Badge variant="warning">
                           {counts[spec] || 0}
@@ -106,7 +106,7 @@ const Speciality = ({ data }) => {
                         Some quick example text to build on the card title and
                         make up the bulk of the card's content.
                       </Card.Text> */}
-                      <Link to={districtPath(district, `/speciality/${spec.toLowerCase()}/`)}>
+                      <Link className="stretched-link" to={districtPath(district, `/speciality/${spec.toLowerCase()}/`)}>
                         {intl.formatMessage({ id: "Enter" })}
                       </Link>
                     </Card.Body>

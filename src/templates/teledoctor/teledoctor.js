@@ -70,7 +70,7 @@ const TeleDoc = ({ intl, pageContext, ...props }) => {
         })}`}
       />
       <hr />
-      <Container fluid className="p-0">
+      <Container fluid className="md-page">
         {/* <div className="hero non-landing">
           <Row noGutters>
             <Col md={6} className="">
@@ -85,25 +85,25 @@ const TeleDoc = ({ intl, pageContext, ...props }) => {
         </div>
         <hr className="w-75" /> */}
         <div className="d-flex justify-content-center">
-          <Card style={{ width: "300px", backgroundColor: "#DDE6ED" }}>
-            <div style={{ backgroundColor: "#FFF" }} className="py-3">
-              <GatsbyImage image={img[0].node.childImageSharp.gatsbyImageData} alt=""
+          <Card className="md-tele" style={{ width: "100%", maxWidth: "420px" }}>
+            <div className="md-tele__photo">
+              <GatsbyImage image={img[0].node.childImageSharp.gatsbyImageData} alt={"Dr. " + name}
                 style={{ borderRadius: "50%", width: "200px", margin: "auto", display: "block" }}
               />
             </div>
 
             <Card.Body className="">
-              <Card.Title className="text-center">{"Dr. " + name}</Card.Title>
+              <Card.Title as="h1" className="text-center h4">{"Dr. " + name}</Card.Title>
               <Card.Text className="text-center">{degrees}</Card.Text>
               <hr />
               <Card.Text className="text-muted">
                 Interested in:{" "}
-                {skills.split(",").map(deg => (
+                {skills.split(",").map((deg, i) => (
                   <Badge
+                    key={i}
                     pill
-                    variant="dark"
-                    className="shadow mr-1 my-1 px-2 py-1 text-white"
-                    style={{ fontSize: "10px" }}
+                    className="mr-1 my-1 px-2 py-1"
+                    style={{ fontSize: "11px" }}
                   >
                     {deg}
                   </Badge>

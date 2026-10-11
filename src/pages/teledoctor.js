@@ -37,7 +37,6 @@ export const query = graphql`
 `
 
 const TeleDocs = ({ intl,...props }) => {
-    console.log(props.data.teledocs)
   // Making useIntl available in the code
 //   const {
 //     id,
@@ -56,18 +55,17 @@ const TeleDocs = ({ intl,...props }) => {
         description={`Telemedicine Doctors Lists at rajdoctors.com. Get telemedicine service at low cost at your doorstep.`}
       />
       <hr />
-      <Container fluid className="p-0">
-        <h3 className="text-center pb-3" id="raj-telemed-heading">Rajdoctors Telemedicine Service</h3>
-        <div className="px-3 pb-3">টেলিমেডিসিন সেবা পেতে, প্রথমে <a href={process.env.GATSBY_ADD_TELEMEDICINE_CLIENT} target="_blank">এই ফর্মটি</a> যথাযথভাবে পূরণ করবেন। পরবর্তীতে, আমরা আপনার সাথে যোগাযোগ করব। যোগাযোগের পরে, <a href="https://shop.bkash.com/medionexam01521500642/pay/bdt300/DBZSNq" target="_blank" rel='noreferrer'>এই বিকাশ লিংকে</a> গিয়ে টেলিমেডিসিন সেবা চার্জ ৩০০ টাকা দিবেন । পরবর্তীতে আপনাকে sms এর মাধ্যমে কন্সাল্টেশন এর টাইম জানিয়ে দেওয়া হবে। যেকোন সমস্যার জন্য যোগাযোগ করুন - +880-1641622541, +880133343723 অথবা মেইল করুনঃ help@rajdoctors.com</div>
-        <div className="d-flex flex-wrap justify-content-center">
+      <Container fluid className="md-page">
+        <h1 className="md-page-title text-center" id="raj-telemed-heading">Rajdoctors Telemedicine Service</h1>
+        <div className="md-note">টেলিমেডিসিন সেবা পেতে, প্রথমে <a href={process.env.GATSBY_ADD_TELEMEDICINE_CLIENT} target="_blank">এই ফর্মটি</a> যথাযথভাবে পূরণ করবেন। পরবর্তীতে, আমরা আপনার সাথে যোগাযোগ করব। যোগাযোগের পরে, <a href="https://shop.bkash.com/medionexam01521500642/pay/bdt300/DBZSNq" target="_blank" rel='noreferrer'>এই বিকাশ লিংকে</a> গিয়ে টেলিমেডিসিন সেবা চার্জ ৩০০ টাকা দিবেন । পরবর্তীতে আপনাকে sms এর মাধ্যমে কন্সাল্টেশন এর টাইম জানিয়ে দেওয়া হবে। যেকোন সমস্যার জন্য যোগাযোগ করুন - +880-1641622541, +880133343723 অথবা মেইল করুনঃ help@rajdoctors.com</div>
+        <div className="md-grid">
             {
-                props.data?.teledocs.nodes.map((doc)=> <Card className="mx-2 my-1" style={{ width: "300px", backgroundColor: "#DDE6ED" }}>
-                <div style={{ backgroundColor: "#FFF" }} className="py-3">
+                props.data?.teledocs.nodes.map((doc)=> <Card key={doc.id} className="md-tele">
+                <div className="md-tele__photo">
                   <GatsbyImage image={props.data.allImg.edges.filter(({ node }) =>
                         node.relativePath.includes("/" + doc.id + ".")
-                         )[0].node.childImageSharp.gatsbyImageData} alt=""
-                    style={{ borderRadius: "50%", width: "200px", margin: "auto", display: "block" }}
-                    className='shadow'
+                         )[0].node.childImageSharp.gatsbyImageData} alt={"Dr. " + doc.name}
+                    style={{ borderRadius: "50%", width: "160px", margin: "auto", display: "block" }}
                   />
                 </div>
     
@@ -80,12 +78,12 @@ const TeleDocs = ({ intl,...props }) => {
                   <hr />
                   <Card.Text className="text-muted">
                     Interested in:{" "}
-                    {doc.skills.split(",").map(deg => (
+                    {doc.skills.split(",").map((deg, i) => (
                       <Badge
+                        key={i}
                         pill
-                        variant="dark"
-                        className="shadow mr-1 my-1 px-2 py-1 text-white"
-                        style={{ fontSize: "10px" }}
+                        className="mr-1 my-1 px-2 py-1"
+                        style={{ fontSize: "11px" }}
                       >
                         {deg}
                       </Badge>

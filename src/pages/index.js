@@ -70,7 +70,7 @@ const DistrictPicker = ({ data }) => {
                           <Link
                             key={d.slug}
                             to={`/${d.slug}/`}
-                            className="btn btn-dark btn-sm mr-2 mb-2"
+                            className="md-district md-district--on"
                           >
                             {districtName(intl, d)}{" "}
                             <Badge variant="warning">
@@ -83,7 +83,7 @@ const DistrictPicker = ({ data }) => {
                         ) : (
                           <span
                             key={d.slug}
-                            className="btn btn-outline-secondary btn-sm mr-2 mb-2 disabled"
+                            className="md-district md-district--off"
                             title={intl.formatMessage({ id: "district.comingSoon" })}
                             aria-disabled="true"
                           >

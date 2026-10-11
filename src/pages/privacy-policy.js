@@ -4,7 +4,7 @@ import Layout from "../components/layout"
 const Privacy = () => {
   return (
     <Layout>
-      <div className="p-4">
+      <div className="md-prose">
         <h1 className="text-center mb-4">Privacy Policy</h1>
         <p>
           'YAS' built the RajDoctors website as an Ad Supported website. This

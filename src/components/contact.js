@@ -4,6 +4,7 @@ import { graphql, useStaticQuery } from "gatsby"
 import { useIntl } from "gatsby-plugin-intl"
 import React, { useRef, useState } from "react"
 import validator from "validator"
+import { MdEmail, MdLocationOn, MdPhone } from "react-icons/md"
 
 const randomSum = () => {
   const ranNum1 = Math.ceil(Math.random() * 100)
@@ -45,7 +46,7 @@ const Contact = () => {
                   <div className="col-lg-4 col-md-4">
                     <div className="card-body d-flex align-items-center c-detail pl-0">
                       <div className="mr-3 align-self-center">
-                        <img src="https://www.wrappixel.com/demos/ui-kit/wrapkit/assets/images/contact/icon1.png" />
+                        <span className="md-contact-icon"><MdLocationOn aria-hidden="true" /></span>
                       </div>
                       <div className="">
                         <h6 className="font-weight-medium">
@@ -61,7 +62,7 @@ const Contact = () => {
                   <div className="col-lg-4 col-md-4">
                     <div className="card-body d-flex align-items-center c-detail">
                       <div className="mr-3 align-self-center">
-                        <img src="https://www.wrappixel.com/demos/ui-kit/wrapkit/assets/images/contact/icon2.png" />
+                        <span className="md-contact-icon"><MdPhone aria-hidden="true" /></span>
                       </div>
                       <div className="">
                         <h6 className="font-weight-medium">
@@ -79,7 +80,7 @@ const Contact = () => {
                   <div className="col-lg-4 col-md-4">
                     <div className="card-body d-flex align-items-center c-detail">
                       <div className="mr-3 align-self-center">
-                        <img src="https://www.wrappixel.com/demos/ui-kit/wrapkit/assets/images/contact/icon3.png" />
+                        <span className="md-contact-icon"><MdEmail aria-hidden="true" /></span>
                       </div>
                       <div className="">
                         <h6 className="font-weight-medium">

@@ -25,12 +25,13 @@ body {
 }
 #content {
   background: $md-background;
-  a {
-    color: $md-primary;
-  }
-  a:hover {
-    color: $md-primary-hover;
-  }
+}
+// low specificity (0,0,1) so component classes (buttons, chips) win
+:where(#content) a {
+  color: $md-primary;
+}
+:where(#content) a:hover {
+  color: $md-primary-hover;
 }
 @media (prefers-reduced-motion: reduce) {
   .wrapper *,
