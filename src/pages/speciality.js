@@ -16,15 +16,9 @@ const Speciality = () => {
 
   const data = useStaticQuery(graphql`
     query {
-      allDoctorListsCsv: allDoctorListsCsv {
+      doctors: allDoctor {
         nodes {
-          Speciality
-          lang
-        }
-      }
-      allDoctorListsCopyCsv: allDoctorListsCopyCsv {
-        nodes {
-          Speciality
+          specialty
           lang
         }
       }
@@ -37,12 +31,7 @@ const Speciality = () => {
       }
     }
   `)
-  // Merge without mutating the cached static query result.
-  const allNodes = [
-    ...data.allDoctorListsCsv.nodes,
-    ...data.allDoctorListsCopyCsv.nodes,
-  ]
-  const specArray = allNodes.map(spec => spec.Speciality)
+  const specArray = data.doctors.nodes.map(doc => doc.specialty)
   const specDesArray = [
     "Medicine",
     "Gynaecology",

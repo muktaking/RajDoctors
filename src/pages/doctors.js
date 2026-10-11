@@ -14,37 +14,21 @@ const Doctors = () => {
 
   const data = useStaticQuery(graphql`
     query {
-      all: allDoctorListsCsv(sort: { Rating: DESC }) {
+      # Main list first, then the isNew rows, each by rating (same order as
+      # the two separate lists had before they were merged into doctors.csv).
+      all: allDoctor(sort: [{ isNew: ASC }, { rating: DESC }]) {
         nodes {
           id
-          uid
-          Name
-          Rating
-          Designation
-          Institute
-          Degree
-          contact1
-          loc1
-          visitTime1
-          Badges
-          fields {
-            slug
+          doctorId
+          name
+          rating
+          designation
+          institute
+          degrees
+          badges
+          chambers {
+            phone
           }
-        }
-      }
-      allCopy: allDoctorListsCopyCsv(sort: { Rating: DESC }) {
-        nodes {
-          id
-          uid
-          Name
-          Rating
-          Designation
-          Institute
-          Degree
-          contact1
-          loc1
-          visitTime1
-          Badges
           fields {
             slug
           }
@@ -59,22 +43,21 @@ const Doctors = () => {
       }
     }
   `)
-  // Merge without mutating the cached static query result.
-  const allNodes = [...data.all.nodes, ...data.allCopy.nodes]
+  const allNodes = data.all.nodes
   const top3Schema = allNodes.slice(0, 3).map(
     (doc, i) => `
    {"@type": "ListItem",
    "position": "${i + 1}",
    "item": {
     "@type": "Person",
-    "name": "${doc.Name.replace(/\*/, ",")}",
+    "name": "${doc.name}",
     "url": "${"https://rajdoctors.com" + `/doctor/` + doc.fields.slug}",
-    "jobTitle":"${doc.Designation.replace(/\*/, ",")}",
+    "jobTitle":"${doc.designation}",
     "worksFor": {
       "@type": "Organization",
-      "name": "${doc.Institute.replace(/\*/, ",")}"
+      "name": "${doc.institute}"
     },
-    "telephone": "${doc.contact1.replace(/\*/, ",")}" 
+    "telephone": "${doc.chambers.length ? doc.chambers[0].phone : ""}" 
    }}
    `
   )
@@ -112,7 +95,7 @@ const Doctors = () => {
         </div>
         <hr className="w-75" />
         <div className="main">
-          <DoctorsWrapper data={{ ...data, all: { nodes: allNodes } }} />
+          <DoctorsWrapper data={{ all: { nodes: allNodes } }} />
         </div>
       </Container>
     </Layout>

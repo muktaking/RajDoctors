@@ -8,99 +8,43 @@ import Layout from "../../components/layout"
 import SEO from "../../components/seo"
 import CardSquare from "../../components/cards/cardSquare"
 
-//uid: { eq: $uid }, lang: { eq: $lang }
-//$uid: String!, $lang: String!
+// doctorId + lang identify one row of src/data/doctors.csv (page context set in
+// gatsby-node.js). Text fields are already cleaned ("*" -> ", ").
 export const query = graphql`
-  query($uid: String!, $lang: String!) {
-    doc: doctorListsCsv(uid: { eq: $uid }, lang: { eq: $lang }) {
-      uid
-      Degree
-      Name
-      Rating
-      Designation
-      Institute
-      Speciality
-      contact1
-      contact2
-      loc1
-      loc2
-      locDetail1
-      locDetail2
-      visitTime1
-      visitTime2
-      OpenTime1
+  query($doctorId: String!, $lang: String!) {
+    doc: doctor(doctorId: { eq: $doctorId }, lang: { eq: $lang }) {
+      doctorId
+      name
+      rating
+      degrees
+      designation
+      institute
+      specialty
+      fee
+      badges
+      protocol
+      clinicalExpertise
+      chambers {
+        number
+        name
+        address
+        phone
+        phones
+        visitTime
+        hours
+      }
       fields {
         slug
       }
-      Protocol
-      Fee
-      Badges
-      ClinicalExpertise
     }
-    docCopy: doctorListsCopyCsv(uid: { eq: $uid }, lang: { eq: $lang }) {
-      uid
-      Degree
-      Name
-      Rating
-      Designation
-      Institute
-      Speciality
-      contact1
-      contact2
-      loc1
-      loc2
-      locDetail1
-      locDetail2
-      visitTime1
-      visitTime2
-      OpenTime1
-      fields {
-        slug
-      }
-      Protocol
-      Fee
-      Badges
-      ClinicalExpertise
-    }
-    docs: allDoctorListsCsv(sort: { Rating: DESC }) {
+    # Main list first, then isNew rows, each by rating (the order the two
+    # separate lists had before the merge), for "You may find helpful".
+    docs: allDoctor(sort: [{ isNew: ASC }, { rating: DESC }]) {
       nodes {
         id
-        uid
-        Name
-        Rating
-        Degree
-        Speciality
-        contact1
-        loc1
-        visitTime1
-        OpenTime1
-        fields {
-          slug
-        }
-        Protocol
+        doctorId
+        specialty
         lang
-        Badges
-      }
-    }
-
-    docsCopy: allDoctorListsCopyCsv(sort: { Rating: DESC }) {
-      nodes {
-        id
-        uid
-        Name
-        Rating
-        Degree
-        Speciality
-        contact1
-        loc1
-        visitTime1
-        OpenTime1
-        fields {
-          slug
-        }
-        Protocol
-        lang
-        Badges
       }
     }
   }
@@ -119,72 +63,46 @@ const Doctor = ({ intl, pageContext, ...props }) => {
   // Internationalization
   //const intl = useIntl()
   //const locale = intl.locale !== "en" ? `/${intl.locale}` : ""
-  // Merge without mutating the page query data.
-  const doc = props.data.doc ? props.data.doc : props.data.docCopy
-  const allDocs = [...props.data.docs.nodes, ...props.data.docsCopy.nodes]
-  const {
-    uid,
-    Name,
-    Rating,
-    Degree,
-    Speciality,
-    Designation,
-    Institute,
-    contact1,
-    contact2,
-    loc1,
-    locDetail1,
-    locDetail2,
-    visitTime1,
-    visitTime2,
-    OpenTime1,
-    fields,
-    Protocol,
-    Fee,
-    Badges
-  } = doc
+  const doc = props.data.doc
+  const { name, specialty, designation, institute, chambers, fields } = doc
+  const chamber = n => chambers.find(c => c.number === n) || {}
+  const chamber1 = chamber(1)
+  const chamber2 = chamber(2)
 
-  const docs = allDocs
-    .filter(e => e.Speciality === doc.Speciality)
+  const docs = props.data.docs.nodes
+    .filter(e => e.specialty === specialty)
     .slice(0, 6)
   const schema = `
 {
   "@context": "https://schema.org/",
   "@type": "Person",
-  "name": "${Name.replace(/\*/, ",")}",
+  "name": "${name}",
   "url": "${"https://rajdoctors.com" + `/doctor/` + fields.slug}",
   "image": "${"https://rajdoctors.com" + pageContext.imgSrc}",
-  "jobTitle": "${Designation.replace(/\*/, ",")}",
+  "jobTitle": "${designation}",
   "worksFor": {
     "@type": "Organization",
-    "name": "${Institute.replace(/\*/, ",")}"
+    "name": "${institute}"
   },
-  "telephone": "${
-    contact1.replace(/\*/, ",") + ", " + contact2.replace(/\*/, ",")
-  }"  
+  "telephone": "${(chamber1.phone || "") + ", " + (chamber2.phone || "")}"  
 }
 `
   return (
     <Layout>
       <SEO
-        title={`${Name.replace(/\*/, ",")} | ${Designation.replace(
-          /\*/,
-          ","
-        )} ${intl.formatMessage({
+        title={`${name} | ${designation} ${intl.formatMessage({
           id: "at",
-        })} ${Institute.replace(/\*/, ",")}`}
+        })} ${institute}`}
         useDefault={false}
-        description={` ${Speciality.replace(/\*/, ",")} ${intl.formatMessage({
+        description={` ${specialty} ${intl.formatMessage({
           id: "Specialist",
         })}. ${intl.formatMessage({
           id: "chamber.contact-info",
-        })}: ${contact1.replace(/\*/g, ",")}, ${
-          contact2 ? contact2.replace(/\*/g, ",") : ""
-        }, ${intl.formatMessage({
+        })}: ${chamber1.phone || ""}, ${chamber2.phone || ""}, ${intl.formatMessage({
           id: "chamber.location",
-        })}: ${locDetail1.replace(/\*/g, ",")} ${intl.formatMessage({
+        })}: ${chamber1.address || ""} ${intl.formatMessage({
           id: "chamber.time",
-        })}: ${visitTime1.replace(/\*/g, ",")} ${intl.formatMessage({
+        })}: ${chamber1.visitTime || ""} ${intl.formatMessage({
           id: `arcib.${process.env.GATSBY_DISTRICT}`,
         })}`}
         schema={schema}

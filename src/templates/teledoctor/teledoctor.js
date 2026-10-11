@@ -13,15 +13,15 @@ export const query = graphql`
     teledoc: telemediDoctorListsCsv(id: { eq: $id }) {
       id
       name
-      speciality
-      skill
-      degree
+      specialty
+      skills
+      degrees
       designation
       institute
       consultationTime
-      closeTime
+      offDays
       fee
-      contactNumber
+      phone
       email
       whatsapp
     }
@@ -48,14 +48,14 @@ const TeleDoc = ({ intl, pageContext, ...props }) => {
   const {
     id,
     name,
-    degree,
-    speciality,
-    skill,
+    degrees,
+    specialty,
+    skills,
     designation,
     institute,
     fee,
     consultationTime,
-    closeTime,
+    offDays,
   } = props.data.teledoc
   const img = props.data.allImg.edges.filter(({ node }) =>
     node.relativePath.includes("/" + id + ".")
@@ -63,9 +63,9 @@ const TeleDoc = ({ intl, pageContext, ...props }) => {
   return (
     <Layout>
       <SEO
-        title={`${"Dr. " + name.replace(/\*/, ",")} | ${speciality}`}
+        title={`${"Dr. " + name} | ${specialty}`}
         useDefault={false}
-        description={` ${skill.replace(/\*/, ",")} ${intl.formatMessage({
+        description={` ${skills} ${intl.formatMessage({
           id: "Specialist",
         })}`}
       />
@@ -94,11 +94,11 @@ const TeleDoc = ({ intl, pageContext, ...props }) => {
 
             <Card.Body className="">
               <Card.Title className="text-center">{"Dr. " + name}</Card.Title>
-              <Card.Text className="text-center">{degree}</Card.Text>
+              <Card.Text className="text-center">{degrees}</Card.Text>
               <hr />
               <Card.Text className="text-muted">
                 Interested in:{" "}
-                {skill.split(",").map(deg => (
+                {skills.split(",").map(deg => (
                   <Badge
                     pill
                     variant="dark"
@@ -114,7 +114,7 @@ const TeleDoc = ({ intl, pageContext, ...props }) => {
                 <Badge className="mr-2 mb-2 text-wrap">
                   Available on: {consultationTime}
                 </Badge>
-                <Badge>Offday: {closeTime}</Badge>
+                <Badge>Offday: {offDays}</Badge>
               </Card.Text>
               <Card.Text className="text-center">
                 Telemedicine Service Fee: <Badge className="">{300 + " tk"}</Badge>

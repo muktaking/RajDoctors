@@ -3,7 +3,7 @@ import { GatsbyImage } from "gatsby-plugin-image"
 // Import hook
 import { useIntl } from "gatsby-plugin-intl"
 import React from "react"
-import { Carousel, Col, Container, Row } from "react-bootstrap"
+import { Col, Container, Row } from "react-bootstrap"
 import Doctors from "../components/doctors/doctors"
 import Emergency from "../components/emergency"
 //importing component
@@ -28,148 +28,47 @@ const ContentSection = ({ title, speciality, data }) => (
 const IndexPage = () => {
   const data = useStaticQuery(graphql`
     query {
-      med: allDoctorListsCsv(
-        filter: { Speciality: { eq: "Medicine" } }
+      # Top 3 doctors by rating per section (all rows of doctors.csv).
+      med: allDoctor(
+        filter: { specialty: { eq: "Medicine" } }
         limit: 3
-        sort: { Rating: DESC }
+        sort: { rating: DESC }
       ) {
         nodes {
           id
-          uid
-          Name
-          Degree
-          contact1
-          loc1
-          visitTime1
+          doctorId
           fields {
             slug
           }
           lang
         }
       }
-      sur: allDoctorListsCsv(
-        filter: { Speciality: { eq: "Surgery" } }
+      sur: allDoctor(
+        filter: { specialty: { eq: "Surgery" } }
         limit: 3
-        sort: { Rating: DESC }
+        sort: { rating: DESC }
       ) {
         nodes {
           id
-          uid
-          Name
-          Degree
-          contact1
-          loc1
-          visitTime1
+          doctorId
           fields {
             slug
           }
           lang
         }
       }
-      gy: allDoctorListsCsv(
-        filter: { Speciality: { eq: "Gynaecology" } }
+      gy: allDoctor(
+        filter: { specialty: { eq: "Gynaecology" } }
         limit: 3
-        sort: { Rating: DESC }
+        sort: { rating: DESC }
       ) {
         nodes {
           id
-          uid
-          Name
-          Degree
-          contact1
-          loc1
-          visitTime1
+          doctorId
           fields {
             slug
           }
           lang
-        }
-      }
-      medCopy: allDoctorListsCopyCsv(
-        filter: { Speciality: { eq: "Medicine" } }
-        limit: 3
-        sort: { Rating: DESC }
-      ) {
-        nodes {
-          id
-          uid
-          Name
-          Degree
-          contact1
-          loc1
-          visitTime1
-          fields {
-            slug
-          }
-          lang
-        }
-      }
-      surCopy: allDoctorListsCopyCsv(
-        filter: { Speciality: { eq: "Surgery" } }
-        limit: 3
-        sort: { Rating: DESC }
-      ) {
-        nodes {
-          id
-          uid
-          Name
-          Degree
-          contact1
-          loc1
-          visitTime1
-          fields {
-            slug
-          }
-          lang
-        }
-      }
-      gyCopy: allDoctorListsCopyCsv(
-        filter: { Speciality: { eq: "Gynaecology" } }
-        limit: 3
-        sort: { Rating: DESC }
-      ) {
-        nodes {
-          id
-          uid
-          Name
-          Degree
-          contact1
-          loc1
-          visitTime1
-          fields {
-            slug
-          }
-          lang
-        }
-      }
-      carousel: allCarouselDataCsv {
-        nodes {
-          id
-          uid
-          name
-          speciality
-          degree
-          designation
-          institute
-          contactNumber
-          ChamberLocation
-        }
-      }
-
-      carouselImg: allFile(
-        filter: {
-          relativePath: { regex: "/promotional/.*[png|jpeg|jpg|svg]$/" }
-        }
-      ) {
-        edges {
-          node {
-            relativePath
-            childImageSharp {
-              # Specify the image processing specifications right in the query.
-              # Makes it trivial to update as your page's design changes.
-              gatsbyImageData(layout: CONSTRAINED, width: 400, height: 400, placeholder: BLURRED)
-            }
-          }
         }
       }
       site: site {
@@ -183,10 +82,9 @@ const IndexPage = () => {
   `)
   // Making useIntl available in the code
   const intl = useIntl()
-  // Merge without mutating the cached static query result.
-  const medNodes = [...data.med.nodes, ...data.medCopy.nodes]
-  const surNodes = [...data.sur.nodes, ...data.surCopy.nodes]
-  const gyNodes = [...data.gy.nodes, ...data.gyCopy.nodes]
+  const medNodes = data.med.nodes
+  const surNodes = data.sur.nodes
+  const gyNodes = data.gy.nodes
   const gallary = [
     { title: intl.formatMessage({ id: "tms" }), speciality: 'medicine', data: medNodes },
     { title: intl.formatMessage({ id: "tss" }), speciality:'surgery', data: surNodes },

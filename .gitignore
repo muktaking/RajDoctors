@@ -56,7 +56,12 @@ typings/
 
 # gatsby files
 .cache/
-src/data/
+src/data/*
+!src/data/doctors.csv
+!src/data/telemediDoctorLists.csv
+!src/data/carouselData.csv
+# old-format CSVs kept locally after running scripts/migrate-doctor-csv.js
+src/data-legacy/
 src/data - Copy
 meta.data.js
 

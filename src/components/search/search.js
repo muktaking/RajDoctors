@@ -65,21 +65,21 @@ class Search extends Component {
               </span>
             </li>
             {this.state.results.map((doctor, index) => (
-              <li key={doctor.uid} className="my-2 ml-2">
+              <li key={doctor.id || index} className="my-2 ml-2">
                 <Link
                   to={
-                    doctor.Lang === "en"
-                      ? "/doctor/" + doctor.Slug
-                      : this.props.intl.locale + "/doctor/" + doctor.Slug
+                    doctor.lang === "en"
+                      ? "/doctor/" + doctor.slug
+                      : this.props.intl.locale + "/doctor/" + doctor.slug
                   }
                 >
                   <p>
                     <span className="mr-2 " style={{ fontSize: "1rem" }}>
                       {index + 1 + ". "}
-                      {doctor.Name}
+                      {doctor.name}
                     </span>
 
-                    <span className="">{doctor.Speciality} Specialist</span>
+                    <span className="">{doctor.specialty} Specialist</span>
                   </p>
                 </Link>
                 {/* {": " + page.tags.join(`,`)} */}

@@ -2,49 +2,52 @@ import React from 'react'
 import { Badge } from 'react-bootstrap'
 import { injectIntl } from "gatsby-plugin-intl"
 
+// `data.chambers` comes from the Doctor schema (gatsby-node.js): only chambers
+// that have data, with "*" already cleaned and phone numbers split into a list.
 function CardChamberInfo({data, intl}) {
-    const { contact1, contact2, loc1, loc2, locDetail1, locDetail2, visitTime1, visitTime2, OpenTime1, Protocol } = data
+    const { chambers = [], protocol } = data
+    if (chambers.length === 0) return null
   return (
     <div className='bg-light text-dark px-2 py-2'>
-        <h5 className='text-center' style={{fontWeight: '700', fontSize: ".9rem"}}>{intl.formatMessage({ id: "chamber.one" })}</h5>
-        <ChamberInfo intl={intl} contact={contact1} loc={loc1} locDetail={locDetail1} visitTime={visitTime1} OpenTime={OpenTime1} Protocol={Protocol} />
-        {
-            contact2 && <>  <hr /> <h5 className='text-center' style={{fontWeight: '700', fontSize: ".9rem"}}>{intl.formatMessage({ id: "chamber.two" })}</h5>
-                <ChamberInfo intl={intl} contact={contact2} loc={loc2} locDetail={locDetail2} visitTime={visitTime2} Protocol={Protocol} />
-            </>
-        }
-
+        {chambers.map((chamber, i) => (
+            <React.Fragment key={chamber.number}>
+                {i > 0 && <hr />}
+                <h5 className='text-center' style={{fontWeight: '700', fontSize: ".9rem"}}>{intl.formatMessage({ id: chamber.number === 1 ? "chamber.one" : "chamber.two" })}</h5>
+                <ChamberInfo intl={intl} chamber={chamber} protocol={protocol} />
+            </React.Fragment>
+        ))}
     </div>
   )
 }
 
-function ChamberInfo({intl, contact, loc, locDetail, visitTime, OpenTime, Protocol}){
+function ChamberInfo({intl, chamber, protocol}){
+    const { name, address, phones, visitTime, hours } = chamber
     return (
         <div className='bg-light text-dark p-2'>
             <InfoSegment title={intl.formatMessage({ id: "chamber.contact-info" })}>
-                {contact.split("*").map(cont => (
-                        <>
-                            <a href={"tel:" + cont}>
-                             {cont}
+                {phones.map(phone => (
+                        <React.Fragment key={phone}>
+                            <a href={"tel:" + phone}>
+                             {phone}
                             </a>
                             <br />
-                        </>
+                        </React.Fragment>
                 ))}
             </InfoSegment>
             <InfoSegment title={intl.formatMessage({ id: "chamber.location" })}>
-                {loc && loc.replace(/\*/g, ",") + " " + locDetail.replace(/\*/g, ",")} 
+                {name && name + " " + address}
             </InfoSegment>
             <InfoSegment title={intl.formatMessage({ id: "chamber.time" })}>
-                {visitTime && visitTime.replace(/\*/g, ",")}
+                {visitTime}
             </InfoSegment>
             <InfoSegment title={'Opening Hour'}>
-                {OpenTime && OpenTime.replace(/\*/g, ",")}
+                {hours}
             </InfoSegment>
             <InfoSegment title='Procedure'>
-             { Protocol ? Protocol.replace(/\*/g, ",") : "Please phone to provided number to book a serial"}
+             { protocol ? protocol : "Please phone to provided number to book a serial"}
             </InfoSegment>
-        </div>    
-    ) 
+        </div>
+    )
 }
 
 function InfoSegment({title, children}){

@@ -13,9 +13,9 @@ export const query = graphql`
         nodes {
           id
           name
-          degree
+          degrees
           fee
-          skill
+          skills
         }
       }
 
@@ -76,11 +76,11 @@ const TeleDocs = ({ intl,...props }) => {
                         <Card.Title className="">{"Dr. " + doc.name}</Card.Title>
                     </Link>
                   
-                  <p className="" style={{fontSize: '12px'}}>{doc.degree}</p>
+                  <p className="" style={{fontSize: '12px'}}>{doc.degrees}</p>
                   <hr />
                   <Card.Text className="text-muted">
                     Interested in:{" "}
-                    {doc.skill.split(",").map(deg => (
+                    {doc.skills.split(",").map(deg => (
                       <Badge
                         pill
                         variant="dark"

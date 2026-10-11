@@ -17,7 +17,7 @@ let offset = 0
 const DoctorsWrapper = ({ data }) => {
   // Sort a copy: assigning back into data.all.nodes mutated the cached query
   // result, so every render dropped one more doctor (slice(1)).
-  const nodes = _.sortBy(data.all.nodes, ["Rating"]).slice(1).reverse()
+  const nodes = _.sortBy(data.all.nodes, ["rating"]).slice(1).reverse()
   const intl = useIntl()
 
   const pageCount = Math.ceil(nodes.length / 10)

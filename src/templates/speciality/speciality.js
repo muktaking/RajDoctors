@@ -13,19 +13,19 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
-const Speciality = ({ speciality, data }) => {
+const Speciality = ({ speciality, doctors }) => {
   // Making useIntl available in the code
   const intl = useIntl()
-  const pageCount = Math.ceil(data.allDoctorListsCsv.nodes.length / perPage)
+  const pageCount = Math.ceil(doctors.length / perPage)
   //const [currentPage, setCurrentPage] = useState(0)
   const [doctorsList, setDoctorsList] = useState(
-    data.allDoctorListsCsv.nodes.slice(offset, offset + perPage)
+    doctors.slice(offset, offset + perPage)
   )
 
   const onHandleClick = ({ selected }) => {
     offset = selected * perPage
     //setCurrentPage(selected)
-    setDoctorsList(data.allDoctorListsCsv.nodes.slice(offset, offset + perPage))
+    setDoctorsList(doctors.slice(offset, offset + perPage))
   }
 
   return (

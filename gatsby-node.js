@@ -7,34 +7,158 @@
 // You can delete this file if you're not using it
 const path = require("path")
 const flatMenu = require("./src/utils/meta.data").flatMenu
-// Explicit types so ClinicalExpertise is always a String field, even when every
-// row in a CSV leaves it empty (Gatsby would otherwise not infer the field).
-module.exports.createSchemaCustomization = ({ actions }) => {
-  actions.createTypes(`
-    type DoctorListsCsv implements Node @infer {
-      ClinicalExpertise: String
+// ---------------------------------------------------------------------------
+// Data schema (see docs/DATA.md). src/data/doctors.csv becomes `Doctor` nodes
+// (typeName set in gatsby-config.js). Every CSV column is a String, declared
+// explicitly so an all-empty column never disappears from the schema.
+// Text fields resolve to a cleaned value: the CSV uses "*" instead of a comma,
+// so "MBBS* MD" is returned as "MBBS, MD". List-like columns are exposed as
+// lists. `raw` gives the untouched CSV row values when needed.
+// ---------------------------------------------------------------------------
+const cleanText = v => (v ? String(v).replace(/\s*\*\s*/g, ", ") : "")
+const splitList = v =>
+  v
+    ? String(v)
+        .split(/\*|\r?\n/)
+        .map(s => s.trim())
+        .filter(Boolean)
+    : []
+const BADGES = ["Topper", "Popular", "Busy", "Trusted"] // order of the "0*0*1*1" flags
+const CHAMBER_PARTS = ["Name", "Address", "Phone", "VisitTime", "Hours", "Days", "OffDays"]
+const CLEAN_FIELDS = [
+  "name",
+  "specialty",
+  "degrees",
+  "designation",
+  "institute",
+  "fee",
+  "protocol",
+]
+const RAW_FIELDS = [
+  "doctorId",
+  "lang",
+  "rating", // kept a String: pages sort on it exactly as before
+  "isNew",
+  "badges",
+  "clinicalExpertise",
+  ...[1, 2].flatMap(n => CHAMBER_PARTS.map(p => `chamber${n}${p}`)),
+  ...CLEAN_FIELDS,
+]
+const SHOW_CHAMBER2_WITHOUT_PHONE = false
+const chambersOf = source =>
+  [1, 2]
+    .map(n => {
+      const get = p => source[`chamber${n}${p}`] || ""
+      return {
+        number: n,
+        name: cleanText(get("Name")),
+        address: cleanText(get("Address")),
+        phone: cleanText(get("Phone")),
+        phones: splitList(get("Phone")),
+        visitTime: cleanText(get("VisitTime")),
+        hours: cleanText(get("Hours")),
+        days: cleanText(get("Days")),
+        offDays: cleanText(get("OffDays")),
+      }
+    })
+    // Chamber 1 is listed when it has any data. Chamber 2 is listed only when
+    // it has a phone number: that is the rule the site always used, and some
+    // rows hold unpublished chamber-2 details (e.g. a residence) without a
+    // phone. Set SHOW_CHAMBER2_WITHOUT_PHONE to true to publish those as well.
+    .filter(c =>
+      c.number === 1 || SHOW_CHAMBER2_WITHOUT_PHONE
+        ? c.name || c.address || c.phone || c.visitTime || c.hours
+        : c.phone
+    )
+
+module.exports.createSchemaCustomization = ({ actions, schema }) => {
+  const { createTypes } = actions
+  const fields = {
+    doctorId: "String",
+    lang: "String",
+    rating: "String",
+    isNew: {
+      type: "Boolean!",
+      resolve: s => String(s.isNew).trim().toLowerCase() === "true",
+    },
+    badges: {
+      type: "[String!]!",
+      description: "Earned badge names, e.g. [\"Busy\", \"Trusted\"]",
+      // same rule the card used before: every flag that is not 0 is earned
+      resolve: s =>
+        (s.badges ? String(s.badges).split("*") : [])
+          .map((flag, i) => (parseInt(flag, 10) === 0 ? null : BADGES[i]))
+          .filter(Boolean),
+    },
+    clinicalExpertise: {
+      type: "[String!]!",
+      resolve: s => splitList(s.clinicalExpertise),
+    },
+    chambers: { type: "[DoctorChamber!]!", resolve: chambersOf },
+    raw: { type: "DoctorRaw!", resolve: s => s },
+    fields: "DoctorFields",
+  }
+  CLEAN_FIELDS.forEach(f => {
+    fields[f] = { type: "String!", resolve: s => cleanText(s[f]) }
+  })
+  const rawFields = {}
+  RAW_FIELDS.forEach(f => {
+    rawFields[f] = { type: "String", resolve: s => s[f] || "" }
+  })
+  createTypes([
+    schema.buildObjectType({
+      name: "Doctor",
+      interfaces: ["Node"],
+      extensions: { infer: false },
+      fields,
+    }),
+    schema.buildObjectType({ name: "DoctorRaw", fields: rawFields }),
+    `
+    type DoctorFields {
+      slug: String
     }
-    type DoctorListsCopyCsv implements Node @infer {
-      ClinicalExpertise: String
+    type DoctorChamber {
+      number: Int!
+      name: String!
+      address: String!
+      phone: String!
+      phones: [String!]!
+      visitTime: String!
+      hours: String!
+      days: String!
+      offDays: String!
     }
-  `)
+    type TelemediDoctorListsCsv implements Node @infer {
+      name: String
+      specialty: String
+      degrees: String
+      skills: String
+      designation: String
+      institute: String
+      fee: String
+      consultationTime: String
+      offDays: String
+      phone: String
+      email: String
+      whatsapp: String
+      telegram: String
+      otherContacts: String
+    }
+    `,
+  ])
 }
 
 module.exports.onCreateNode = ({ node, actions }) => {
-  const { createNode, createNodeField } = actions
-  if (node.internal.type === "DoctorListsCsv" || node.internal.type === "DoctorListsCopyCsv") {
-    //if (node.lang === "en") {
-    //const slug = node.Name.replace(/\s|\./g, "_") + "_" + node.uid
-    const slug = node.Name.toLowerCase().replace(/(\.?\s)/g, "-")
+  const { createNodeField } = actions
+  if (node.internal.type === "Doctor") {
+    // Same input and rule as before the schema cleanup, so every URL is unchanged.
+    const slug = (node.name || "").toLowerCase().replace(/(\.?\s)/g, "-")
     createNodeField({
       node,
       name: "slug",
       value: slug,
     })
-    //}
   }
-  // Transform the new node here and create a new node or
-  // create a new node field.
 }
 
 module.exports.createPages = async ({ graphql, actions, reporter }) => {
@@ -42,32 +166,14 @@ module.exports.createPages = async ({ graphql, actions, reporter }) => {
   const doctorTemplate = path.resolve("./src/templates/doctor/doctor.js")
   const res = await graphql(`
     query {
-      allDoctorListsCsv: allDoctorListsCsv {
-        edges {
-          node {
-            fields {
-              slug
-            }
-            id
-            uid
-            Name
-            lang
-            Speciality
+      allDoctor {
+        nodes {
+          fields {
+            slug
           }
-        }
-      }
-      allDoctorListsCopyCsv: allDoctorListsCopyCsv {
-        edges {
-          node {
-            fields {
-              slug
-            }
-            id
-            uid
-            Name
-            lang
-            Speciality
-          }
+          doctorId
+          lang
+          specialty
         }
       }
       allImg: allFile(
@@ -90,47 +196,37 @@ module.exports.createPages = async ({ graphql, actions, reporter }) => {
     reporter.panicOnBuild(`Error while running GraphQL query.`)
     return
   }
-  // res.data.allDoctorListsCsv.edges = res.data.allDoctorListsCsv.edges.filter(
-  //   edge => edge.node.lang === "en"
-  // )
-  res.data.allDoctorListsCsv.edges.push(...res.data.allDoctorListsCopyCsv.edges)
+  // doctors.csv keeps the old file order (main list first, then isNew rows),
+  // which the duplicate-slug rule below relies on.
   // Some rows share a slug (same name, or a bn row written in English).
   // Gatsby 2 kept the FIRST row for a duplicated path while Gatsby 5 keeps the
   // last one, so skip later duplicates to keep the published pages unchanged.
   const createdDoctorPaths = new Set()
-  res.data.allDoctorListsCsv.edges.forEach(edge => {
-    const language = edge.node.lang
+  res.data.allDoctor.nodes.forEach(doctor => {
+    const language = doctor.lang
     const locale = language !== "en" ? `/${language}` : ""
-    //const path = `/doctor/${edge.node.uid}-${language}`
-    const path = `/doctor/${edge.node.fields.slug}`
+    const path = `/doctor/${doctor.fields.slug}`
     if (createdDoctorPaths.has(path)) {
       reporter.warn(
-        `Duplicate doctor slug ${path} (uid ${edge.node.uid}, ${language}) skipped`
+        `Duplicate doctor slug ${path} (doctorId ${doctor.doctorId}, ${language}) skipped`
       )
       return
     }
     createdDoctorPaths.add(path)
     const img = res.data.allImg.edges.filter(({ node }) =>
-      node.relativePath.includes("doctor/" + edge.node.uid + "_")
+      node.relativePath.includes("doctor/" + doctor.doctorId + "_")
     )
     const imgDefault = {
       src: img.length > 0 ? img[0].node.publicURL : res.data.img.publicURL,
     }
     createPage({
       component: doctorTemplate,
-      //path: "/doctor/" + edge.node.id,
-      // path:
-      //   "/doctor/" +
-      //   edge.node.Name.replace(/\s/g, "%20") +
-      //   "+uid=" +
-      //   edge.node.uid,
       path,
       context: {
-        //pagePath: edge.node.fields.slug,
-        uid: edge.node.uid,
-        Speciality: edge.node.Speciality,
+        doctorId: doctor.doctorId,
+        specialty: doctor.specialty,
         lang: language,
-        slug: edge.node.fields.slug,
+        slug: doctor.fields.slug,
         imgSrc: imgDefault.src,
       },
     })
@@ -146,7 +242,7 @@ module.exports.createPages = async ({ graphql, actions, reporter }) => {
       component: speacialityTemplate,
       path: "/speciality/" + spec.toLowerCase(),
       context: {
-        Speciality: spec,
+        specialty: spec,
       },
     })
   })

@@ -1,16 +1,11 @@
 import React from "react"
 import { injectIntl } from "gatsby-plugin-intl"
 
-// ClinicalExpertise is long free text from the CSV. Items are separated by "*"
-// (same convention as other CSV fields) or by line breaks; one item renders as
-// a paragraph, several render as a bullet list. Nothing renders when empty.
-function CardClinicalExpertise({ text, intl }) {
-  if (!text || !text.trim()) return null
-  const items = text
-    .split(/\*|\r?\n/)
-    .map(s => s.trim())
-    .filter(Boolean)
-  if (items.length === 0) return null
+// `items` is the clinicalExpertise list from the Doctor schema (the CSV cell is
+// split on "*" or line breaks in gatsby-node.js). One item renders as a
+// paragraph, several as a bullet list. Nothing renders when the list is empty.
+function CardClinicalExpertise({ items, intl }) {
+  if (!items || items.length === 0) return null
 
   return (
     <div className="bg-light text-dark px-3 py-2 mt-2 clinical-expertise">

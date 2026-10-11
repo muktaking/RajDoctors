@@ -1,3 +1,4 @@
+const _ = require("lodash")
 require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 })
@@ -51,18 +52,28 @@ module.exports = {
       },
     },
     `gatsby-transformer-remark`,
-    `gatsby-transformer-csv`,
+    {
+      resolve: `gatsby-transformer-csv`,
+      options: {
+        // src/data/doctors.csv -> `Doctor` nodes (schema in gatsby-node.js);
+        // other files keep the default "<FileName>Csv" type name.
+        typeName: ({ node }) =>
+          node.name === "doctors"
+            ? "Doctor"
+            : _.upperFirst(_.camelCase(`${node.name} Csv`)),
+      },
+    },
     {
       resolve: "@gatsby-contrib/gatsby-plugin-elasticlunr-search",
       options: {
-        fields: ["Name", "Speciality", "Slug", "Lang"],
+        // Index every doctor row (the main list and the isNew rows).
+        fields: ["name", "specialty", "slug", "lang"],
         resolvers: {
-          //MarkdownRemark
-          DoctorListsCsv: {
-            Name: node => node.Name,
-            Speciality: node => node.Speciality,
-            Lang: node => node.lang,
-            Slug: node => node.fields.slug,
+          Doctor: {
+            name: node => node.name,
+            specialty: node => node.specialty,
+            lang: node => node.lang,
+            slug: node => node.fields.slug,
           },
         },
       },

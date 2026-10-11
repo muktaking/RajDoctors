@@ -11,7 +11,7 @@ export default function CardSquare({data}) {
       <Row>
         <Col xs={12} md={6} className='p-1'>
           <CardTopComponent data={data} />
-          <CardClinicalExpertise text={data.ClinicalExpertise} />
+          <CardClinicalExpertise items={data.clinicalExpertise} />
         </Col>
         <Col xs={12} md={{order: 'last'}} className='p-1'>
           <CardChamberInfo data={data} />

@@ -12,38 +12,19 @@ function capitalizeFirstLetter(string) {
 }
 
 export const query = graphql`
-  query($Speciality: String!) {
-    allDoctorListsCsv: allDoctorListsCsv(filter: { Speciality: { eq: $Speciality } }) {
+  query($specialty: String!) {
+    doctors: allDoctor(filter: { specialty: { eq: $specialty } }) {
       nodes {
-        Degree
-        Name
-        Rating
-        Designation
-        Institute
-        contact1
-        loc1
-        visitTime1
         id
-        uid
-
-        fields {
-          slug
+        doctorId
+        name
+        rating
+        degrees
+        designation
+        institute
+        chambers {
+          phone
         }
-      }
-    }
-    allDoctorListsCopyCsv: allDoctorListsCopyCsv(filter: { Speciality: { eq: $Speciality } }) {
-      nodes {
-        Degree
-        Name
-        Rating
-        Designation
-        Institute
-        contact1
-        loc1
-        visitTime1
-        id
-        uid
-
         fields {
           slug
         }
@@ -54,13 +35,10 @@ export const query = graphql`
 
 const SpecialityWrapper = ({ pageContext, data }) => {
   
-  // Merge and sort without mutating the page query data.
-  const allNodes = _.sortBy(
-    [...data.allDoctorListsCsv.nodes, ...data.allDoctorListsCopyCsv.nodes],
-    ["Rating"]
-  ).reverse()
+  // Sort a copy (never mutate the page query data).
+  const allNodes = _.sortBy(data.doctors.nodes, ["rating"]).reverse()
   const intl = useIntl()
-  let speciality = pageContext.Speciality.toLowerCase()
+  let speciality = pageContext.specialty.toLowerCase()
   speciality = menuWithSynonyms
     .filter(item => item[0].toLowerCase() === speciality)[0]
     .join(" and ")
@@ -68,10 +46,9 @@ const SpecialityWrapper = ({ pageContext, data }) => {
   let top3 = allNodes
     .slice(0, 3)
     .reduce(
-      (accumulator, currentValue) => accumulator + `${currentValue.Name}; `,
+      (accumulator, currentValue) => accumulator + `${currentValue.name}; `,
       ""
     )
-  //, Contact: ${currentValue.contact1.replace(/\*/g,",")}
   top3 =
     intl.locale === "en"
       ? `Top Doctors: ${top3} at rajshahi city in bangladesh`
@@ -83,14 +60,14 @@ const SpecialityWrapper = ({ pageContext, data }) => {
    "position": "${i + 1}",
    "item": {
     "@type": "Person",
-    "name": "${doc.Name.replace(/\*/, ",")}",
+    "name": "${doc.name}",
     "url": "${"https://rajdoctors.com" + `/doctor/` + doc.fields.slug}",
-    "jobTitle": "${doc.Designation.replace(/\*/, ",")}",
+    "jobTitle": "${doc.designation}",
     "worksFor": {
       "@type": "Organization",
-      "name": "${doc.Institute.replace(/\*/, ",")}"
+      "name": "${doc.institute}"
     },
-    "telephone": "${doc.contact1.replace(/\*/, ",")}" 
+    "telephone": "${doc.chambers.length ? doc.chambers[0].phone : ""}" 
    }}
    `
   )
@@ -121,7 +98,7 @@ const SpecialityWrapper = ({ pageContext, data }) => {
       />
       <Speciality
         speciality={speciality}
-        data={{ ...data, allDoctorListsCsv: { nodes: allNodes } }}
+        doctors={allNodes}
       />
     </Layout>
   )
