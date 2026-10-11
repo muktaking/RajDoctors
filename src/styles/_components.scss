@@ -1,0 +1,235 @@
+// Shared components (cards, chips, buttons, rating, avatar, compact doctor card).
+// Class names keep the dp- prefix they had on the doctor page.
+@import "tokens";
+
+// ---- surfaces ---------------------------------------------------------------
+.dp-card {
+  background: $dp-surface;
+  border-radius: $dp-radius;
+  box-shadow: $dp-elev-1;
+  padding: 20px;
+}
+.dp-title {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: $dp-on-surface;
+  margin: 0 0 12px;
+}
+.dp-section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 16px;
+  color: $dp-on-surface;
+}
+.dp-text {
+  font-size: 0.95rem;
+  color: $dp-on-surface-variant;
+}
+
+// ---- chips / buttons --------------------------------------------------------
+.dp-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.dp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.3;
+  color: $dp-on-surface-variant;
+  svg {
+    flex: none;
+  }
+}
+.dp-chip--primary {
+  background: $dp-primary-container;
+  color: $dp-on-primary-container;
+}
+.dp-chip--tonal {
+  background: #eef2f1;
+  color: $dp-on-surface;
+}
+.dp-chip--outline {
+  border: 1px solid $dp-outline-variant;
+  background: $dp-surface;
+}
+.dp-chips--sm .dp-chip {
+  min-height: 24px;
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  border-radius: 6px;
+}
+
+.dp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: box-shadow 0.15s, background-color 0.15s;
+  svg {
+    font-size: 1.2rem;
+  }
+  &:hover {
+    text-decoration: none;
+  }
+}
+.dp-btn--filled {
+  background: $dp-primary;
+  color: $dp-on-primary;
+  &:hover,
+  &:focus {
+    color: $dp-on-primary;
+    background: $dp-primary-hover;
+    box-shadow: $dp-elev-1;
+  }
+}
+.dp-btn--tonal {
+  background: $dp-primary-container;
+  color: $dp-on-primary-container;
+  &:hover {
+    background: $dp-primary-container-hover;
+  }
+}
+.dp-btn--block {
+  width: 100%;
+}
+.dp-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 50%;
+  background: $dp-primary-container;
+  color: $dp-on-primary-container;
+  font-size: 1.2rem;
+  &:hover,
+  &:focus {
+    color: $dp-on-primary-container;
+    background: $dp-primary-container-hover;
+  }
+}
+
+// ---- rating -----------------------------------------------------------------
+.dp-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: $dp-on-surface-variant;
+}
+.dp-stars {
+  display: inline-flex;
+  gap: 1px;
+  color: #f2a900;
+  svg {
+    display: block;
+  }
+}
+.dp-rating__value {
+  font-weight: 600;
+  color: $dp-on-surface;
+}
+.dp-rating--sm {
+  font-size: 0.8rem;
+}
+
+// ---- avatar -----------------------------------------------------------------
+.dp-avatar {
+  border-radius: 50%;
+  flex: none;
+  overflow: hidden;
+  box-shadow: 0 0 0 4px $dp-surface, 0 0 0 5px $dp-outline-variant;
+  img {
+    border-radius: 50%;
+  }
+}
+
+// ---- compact doctor card (lists + "You may find helpful") ------------------
+.dp-mini {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  transition: box-shadow 0.15s;
+  &:hover,
+  &:focus-within {
+    box-shadow: $dp-elev-2;
+  }
+}
+.dp-mini__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.dp-avatar--sm {
+  box-shadow: 0 0 0 1px $dp-outline-variant;
+}
+.dp-mini__id {
+  min-width: 0;
+}
+.dp-mini__name {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.3;
+  color: $dp-on-surface;
+}
+.dp-mini__specialty {
+  font-size: 0.85rem;
+  color: $dp-primary;
+  font-weight: 500;
+}
+.dp-mini__degrees,
+.dp-mini__role {
+  font-size: 0.8rem;
+  color: $dp-on-surface-variant;
+}
+.dp-mini__degrees {
+  font-weight: 500;
+}
+.dp-mini__link {
+  margin-top: auto;
+  align-self: flex-end;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: $dp-primary;
+  &:hover,
+  &:focus {
+    color: $dp-primary-hover;
+  }
+}
+
+// Outside the doctor page (.dp) the compact card and chips still need resets
+.dp-mini {
+  font-family: $md-font-stack;
+  color: $md-on-surface;
+  text-align: left;
+  p,
+  h3 {
+    margin: 0;
+  }
+}
+.dp-chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}

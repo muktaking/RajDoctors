@@ -1,0 +1,60 @@
+// Design tokens shared by every page (Material 3-inspired).
+// Use: @import "tokens"; (doctor-page.scss, _components.scss, site.scss)
+
+$md-primary: #006a6a; // calm medical teal, 6.4:1 on white
+$md-on-primary: #fff;
+$md-primary-hover: #005353;
+$md-primary-container: #cdeceb;
+$md-primary-container-hover: #b5e0de;
+$md-on-primary-container: #002020;
+$md-surface: #fff;
+$md-surface-container: #eef2f1;
+$md-surface-container-high: #e4eae9;
+$md-background: #f3f6f6;
+$md-on-surface: #191c1c;
+$md-on-surface-variant: #3f4948; // 9.5:1 on white
+$md-outline: #6f7979;
+$md-outline-variant: #dae2e1;
+$md-inverse-surface: #2d3131;
+$md-inverse-on-surface: #eff1f0;
+$md-error: #ba1a1a;
+$md-error-container: #ffdad6;
+$md-on-error-container: #410002;
+$md-radius: 16px;
+$md-radius-sm: 12px;
+$md-radius-xs: 8px;
+$md-elev-1: 0 1px 2px rgba(0, 0, 0, 0.08), 0 1px 3px 1px rgba(0, 0, 0, 0.05);
+$md-elev-2: 0 1px 2px rgba(0, 0, 0, 0.1), 0 2px 6px 2px rgba(0, 0, 0, 0.06);
+$md-mobile: 767px;
+$md-font-stack: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Bengali",
+  "Hind Siliguri", "SolaimanLipi", "Vrinda", "Helvetica Neue", Arial, sans-serif;
+
+// Doctor-page names (kept so doctor-page.scss reads as before)
+$dp-primary: $md-primary;
+$dp-on-primary: $md-on-primary;
+$dp-primary-hover: $md-primary-hover;
+$dp-primary-container: $md-primary-container;
+$dp-primary-container-hover: $md-primary-container-hover;
+$dp-on-primary-container: $md-on-primary-container;
+$dp-surface: $md-surface;
+$dp-background: $md-background;
+$dp-on-surface: $md-on-surface;
+$dp-on-surface-variant: $md-on-surface-variant;
+$dp-outline: $md-outline;
+$dp-outline-variant: $md-outline-variant;
+$dp-radius: $md-radius;
+$dp-radius-sm: $md-radius-sm;
+$dp-elev-1: $md-elev-1;
+$dp-elev-2: $md-elev-2;
+$dp-mobile: $md-mobile;
+
+@mixin md-focus-ring {
+  outline: 3px solid $md-primary;
+  outline-offset: 2px;
+}
+@mixin md-card {
+  background: $md-surface;
+  border-radius: $md-radius;
+  box-shadow: $md-elev-1;
+  border: 0;
+}

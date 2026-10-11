@@ -6,7 +6,6 @@ import RelatedDoctors from "../../components/doctor-page/related-doctors"
 import Layout from "../../components/layout"
 import SEO from "../../components/seo"
 import CardSquare from "../../components/cards/cardSquare"
-import "../../styles/doctor-page.scss"
 import { districtMessage, districtPath, useDistrict } from "../../utils/district"
 
 // district + doctorId + lang identify one row of src/data/doctors/<district>.csv

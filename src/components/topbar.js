@@ -42,7 +42,10 @@ const Topbar = ({ handleToggleSidebar }) => {
       <div
         className="btn-toggle"
         onClick={() => handleToggleSidebar(true)}
-        aria-hidden="true"
+        onKeyUp={e => (e.key === "Enter" || e.key === " ") && handleToggleSidebar(true)}
+        role="button"
+        tabIndex={0}
+        aria-label={intl.formatMessage({ id: "shell.menu" })}
       >
         <FaBars size={28} />
       </div>
@@ -62,7 +65,7 @@ const Topbar = ({ handleToggleSidebar }) => {
       </div>
       
       <div className="text-center">
-        <div className="text-center text-white bg-danger" style={{position: 'fixed', bottom: 0, zIndex: 10, width: '100%' }}>
+        <div className="text-center md-ticker" style={{position: 'fixed', bottom: 0, zIndex: 10, width: '100%' }}>
           <div className="py-1">
             <TypeAnimation
             sequence={[
@@ -82,17 +85,17 @@ const Topbar = ({ handleToggleSidebar }) => {
           </div>
         </div>
       </div>
-      <div className="d-flex flex-wrap justify-content-center align-items-center mt-2">
-        <Link to="/teledoctor#raj-telemed-heading" className="btn btn-dark btn-md mb-1 mr-1" style={{fontWeight: '900', fontSize: '.7rem'}}>টেলিমেডিসিন সেবা</Link>
-        <DropdownButton  title="Doctor Registration" variant="dark" size='sm' className="mb-1 mr-1">
+      <nav className="md-toolbar d-flex flex-wrap justify-content-center align-items-center" aria-label={intl.formatMessage({ id: "shell.toolbar" })}>
+        <Link to="/teledoctor#raj-telemed-heading" className="btn md-toolbar__primary">টেলিমেডিসিন সেবা</Link>
+        <DropdownButton  title="Doctor Registration" variant="light" size='sm'>
           <Dropdown.Item href= {process.env.GATSBY_GOOGLE_ADD_DOCTOR}> Register A New Doctor</Dropdown.Item>
           <Dropdown.Item href={process.env.GATSBY_ADD_TELEMEDICINE_DOCTOR}> Register A New Doctor For Telemedicine</Dropdown.Item>
         </DropdownButton>
         <DropdownButton
           title={district ? districtName(intl, district) : intl.formatMessage({ id: "district.switch" })}
-          variant="dark"
+          variant="light"
           size="sm"
-          className="mb-1 mr-1 district-switcher"
+          className="district-switcher"
         >
           {ENABLED_DISTRICTS.map(d => (
             <Dropdown.Item
@@ -110,7 +113,7 @@ const Topbar = ({ handleToggleSidebar }) => {
           </Dropdown.Item>
         </DropdownButton>
         {/* Bangla data exists only for some districts (districts.json hasBangla) */}
-        { (!district || district.hasBangla) && <DropdownButton  title={intl.locale === "en" ? "বাংলাতে দেখুন" : "Change to English"} variant="dark" size='sm' className="mb-1">
+        { (!district || district.hasBangla) && <DropdownButton  title={intl.locale === "en" ? "বাংলাতে দেখুন" : "Change to English"} variant="light" size='sm'>
         {intl.locale !== "en" && (
               <Dropdown.Item>
                 <Link className="nav-link" to={home}>
@@ -126,7 +129,7 @@ const Topbar = ({ handleToggleSidebar }) => {
               </Dropdown.Item>
             )}
         </DropdownButton>}
-      </div>
+      </nav>
       {/* <div className="px-1">
         {(pathname !== `${locale}/about-us` &&  pathname !== `${locale}/contact-us`) && <Ad isHorizontal={true} />}
       </div> */}

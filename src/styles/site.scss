@@ -1,0 +1,771 @@
+// Site-wide Material 3-inspired theme (shell + every page). Loaded by
+// components/layout.js after style.scss; tokens in _tokens.scss, shared
+// components (cards, chips, buttons, compact doctor card) in _components.scss.
+@import "tokens";
+@import "components";
+@import "doctor-page";
+
+body {
+  background: $md-background;
+  color: $md-on-surface;
+  font-family: $md-font-stack;
+  -webkit-font-smoothing: antialiased;
+}
+.wrapper {
+  font-family: $md-font-stack;
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  [role="button"]:focus-visible,
+  [tabindex]:focus-visible,
+  .btn:focus-visible {
+    @include md-focus-ring;
+    box-shadow: none;
+  }
+}
+#content {
+  background: $md-background;
+  a {
+    color: $md-primary;
+  }
+  a:hover {
+    color: $md-primary-hover;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wrapper *,
+  .wrapper *::before,
+  .wrapper *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// ---- sidebar ----------------------------------------------------------------
+.pro-sidebar {
+  border-right: 1px solid $md-outline-variant;
+  .pro-sidebar-inner {
+    box-shadow: none;
+  }
+  .pro-sidebar-header {
+    border-bottom: 1px solid $md-outline-variant !important;
+    color: $md-primary;
+  }
+  .pro-sidebar-footer {
+    border-top: 1px solid $md-outline-variant !important;
+  }
+  .pro-menu .pro-menu-item > .pro-inner-item {
+    border-radius: 999px;
+    margin: 2px 8px;
+    padding: 6px 16px 6px 12px;
+    &:hover {
+      background: $md-surface-container;
+    }
+    .pro-icon-wrapper {
+      border-radius: 50% !important;
+      color: $md-primary;
+    }
+  }
+  .md-collapse {
+    width: 48px;
+    height: 48px;
+    margin: 10px 14px;
+    border-radius: 50%;
+    background: $md-surface-container;
+    color: $md-on-surface-variant;
+    cursor: pointer;
+    &:hover {
+      background: $md-surface-container-high;
+    }
+  }
+}
+
+// ---- top app bar ------------------------------------------------------------
+.topbar {
+  background: $md-surface;
+  border-bottom: 1px solid $md-outline-variant;
+  padding: 8px 16px;
+  gap: 8px 16px;
+  .branding {
+    gap: 8px;
+    h6 {
+      color: $md-on-surface !important;
+      font-weight: 600;
+      font-size: 1rem;
+      margin: 0;
+    }
+  }
+  .site-logo {
+    border-radius: 50%;
+    overflow: hidden;
+  }
+}
+.search {
+  background: $md-surface-container;
+  border-radius: 999px;
+  height: 44px;
+  padding: 4px 6px 4px 18px;
+  display: flex;
+  align-items: center;
+  box-shadow: none;
+}
+.search-input {
+  color: $md-on-surface;
+  margin-top: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  caret-color: $md-primary;
+  &::placeholder {
+    color: $md-on-surface-variant;
+  }
+}
+.search-icon {
+  position: static;
+  float: none;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: $md-primary;
+  color: $md-on-primary;
+}
+.search-inner-wrapper {
+  ul {
+    top: 52px;
+    background: $md-surface;
+    border-radius: $md-radius;
+    box-shadow: $md-elev-2;
+    padding: 4px 0 8px;
+    overflow: hidden;
+    li {
+      padding: 0 12px;
+      a {
+        color: $md-on-surface;
+        display: block;
+        border-radius: $md-radius-xs;
+        padding: 6px 8px;
+        &:hover,
+        &:focus {
+          background: $md-surface-container;
+          text-decoration: none;
+        }
+        p {
+          margin: 0;
+        }
+      }
+      .badge-secondary {
+        background: $md-primary-container;
+        color: $md-on-primary-container;
+        font-weight: 500;
+      }
+    }
+    li:first-child {
+      background: $md-primary-container !important;
+      color: $md-on-primary-container !important;
+      padding: 10px 16px;
+      margin: -4px 0 4px;
+      font-weight: 600;
+    }
+  }
+}
+.search-all {
+  color: $md-on-surface-variant !important;
+  font-size: 0.85rem;
+  input {
+    accent-color: $md-primary;
+  }
+}
+
+// toolbar of chips under the app bar (telemedicine, registration, district, language)
+.md-toolbar {
+  gap: 8px;
+  padding: 10px 12px 0;
+  .btn,
+  .btn-dark,
+  .btn-light {
+    border-radius: 8px !important;
+    border: 1px solid $md-outline-variant !important;
+    background: $md-surface !important;
+    color: $md-on-surface !important;
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
+    min-height: 34px;
+    padding: 4px 12px;
+    box-shadow: none !important;
+    margin: 0 !important;
+    &:hover {
+      background: $md-surface-container !important;
+    }
+  }
+  .md-toolbar__primary {
+    background: $md-primary-container !important;
+    border-color: $md-primary-container !important;
+    color: $md-on-primary-container !important;
+  }
+  .dropdown-menu {
+    border: 0;
+    border-radius: $md-radius-sm;
+    box-shadow: $md-elev-2;
+    padding: 6px 0;
+  }
+  .dropdown-item {
+    padding: 8px 16px;
+    &.active,
+    &:active {
+      background: $md-primary-container;
+      color: $md-on-primary-container;
+    }
+    .nav-link {
+      padding: 0;
+      color: $md-on-surface;
+      span {
+        background: transparent !important;
+      }
+    }
+  }
+}
+
+// announcement ticker (fixed at the bottom)
+.md-ticker {
+  background: $md-inverse-surface !important;
+  color: $md-inverse-on-surface !important;
+}
+#content .btn-toggle {
+  background: $md-primary;
+  color: $md-on-primary;
+  box-shadow: $md-elev-2;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+// ---- page sections ----------------------------------------------------------
+main {
+  .hero {
+    margin: 16px;
+    padding: 32px 16px;
+    background: $md-surface;
+    border-radius: $md-radius;
+    box-shadow: $md-elev-1;
+    h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: $md-on-surface;
+    }
+    .lead {
+      color: $md-on-surface-variant !important;
+      font-size: 1.05rem;
+    }
+  }
+  .hero.non-landing {
+    height: auto;
+    margin: 16px;
+    padding: 0;
+    h1 {
+      font-size: 1.6rem;
+      margin: 0 !important;
+      padding: 24px;
+    }
+    .row {
+      align-items: center;
+    }
+    .gatsby-image-wrapper {
+      display: block !important;
+      max-height: 180px;
+      border-radius: 0 $md-radius $md-radius 0;
+    }
+  }
+  .main {
+    margin: 16px;
+    .med-section {
+      max-width: 1100px;
+      margin: 0 auto 8px;
+      h3 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: $md-on-surface;
+        margin-top: 8px;
+      }
+      .med-card {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 16px;
+        margin-top: 20px;
+        > .px-2 {
+          grid-column: 1 / -1;
+          padding: 0 !important;
+        }
+      }
+    }
+  }
+}
+.divider {
+  height: 4px;
+  width: 48px;
+  border-radius: 2px;
+  background: $md-primary;
+  margin: 10px auto 0;
+}
+hr.w-25,
+hr.w-75 {
+  border-color: $md-outline-variant;
+  opacity: 0.6;
+}
+
+// ads: quiet surface
+.google-responsive-ad {
+  background: transparent;
+}
+main .border.bg-white {
+  border-color: $md-outline-variant !important;
+  border-radius: $md-radius-sm;
+  background: transparent !important;
+}
+
+// generic bootstrap cards / badges on these pages
+#content main {
+  .card {
+    @include md-card;
+    overflow: hidden;
+    .card-header {
+      background: transparent;
+      border-bottom: 1px solid $md-outline-variant;
+      font-weight: 600;
+      padding: 14px 20px;
+    }
+    .card-body {
+      padding: 16px 20px;
+    }
+  }
+  .badge-warning {
+    background: $md-primary-container;
+    color: $md-on-primary-container;
+    font-weight: 600;
+    border-radius: 6px;
+  }
+}
+
+// ---- pagination -------------------------------------------------------------
+.pagination {
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 24px auto;
+  padding: 0;
+  > li > a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    margin: 0;
+    padding: 0 10px;
+    border: 0 !important;
+    border-radius: 999px !important;
+    color: $md-on-surface !important;
+    background: transparent;
+    font-weight: 500;
+    &:hover {
+      background: $md-surface-container;
+      text-decoration: none;
+    }
+  }
+  > .active > a,
+  > .active > a:hover,
+  > .active > a:focus {
+    background: $md-primary !important;
+    color: $md-on-primary !important;
+  }
+  .disabled a {
+    background: transparent !important;
+    color: $md-outline !important;
+    opacity: 0.6;
+  }
+}
+
+// ---- share buttons ----------------------------------------------------------
+.share button {
+  margin: 0 4px;
+  border-radius: 50%;
+  &:focus-visible {
+    @include md-focus-ring;
+  }
+}
+
+// ---- district picker --------------------------------------------------------
+.district-picker {
+  max-width: 1100px;
+  margin: 0 auto !important;
+  .row {
+    margin: 0 -8px;
+  }
+  .row > [class*="col-"] {
+    padding: 0 8px;
+  }
+  .card-header {
+    color: $md-on-surface;
+  }
+  .md-district {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 34px;
+    padding: 4px 12px;
+    margin: 0 8px 8px 0;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .md-district--on {
+    background: $md-primary;
+    color: $md-on-primary !important;
+    .badge {
+      background: rgba(255, 255, 255, 0.2) !important;
+      color: $md-on-primary !important;
+    }
+    &:hover {
+      background: $md-primary-hover;
+    }
+  }
+  .md-district--off {
+    border: 1px dashed $md-outline-variant;
+    color: $md-outline;
+    cursor: default;
+  }
+}
+
+// ---- speciality index -------------------------------------------------------
+main .main .med-section .med-card > .speciality {
+  .card {
+    width: auto !important;
+    height: 100%;
+    background: $md-surface !important;
+    color: $md-on-surface !important;
+    transition: box-shadow 0.15s;
+    position: relative;
+    &:hover,
+    &:focus-within {
+      box-shadow: $md-elev-2;
+    }
+  }
+  .card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: $md-on-surface-variant;
+    svg {
+      width: 36px;
+      height: 36px;
+      padding: 8px;
+      margin: 0;
+      border-radius: 50%;
+      background: $md-primary-container;
+      color: $md-on-primary-container;
+    }
+  }
+  .card-body a {
+    font-weight: 600;
+  }
+}
+
+// ---- emergency --------------------------------------------------------------
+.md-emergency {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.md-emergency-strip {
+  @include md-card;
+  max-width: 1100px;
+  margin: 8px auto 16px;
+  padding: 16px;
+  border-left: 4px solid $md-error;
+  .md-emergency-strip__title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: $md-on-surface;
+    margin-bottom: 10px;
+    svg {
+      color: $md-error;
+      font-size: 1.3rem;
+    }
+  }
+  .md-emergency-strip__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+}
+.md-tel-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 4px 12px;
+  border-radius: 8px;
+  background: $md-error-container;
+  color: $md-on-error-container !important;
+  font-size: 0.85rem;
+  font-weight: 500;
+  &:hover {
+    text-decoration: none;
+    filter: brightness(0.97);
+  }
+}
+.md-emergency-head {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 8px 0 16px;
+  color: $md-on-surface;
+}
+.md-emergency-group {
+  @include md-card;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  .lead {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: $md-on-surface;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 0;
+    color: $md-on-surface;
+    & + li {
+      border-top: 1px solid $md-outline-variant;
+    }
+  }
+}
+
+// ---- telemedicine -----------------------------------------------------------
+.md-page {
+  max-width: 1100px;
+  margin: 16px auto;
+  padding: 0 16px;
+}
+.md-page-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 8px 0 16px;
+  color: $md-on-surface;
+}
+.md-note {
+  @include md-card;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  color: $md-on-surface-variant;
+  border-left: 4px solid $md-primary;
+}
+.md-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+#content main .md-tele {
+  margin: 0;
+  background: $md-surface !important;
+  .md-tele__photo {
+    background: $md-surface-container !important;
+    padding: 20px 0 !important;
+  }
+  .card-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: $md-on-surface;
+  }
+  .badge {
+    background: $md-primary-container !important;
+    color: $md-on-primary-container !important;
+    box-shadow: none !important;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+  hr {
+    border-color: $md-outline-variant;
+  }
+}
+
+// ---- about / privacy / contact / 404 ----------------------------------------
+.about,
+.privacy,
+.md-prose {
+  max-width: 900px;
+  margin: 16px auto !important;
+  padding: 24px !important;
+  background: $md-surface;
+  border-radius: $md-radius;
+  box-shadow: $md-elev-1;
+  color: $md-on-surface;
+  h1,
+  h2 {
+    font-weight: 700;
+    color: $md-on-surface;
+  }
+  h3,
+  h4,
+  h5 {
+    font-weight: 600;
+    color: $md-on-surface;
+  }
+  p,
+  li {
+    color: $md-on-surface-variant;
+    line-height: 1.65;
+  }
+}
+.about .advantages li > div:first-child svg,
+.about-inner svg {
+  color: $md-primary;
+}
+.contact3 {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 16px !important;
+  .contact-box h1 {
+    font-weight: 700 !important;
+    font-size: 1.8rem;
+    color: $md-on-surface;
+  }
+  .card {
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  .c-detail {
+    @include md-card;
+    margin: 0 0 16px;
+    padding: 20px !important;
+    height: calc(100% - 16px);
+    h6 {
+      font-weight: 600;
+      color: $md-on-surface;
+    }
+    p {
+      color: $md-on-surface-variant;
+      margin: 0;
+    }
+  }
+  .md-contact-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: $md-primary-container;
+    color: $md-on-primary-container;
+    font-size: 1.4rem;
+  }
+}
+.md-404 {
+  @include md-card;
+  max-width: 560px;
+  margin: 48px auto !important;
+  padding: 40px 24px;
+  text-align: center;
+  height: auto !important;
+  .md-404__icon {
+    font-size: 3rem;
+    color: $md-primary;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-weight: 700;
+  }
+  h2 {
+    font-size: 1.2rem;
+    color: $md-on-surface-variant;
+  }
+  p {
+    color: $md-on-surface-variant;
+  }
+}
+
+// ---- footer -----------------------------------------------------------------
+.site-footer {
+  background: $md-surface;
+  border-top: 1px solid $md-outline-variant;
+  color: $md-on-surface-variant;
+  padding: 40px 0 72px;
+  h6 {
+    color: $md-on-surface;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    font-size: 0.85rem;
+  }
+  a {
+    color: $md-on-surface-variant;
+  }
+  a:hover {
+    color: $md-primary;
+  }
+  hr {
+    border-top-color: $md-outline-variant;
+    opacity: 1;
+  }
+  .footer-links .md-footer-chip {
+    background: $md-primary-container;
+    border-radius: 8px;
+    padding: 0 !important;
+    a {
+      display: inline-block;
+      padding: 4px 12px;
+      color: $md-on-primary-container !important;
+      font-weight: 500;
+    }
+    &.md-footer-chip--all {
+      background: transparent;
+      border: 1px solid $md-outline-variant;
+      a {
+        color: $md-on-surface !important;
+      }
+    }
+  }
+  .social-icons a {
+    background: $md-surface-container;
+    color: $md-on-surface-variant;
+  }
+}
+
+@media (max-width: $md-mobile) {
+  main .hero {
+    margin: 12px;
+    padding: 24px 12px;
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
+  main .hero.non-landing .gatsby-image-wrapper {
+    display: none !important;
+  }
+  main .main {
+    margin: 12px;
+    .med-section .med-card {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 12px;
+    }
+  }
+  .topbar .branding h6 {
+    font-size: 0.9rem;
+  }
+}

@@ -51,6 +51,7 @@ class Search extends Component {
             className="search-input"
             value={this.state.query}
             placeholder={this.props.intl.formatMessage({ id: "search" })}
+            aria-label={this.props.intl.formatMessage({ id: "search" })}
             onChange={this.search}
             onFocus={() => {
               this.setState({ show: true })
@@ -69,7 +70,7 @@ class Search extends Component {
         </div>
         {this.props.district && (
           <label
-            className="search-scope text-white small mb-0 ml-2 d-flex align-items-center"
+            className="search-scope search-all small mb-0 ml-2 d-flex align-items-center"
             title={this.props.intl.formatMessage({ id: "district.searchAll" })}
             style={{ whiteSpace: "nowrap" }}
           >

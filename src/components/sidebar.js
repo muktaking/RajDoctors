@@ -138,16 +138,12 @@ const Sidebar = ({
       {/* </Scrollbars> */}
       <SidebarFooter>
         <div
-          style={{
-            width: "55px",
-            height: "55px",
-            background: "#2B2B2B",
-            margin: "10px 10px",
-          }}
-          className="d-flex justify-content-center align-items-center rounded-circle"
+          className="md-collapse d-flex justify-content-center align-items-center"
           onClick={() => handleCollapsedChange(!collapsed)}
-          onKeyUp={() => handleCollapsedChange(!collapsed)}
+          onKeyUp={e => (e.key === "Enter" || e.key === " ") && handleCollapsedChange(!collapsed)}
           role="button"
+          tabIndex={0}
+          aria-label={intl.formatMessage({ id: collapsed ? "shell.expandMenu" : "shell.collapseMenu" })}
         >
           {collapsed ? <FaAngleDoubleRight /> : <FaAngleDoubleLeft />}
         </div>

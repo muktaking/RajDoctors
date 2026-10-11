@@ -79,5 +79,13 @@
     "callForSerial": "Call for serial",
     "callNumber": "Call {phone}",
     "share": "Share"
+  },
+  "shell": {
+    "menu": "Menu",
+    "expandMenu": "Expand menu",
+    "collapseMenu": "Collapse menu",
+    "toolbar": "Quick links",
+    "goHome": "Go to home",
+    "callNumber": "Call {phone}"
   }
 }

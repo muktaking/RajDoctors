@@ -12,6 +12,7 @@ import Topbar from "./topbar"
 import Footer from "./footer"
 
 import "../styles/style.scss"
+import "../styles/site.scss"
 
 const Layout = ({ children, modalData }) => {
   const [collapsed, setCollapsed] = useState(false)

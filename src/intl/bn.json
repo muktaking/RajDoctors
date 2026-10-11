@@ -150,5 +150,13 @@
     "callForSerial": "সিরিয়ালের জন্য কল",
     "callNumber": "{phone} নম্বরে কল করুন",
     "share": "শেয়ার করুন"
+  },
+  "shell": {
+    "menu": "মেনু",
+    "expandMenu": "মেনু বড় করুন",
+    "collapseMenu": "মেনু ছোট করুন",
+    "toolbar": "দ্রুত লিংক",
+    "goHome": "হোম পেজে যান",
+    "callNumber": "{phone} নম্বরে কল করুন"
   }
 }

@@ -1,4 +1,12 @@
-$sidebar-bg-color: #1d1d1d;
+@import "tokens";
+// react-pro-sidebar theme (light surface, teal highlight)
+$sidebar-bg-color: $md-surface;
+$sidebar-color: $md-on-surface-variant;
+$highlight-color: $md-primary;
+$submenu-bg-color: $md-background;
+$submenu-bg-color-collapsed: $md-surface;
+$icon-bg-color: $md-surface-container;
+$sidebar-width: 256px;
 @import "~react-pro-sidebar/dist/scss/styles.scss";
 
 .wrapper {
