@@ -41,7 +41,7 @@ export function BadgeChips({ badges, small }) {
 // Static 5-star display (decorative; the number next to it is the real text).
 export function Stars({ rating, size = 16 }) {
   const r = Math.max(0, Math.min(5, parseFloat(rating) || 0))
-  const id = React.useId ? React.useId() : "s"
+  const id = React.useId()
   return (
     <span className="dp-stars" aria-hidden="true">
       {[0, 1, 2, 3, 4].map(i => {
