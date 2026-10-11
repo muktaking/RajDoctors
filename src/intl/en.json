@@ -7,7 +7,8 @@
     "description": "Find Doctor's Chamber's Location, Time, Contact Information and Details.",
     "tagLine": {
       "Dhaka": "Online Hub of Doctors in Dhaka",
-      "Rajshahi":  "Online Hub of Doctors in Rajshahi"
+      "Rajshahi": "Online Hub of Doctors in Rajshahi",
+      "Bangladesh": "Online Hub of Doctors in Bangladesh"
     }
   },
   "search": "Search",
@@ -56,5 +57,21 @@
     "Dhaka": "Dhaka city in Bangladesh",
     "Rajshahi": "Rajshahi city in Bangladesh"
   },
-  "clinicalExpertise": "Clinical Expertise"
+  "clinicalExpertise": "Clinical Expertise",
+  "district": {
+    "tagLine": "Online Hub of Doctors in {district}",
+    "adl": "All Doctors List in {district}",
+    "seoDoctorsDes": "Lists of all doctors with thier chamber location, duration and contact information at {district} city in bangladesh",
+    "arcib": "{district} city in Bangladesh",
+    "country": "Bangladesh",
+    "pickerTitle": "Find doctors in your district",
+    "pickerLead": "Choose a district to see its doctors, chambers, visiting hours and contact numbers.",
+    "doctorsCount": "{count} doctors",
+    "comingSoon": "Coming soon",
+    "switch": "District",
+    "allDistricts": "All districts",
+    "searchAll": "Search all districts",
+    "division": "{division} Division",
+    "page": "Page {page} of {pages}"
+  }
 }

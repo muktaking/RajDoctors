@@ -4,6 +4,7 @@ import { Container } from "react-bootstrap"
 import { useIntl } from "gatsby-plugin-intl"
 //importing component
 import Doctors from "../../components/doctors/doctors"
+import { districtMessage, useDistrict } from "../../utils/district"
 
 // declaring some global variable
 const perPage = 6
@@ -16,6 +17,7 @@ function capitalizeFirstLetter(string) {
 const Speciality = ({ speciality, doctors }) => {
   // Making useIntl available in the code
   const intl = useIntl()
+  const district = useDistrict()
   const pageCount = Math.ceil(doctors.length / perPage)
   //const [currentPage, setCurrentPage] = useState(0)
   const [doctorsList, setDoctorsList] = useState(
@@ -33,9 +35,7 @@ const Speciality = ({ speciality, doctors }) => {
       <div className="main">
         <div className="med-section">
           <h3 className="text-center">
-            {`${intl.formatMessage({
-              id: `adl.${process.env.GATSBY_DISTRICT}`,
-            })} ${intl.formatMessage({
+            {`${districtMessage(intl, "adl", district)} ${intl.formatMessage({
               id: `${capitalizeFirstLetter(speciality)}`,
             })}  ${intl.formatMessage({ id: "Speciality" })}`}
           </h3>

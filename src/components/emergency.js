@@ -1,9 +1,12 @@
-import { Link } from "gatsby"
+import { Link } from "gatsby-plugin-intl"
 import React from "react"
 import { Alert, Badge, ListGroup, ListGroupItem } from "react-bootstrap"
-import Emergency from "../data/emergency.json"
+import { districtPath, useNavDistrict } from "../utils/district"
 
-export default function emergency({ snippetVeiw }) {
+// `data` is src/data/emergency/<district>.json, passed in via page context.
+export default function Emergency({ snippetVeiw, data }) {
+  const district = useNavDistrict()
+  const list = data || []
   return (
     <div className="px-2">
       {snippetVeiw ? (
@@ -11,7 +14,7 @@ export default function emergency({ snippetVeiw }) {
           <p className="text-center mb-0">Emergency Numbers</p>
           <hr className="my-2" />
           <div style={{ overflow: "auto" }} className="text-center">
-            {Emergency.map((cat, i) => {
+            {list.map((cat, i) => {
               if (i < 2) {
                 return cat.contacts.map((contact, ind) => (
                   <Badge as="span" variant="light" className="mr-2">
@@ -22,7 +25,7 @@ export default function emergency({ snippetVeiw }) {
             })}
           </div>
           <hr className="my-2" />
-          <Link to="/emergency" className="btn btn-dark btn-sm mb-2">More...</Link>
+          <Link to={districtPath(district, "/emergency/")} className="btn btn-dark btn-sm mb-2">More...</Link>
         </Alert>
       ) : (
         <ListGroup as="ul">
@@ -34,7 +37,7 @@ export default function emergency({ snippetVeiw }) {
           >
             Emergency Numbers
           </ListGroupItem>
-          {Emergency.map((cat, i) => (
+          {list.map((cat, i) => (
             <ListGroupItem as="li" variant="primary" className="">
               <p className="lead">{cat.service}</p>
               <ListGroup as="ul">

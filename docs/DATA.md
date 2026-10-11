@@ -5,16 +5,22 @@ All site data lives in `src/data/` and is read by `gatsby-source-filesystem` +
 (`createSchemaCustomization`), so GraphQL fields never depend on what the CSV
 rows happen to contain.
 
-## `src/data/doctors.csv` → GraphQL type `Doctor`
+## `src/data/doctors/<district>.csv` → GraphQL type `Doctor`
+
+One file per district (`rajshahi.csv`, `dhaka.csv`, `sylhet.csv`, …; every
+CSV in `src/data/doctors/` becomes `Doctor` nodes, see `gatsby-config.js`).
+Districts and their URLs are described in [DISTRICTS.md](DISTRICTS.md).
 
 One row per doctor **per language**: the English and the Bangla version of a
-doctor share the same `doctorId` and differ in `lang`.
+doctor share the same `doctorId` and differ in `lang` (Dhaka and Sylhet only
+have `en` rows; their Bangla pages show the English row).
 
 | Column | Meaning | Example |
 | --- | --- | --- |
-| `doctorId` | Doctor number, shared by the en and bn rows. Also used to find the photo `src/images/doctor/<doctorId>_*.jpg`. | `1` |
+| `district` | District slug from `src/data/districts.json`; must match the file name | `rajshahi` |
+| `doctorId` | Doctor id, unique inside the district, shared by the en and bn rows. Also used to find the photo `src/images/doctor/<district>/<doctorId>_*.jpg`. | `1`, `emrlDu` |
 | `lang` | `en` or `bn` | `en` |
-| `name` | Display name. **The page URL is made from it** (`/doctor/<slug>`, slug = name lower-cased, spaces and ". " → `-`). Changing a name changes the URL. | `Dr. Azizul Haque` |
+| `name` | Display name. **The page URL is made from it** (`/<district>/doctor/<slug>`, slug = name lower-cased, spaces and ". " → `-`; districts with `slugStyle: "name_id"` append `_<doctorId>`). Changing a name changes the URL. | `Dr. Azizul Haque` |
 | `specialty` | Specialty. Must match a menu entry in `src/utils/meta.data.js` (English rows) to appear on `/speciality/<name>` pages. | `Medicine` |
 | `degrees` | Degrees, `*`-separated | `MBBS* MD (Internal Medicine)` |
 | `designation` | Job title | `Associate Professor` |
@@ -61,7 +67,12 @@ Text fields (`name`, `specialty`, `degrees`, `designation`, `institute`, `fee`,
   cleaned, with `phones` split into a list. A chamber is listed when it has a
   name, address, phone or visiting time (empty chambers are skipped).
 * `raw { … }` – every column exactly as written in the CSV.
-* `fields.slug` – URL slug.
+* `fields.slug` – URL slug (see `slugStyle` in DISTRICTS.md).
+* `photo: File` – `src/images/doctor/<district>/<doctorId>_*`, else `doctor/default.png`.
+* `localized(lang: String!, fallback: Boolean = false): Doctor` – the same
+  doctor's row in another language (same district + doctorId); with
+  `fallback: true` the row itself when that language has no row. Lists query
+  `localized(lang: $language, fallback: true) { ...DoctorCard }`.
 
 ## `src/data/telemediDoctorLists.csv` → `TelemediDoctorListsCsv`
 
@@ -78,11 +89,11 @@ becomes the Gatsby node id and collided with the telemedicine ids.)
 
 ## Adding a doctor
 
-1. Add two rows to `src/data/doctors.csv` (one `en`, one `bn`) with a new
-   `doctorId`, `isNew` = `true` or `false`, and the columns above. Use a
-   spreadsheet app and save as CSV (UTF-8).
-2. Optional photo: `src/images/doctor/<doctorId>_<anything>.jpg`.
-3. `npm run develop` and open `/doctor/<slug>/`.
+1. Add rows to `src/data/doctors/<district>.csv` (one `en`, optionally one
+   `bn`) with the district slug, a new `doctorId`, `isNew` = `true` or
+   `false`, and the columns above. Use a spreadsheet app and save as CSV (UTF-8).
+2. Optional photo: `src/images/doctor/<district>/<doctorId>_<anything>.jpg`.
+3. `npm run develop` and open `/<district>/doctor/<slug>/`.
 
 ## Converting old-format CSVs (other district branches)
 
@@ -91,8 +102,11 @@ Older branches and `src/data - Copy/<district>/` still use the old columns
 Convert them with:
 
 ```sh
-node scripts/migrate-doctor-csv.js --out src/data/doctors.csv \
+node scripts/migrate-doctor-csv.js --district rajshahi --out src/data/doctors/rajshahi.csv \
   src/data/doctorLists.csv --new src/data/doctorListsCopy.csv
+# district exports (Dhaka, Sylhet, ...) also need --repair, see DISTRICTS.md
+node scripts/migrate-doctor-csv.js --repair --district dhaka --out src/data/doctors/dhaka.csv \
+  src/data-legacy/dhaka/doctorLists.csv --new src/data-legacy/dhaka/doctorListsCopy.csv
 node scripts/migrate-doctor-csv.js --type telemedicine --force \
   --out src/data/telemediDoctorLists.csv src/data/telemediDoctorLists.csv
 node scripts/migrate-doctor-csv.js --type carousel --force \
@@ -128,7 +142,11 @@ Old → new column names:
 | `ClinicalExpertise` | `clinicalExpertise` |
 | `SpecialityDetails` (stray file only) | `clinicalExpertise` |
 | *(file it came from)* | `isNew` |
+| *(`--district <slug>`)* | `district` |
 
 Unknown columns are reported and dropped; files already in the new format
-pass through unchanged. Cell values are never modified. Run
+pass through unchanged. Cell values are never modified, except with
+`--repair` (joins cells split by an unquoted `&amp;`, shifting the rest of
+the row back, decodes `&amp;` to `&`, and names a headerless
+SpecialityDetails column after `Fee`). Run
 `node scripts/migrate-doctor-csv.js --help` for all options.

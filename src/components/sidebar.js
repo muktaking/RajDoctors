@@ -26,6 +26,7 @@ import {
 } from "react-pro-sidebar"
 
 import { useIntl, Link } from "gatsby-plugin-intl"
+import { districtPath, useNavDistrict } from "../utils/district"
 
 const menuKeys = Object.keys(menu)
 const Sidebar = ({
@@ -36,6 +37,9 @@ const Sidebar = ({
 }) => {
   // Making useIntl available in the code
   const intl = useIntl()
+  // District links point at the current district (default one on global pages)
+  const district = useNavDistrict()
+  const dp = rest => districtPath(district, rest)
   // Use language iso for the routes
   //const locale = intl.locale !== "en" ? `/${intl.locale}` : ""
 
@@ -70,15 +74,15 @@ const Sidebar = ({
         <Menu iconShape="square">
           <MenuItem icon={<FaHome />}>
             {intl.formatMessage({ id: "home" })}
-            <Link to={`/`}></Link>
+            <Link to={dp("/")}></Link>
           </MenuItem>
           <MenuItem icon={<FaHubspot />}>
             {intl.formatMessage({ id: "Doctors" })}
-            <Link to={`/doctors/`}></Link>
+            <Link to={dp("/doctors/")}></Link>
           </MenuItem>
           <MenuItem icon={<FaGraduationCap />}>
             {intl.formatMessage({ id: "Speciality" })}
-            <Link to={`/speciality/`}></Link>
+            <Link to={dp("/speciality/")}></Link>
           </MenuItem>
           <MenuItem icon={<FaMobileAlt />}>
             {intl.formatMessage({ id: "TeleMedicine" })}
@@ -105,7 +109,7 @@ const Sidebar = ({
                 {menu[key].map((item, index) => (
                   <MenuItem key={index}>
                     {intl.formatMessage({ id: `${item}` })}
-                    <Link to={`/speciality/${item.toLowerCase()}/`}></Link>
+                    <Link to={dp(`/speciality/${item.toLowerCase()}/`)}></Link>
                   </MenuItem>
                 ))}
               </SubMenu>
@@ -125,7 +129,7 @@ const Sidebar = ({
                 }
               >
                 {intl.formatMessage({ id: `${key}` })}
-                <Link to={`/speciality/${menu[key].toLowerCase()}/`}></Link>
+                <Link to={dp(`/speciality/${menu[key].toLowerCase()}/`)}></Link>
               </MenuItem>
             )
           )}

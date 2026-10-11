@@ -11,6 +11,7 @@ import { useIntl } from "gatsby-plugin-intl"
 import PropTypes from "prop-types"
 import React from "react"
 import { Helmet } from "react-helmet"
+import { districtMessage, useDistrict } from "../utils/district"
 
 const query = graphql`
   query {
@@ -28,6 +29,7 @@ const query = graphql`
 
 function SEO({ description, useDefault, meta, title, ogImg, schema }) {
   const intl = useIntl()
+  const district = useDistrict()
   const location = useLocation()
   const { site, file } = useStaticQuery(query)
   const url =
@@ -51,7 +53,7 @@ function SEO({ description, useDefault, meta, title, ogImg, schema }) {
         title={seo.title}
         titleTemplate={
           useDefault
-            ? `%s | ${intl.formatMessage({ id: `siteMetaData.tagLine.${process.env.GATSBY_DISTRICT}` })}`
+            ? `%s | ${districtMessage(intl, "siteMetaData.tagLine", district)}`
             : null
         }
         meta={[

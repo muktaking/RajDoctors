@@ -1,0 +1,35 @@
+[
+  {
+    "service": "National Emergency",
+    "contacts": [{ "name": "National Emergency Number", "phone": "999" }]
+  },
+  {
+    "service": "Fire Service",
+    "contacts": [
+      {
+        "name": "Rajshahi Fire Station with Ambulence",
+        "phone": "0721-774224, 01730-336655"
+      },
+      {
+        "name": "University Fire Station",
+        "phone": "0721-750270, 01730-002508"
+      }
+    ]
+  },
+  {
+    "service": "Private Medicals",
+    "contacts": [
+      {
+        "name": "Barind Medical College & Hospital",
+        "phone": "01839186666"
+      },
+      {
+        "name": "Islami Bank Hospital (Laxmipur)",
+        "phone": "01786-908008, 0721-770965"
+      },
+      { "name": "Medipath Diagnostic", "phone": "01712-685297" },
+      { "name": "Zamzam Hospitals", "phone": "01711-192600" },
+      { "name": "Amana Hospital Limited", "phone": "01705-403621" }
+    ]
+  }
+]

@@ -1,60 +1,31 @@
-import { graphql, useStaticQuery } from "gatsby"
 import { useIntl } from "gatsby-plugin-intl"
 import PropTypes from "prop-types"
 import React from "react"
 import Ad from "../ad"
 import Doctor from "./doctor"
 
+// `data` is a list of Doctor nodes queried with
+//   localized(lang: $language, fallback: true) { ...DoctorCard }
+// i.e. each doctor's row in the page language (or the row itself when the
+// district has no row in that language, e.g. Bangla on /bn/dhaka/).
 const Doctors = ({ data }) => {
-  const queryData = useStaticQuery(graphql`
-    query {
-      all: allDoctor {
-        nodes {
-          id
-          doctorId
-          name
-          rating
-          specialty
-          degrees
-          designation
-          institute
-          lang
-          badges
-          fields {
-            slug
-          }
-        }
-      }
-    }
-  `)
-
-  // Making useIntl available in the code
-  const intl = useIntl()
-  const allNodes = queryData.all.nodes
-  // Use language iso for the routes
-  //const locale = intl.locale !== "en" ? `/${intl.locale}` : ""
+  useIntl()
   return data.map((doctor, i) => {
-    const doctorFilterByLocale = allNodes.filter(
-      node => node.doctorId === doctor.doctorId && node.lang === intl.locale
-    )[0]
-    if (doctorFilterByLocale === undefined) return
-    const docCom = (
-      <>
-        { i % 3 === 0 && i !== 0 ? (
-          <Ad height={"90px"} />
-        ) : null}
-        <Doctor
-          key={i}
-          data={doctorFilterByLocale}
-        />
-      </>
+    // localized is null when the doctor has no row in the page language
+    // (only happens in districts that do have rows in that language): skip it
+    const card = doctor && ("localized" in doctor ? doctor.localized : doctor)
+    if (!card || !card.fields) return null
+    return (
+      <React.Fragment key={card.id || i}>
+        {i % 3 === 0 && i !== 0 ? <Ad height={"90px"} /> : null}
+        <Doctor data={card} />
+      </React.Fragment>
     )
-    return docCom
   })
 }
 
 Doctors.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.array,
   index: PropTypes.bool, // is it index page or not
 }
 

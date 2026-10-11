@@ -6,7 +6,12 @@
 
 // You can delete this file if you're not using it
 const path = require("path")
+const fs = require("fs")
 const flatMenu = require("./src/utils/meta.data").flatMenu
+const DISTRICT_DATA = require("./src/data/districts.json")
+const DISTRICTS = DISTRICT_DATA.districts
+const ENABLED = DISTRICTS.filter(d => d.enabled)
+const districtBySlug = slug => DISTRICTS.find(d => d.slug === slug)
 // ---------------------------------------------------------------------------
 // Data schema (see docs/DATA.md). src/data/doctors.csv becomes `Doctor` nodes
 // (typeName set in gatsby-config.js). Every CSV column is a String, declared
@@ -35,6 +40,7 @@ const CLEAN_FIELDS = [
   "protocol",
 ]
 const RAW_FIELDS = [
+  "district",
   "doctorId",
   "lang",
   "rating", // kept a String: pages sort on it exactly as before
@@ -63,6 +69,39 @@ const chambersOf = source =>
     // A chamber is listed when it has a name, address, phone or time.
     .filter(c => c.name || c.address || c.phone || c.visitTime || c.hours)
 
+// Lookups used by the `localized` and `photo` resolvers. Built on first use and
+// dropped whenever a Doctor or doctor photo node is (re)created, so
+// `gatsby develop` picks up CSV / photo edits.
+let doctorIndex = null // "district|doctorId|lang" -> node id (first row wins);
+// also "district|lang" -> true for every language a district has rows in
+let photoIndex = null // "district/doctorId" -> File node id; "default" -> default.png
+const PHOTO_DIR = /^doctor\/([^/]+)\/([^_/]+)_[^/]+\.(png|jpe?g|svg|webp)$/i
+async function getDoctorIndex(nodeModel) {
+  if (doctorIndex) return doctorIndex
+  const { entries } = await nodeModel.findAll({ type: "Doctor" })
+  const map = new Map()
+  for (const n of entries) {
+    const key = `${n.district}|${n.doctorId}|${n.lang}`
+    if (!map.has(key)) map.set(key, n.id)
+    map.set(`${n.district}|${n.lang}`, true)
+  }
+  return (doctorIndex = map)
+}
+async function getPhotoIndex(nodeModel) {
+  if (photoIndex) return photoIndex
+  const { entries } = await nodeModel.findAll({
+    type: "File",
+    query: { filter: { sourceInstanceName: { eq: "images" } } },
+  })
+  const map = new Map()
+  for (const f of entries) {
+    if (f.relativePath === "doctor/default.png") map.set("default", f.id)
+    const m = PHOTO_DIR.exec(f.relativePath)
+    if (m && !map.has(`${m[1]}/${m[2]}`)) map.set(`${m[1]}/${m[2]}`, f.id)
+  }
+  return (photoIndex = map)
+}
+
 module.exports.createSchemaCustomization = ({ actions, schema }) => {
   const { createTypes } = actions
   const fields = {
@@ -86,7 +125,30 @@ module.exports.createSchemaCustomization = ({ actions, schema }) => {
       type: "[String!]!",
       resolve: s => splitList(s.clinicalExpertise),
     },
+    district: "String",
     chambers: { type: "[DoctorChamber!]!", resolve: chambersOf },
+    photo: {
+      type: "File",
+      description:
+        "src/images/doctor/<district>/<doctorId>_*.(jpg|png|...), else doctor/default.png",
+      resolve: async (s, args, { nodeModel }) => {
+        const map = await getPhotoIndex(nodeModel)
+        const id = map.get(`${s.district}/${s.doctorId}`) || map.get("default")
+        return id ? nodeModel.getNodeById({ id, type: "File" }) : null
+      },
+    },
+    localized: {
+      type: "Doctor",
+      description:
+        "The row of the same doctor (district + doctorId) in `lang`. With fallback: true the row itself is returned when the district has no rows at all in that language (e.g. Bangla pages of an English-only district); a district that has Bangla rows keeps the old rule (no row -> not listed).",
+      args: { lang: "String!", fallback: { type: "Boolean", defaultValue: false } },
+      resolve: async (s, { lang, fallback }, { nodeModel }) => {
+        const map = await getDoctorIndex(nodeModel)
+        const id = map.get(`${s.district}|${s.doctorId}|${lang}`)
+        if (id) return nodeModel.getNodeById({ id, type: "Doctor" })
+        return fallback && !map.has(`${s.district}|${lang}`) ? s : null
+      },
+    },
     raw: { type: "DoctorRaw!", resolve: s => s },
     fields: "DoctorFields",
   }
@@ -140,104 +202,249 @@ module.exports.createSchemaCustomization = ({ actions, schema }) => {
   ])
 }
 
-module.exports.onCreateNode = ({ node, actions }) => {
+// Slug of a doctor row, per district (districts.json `slugStyle`):
+//  "name"    -> "dr-azizul-haque"          (Rajshahi: the old rajdoctors.com URLs)
+//  "name_id" -> "dr-shayda-ali_emrlDu"     (the URLs the district sub-domains used)
+const nameSlug = name => (name || "").toLowerCase().replace(/(\.?\s)/g, "-")
+const doctorSlug = (node, district) =>
+  district && district.slugStyle === "name_id"
+    ? `${nameSlug(node.name)}_${node.doctorId}`
+    : nameSlug(node.name)
+
+module.exports.onCreateNode = ({ node, actions, getNode, reporter }) => {
   const { createNodeField } = actions
+  if (node.internal.type === "File" && /^doctor\//.test(node.relativePath || "")) {
+    photoIndex = null
+  }
   if (node.internal.type === "Doctor") {
-    // Same input and rule as before the schema cleanup, so every URL is unchanged.
-    const slug = (node.name || "").toLowerCase().replace(/(\.?\s)/g, "-")
+    doctorIndex = null
+    const file = node.parent && getNode(node.parent)
+    const district = districtBySlug(node.district)
+    if (!district) {
+      reporter.warn(
+        `Doctor ${node.doctorId} in ${file ? file.relativePath : "?"} has unknown district "${node.district}"`
+      )
+    } else if (file && file.name !== node.district) {
+      reporter.warn(
+        `Doctor ${node.doctorId}: district "${node.district}" in ${file.relativePath} (file name differs)`
+      )
+    }
     createNodeField({
       node,
       name: "slug",
-      value: slug,
+      value: doctorSlug(node, district),
     })
   }
 }
 
+// Search: one elasticlunr index per district, written to
+// public/search/<district>.json and fetched by the search box on first use
+// (the old single index was a static query shipped with every page).
+function writeSearchIndexes(nodes, reporter) {
+  const elasticlunr = require("elasticlunr")
+  const dir = path.join(__dirname, "public", "search")
+  fs.mkdirSync(dir, { recursive: true })
+  for (const district of ENABLED) {
+    const index = elasticlunr()
+    index.setRef("id")
+    index.addField("name")
+    index.addField("specialty")
+    index.saveDocument(true)
+    nodes
+      .filter(n => n.district === district.slug)
+      .forEach(n =>
+        index.addDoc({
+          id: n.id,
+          name: n.name,
+          specialty: n.specialty,
+          slug: n.fields.slug,
+          lang: n.lang,
+          district: n.district,
+        })
+      )
+    fs.writeFileSync(path.join(dir, `${district.slug}.json`), JSON.stringify(index.toJSON()))
+  }
+  reporter.info(`Search indexes written to public/search/ (${ENABLED.map(d => d.slug).join(", ")})`)
+}
+
+const tpl = p => path.resolve(`./src/templates/${p}`)
+// Per-district emergency numbers (src/data/emergency/<district>.json); the
+// national list is used when a district has no file yet.
+const emergencyOf = slug => {
+  const file = path.join(__dirname, "src", "data", "emergency", `${slug}.json`)
+  const fallback = path.join(__dirname, "src", "data", "emergency", "_national.json")
+  return JSON.parse(fs.readFileSync(fs.existsSync(file) ? file : fallback, "utf8"))
+}
+const DOCTORS_PER_PAGE = 6
+
 module.exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
-  const doctorTemplate = path.resolve("./src/templates/doctor/doctor.js")
+  const doctorTemplate = tpl("doctor/doctor.js")
   const res = await graphql(`
     query {
-      allDoctor {
+      allDoctor(sort: [{ isNew: ASC }, { rating: DESC }]) {
         nodes {
+          id
+          fields {
+            slug
+          }
+          district
+          doctorId
+          lang
+          name
+          specialty
+          rating
+          photo {
+            publicURL
+          }
+        }
+      }
+      unsorted: allDoctor {
+        nodes {
+          id
+          district
           fields {
             slug
           }
           doctorId
           lang
+          name
           specialty
-        }
-      }
-      allImg: allFile(
-        filter: { relativePath: { regex: "/doctor/.*[png|jpeg|jpg|svg]$/" } }
-      ) {
-        edges {
-          node {
-            relativePath
+          photo {
             publicURL
           }
         }
-      }
-      img: file(relativePath: { eq: "doctor/default.png" }) {
-        publicURL
       }
     }
   `)
   // Handle errors
   if (res.errors) {
-    reporter.panicOnBuild(`Error while running GraphQL query.`)
+    reporter.panicOnBuild(`Error while running GraphQL query: ${res.errors}`)
     return
   }
-  // doctors.csv keeps the old file order (main list first, then isNew rows),
-  // which the duplicate-slug rule below relies on.
-  // Some rows share a slug (same name, or a bn row written in English).
-  // Gatsby 2 kept the FIRST row for a duplicated path while Gatsby 5 keeps the
-  // last one, so skip later duplicates to keep the published pages unchanged.
-  const createdDoctorPaths = new Set()
-  res.data.allDoctor.nodes.forEach(doctor => {
-    const language = doctor.lang
-    const locale = language !== "en" ? `/${language}` : ""
-    const path = `/doctor/${doctor.fields.slug}`
-    if (createdDoctorPaths.has(path)) {
-      reporter.warn(
-        `Duplicate doctor slug ${path} (doctorId ${doctor.doctorId}, ${language}) skipped`
-      )
-      return
-    }
-    createdDoctorPaths.add(path)
-    const img = res.data.allImg.edges.filter(({ node }) =>
-      node.relativePath.includes("doctor/" + doctor.doctorId + "_")
-    )
-    const imgDefault = {
-      src: img.length > 0 ? img[0].node.publicURL : res.data.img.publicURL,
-    }
-    createPage({
-      component: doctorTemplate,
-      path,
-      context: {
-        doctorId: doctor.doctorId,
-        specialty: doctor.specialty,
-        lang: language,
-        slug: doctor.fields.slug,
-        imgSrc: imgDefault.src,
-      },
-    })
-  })
+  const enabled = new Set(ENABLED.map(d => d.slug))
+  const skippedDistricts = {}
+  const stats = {}
 
-  // pages based on speciality
-  const speacialityTemplate = path.resolve(
-    "./src/templates/speciality/specialityWrapper.js"
-  )
-  const speciality = flatMenu
-  speciality.forEach(spec => {
+  for (const district of ENABLED) {
+    const d = district.slug
+    const unsorted = res.data.unsorted.nodes.filter(n => n.district === d)
+    if (!unsorted.length) {
+      reporter.warn(`District ${d} is enabled but has no rows (src/data/doctors/${d}.csv)`)
+    }
+    const base = { district: d }
+
+    // District home, all-doctors list (paginated), speciality index, emergency
+    const emergency = emergencyOf(d)
     createPage({
-      component: speacialityTemplate,
-      path: "/speciality/" + spec.toLowerCase(),
-      context: {
-        specialty: spec,
-      },
+      component: tpl("district/home.js"),
+      path: `/${d}/`,
+      context: { ...base, emergency },
     })
+    createPage({
+      component: tpl("district/emergency.js"),
+      path: `/${d}/emergency/`,
+      context: { ...base, emergency },
+    })
+    createPage({
+      component: tpl("district/specialities.js"),
+      path: `/${d}/speciality/`,
+      context: base,
+    })
+
+    // /<d>/doctors/ lists the doctors in the order the old client-side list
+    // used: sorted (isNew, rating desc), then lodash sortBy rating, drop the
+    // first, reverse. One static page per 6 doctors (was client-side state).
+    const sorted = res.data.allDoctor.nodes.filter(n => n.district === d)
+    const listed = require("lodash").sortBy(sorted, ["rating"]).slice(1).reverse()
+    const pageCount = Math.max(1, Math.ceil(listed.length / DOCTORS_PER_PAGE))
+    const schemaIds = sorted.slice(0, 3).map(n => n.id)
+    for (let i = 0; i < pageCount; i++) {
+      const ids = listed.slice(i * DOCTORS_PER_PAGE, (i + 1) * DOCTORS_PER_PAGE).map(n => n.id)
+      createPage({
+        component: tpl("district/doctors.js"),
+        path: i === 0 ? `/${d}/doctors/` : `/${d}/doctors/${i + 1}/`,
+        context: {
+          ...base,
+          ids,
+          schemaIds,
+          queryIds: [...new Set([...ids, ...schemaIds])],
+          currentPage: i + 1,
+          pageCount,
+        },
+      })
+    }
+
+    // Doctor pages. Rows sharing a slug inside a district: the FIRST row (CSV
+    // order) wins, as Gatsby 2 did on the single-district site.
+    const created = new Set()
+    let count = 0
+    unsorted.forEach(doctor => {
+      const pagePath = `/${d}/doctor/${doctor.fields.slug}`
+      if (created.has(pagePath)) {
+        reporter.warn(
+          `Duplicate doctor slug ${pagePath} (doctorId ${doctor.doctorId}, ${doctor.lang}) skipped`
+        )
+        return
+      }
+      created.add(pagePath)
+      count++
+      createPage({
+        component: doctorTemplate,
+        path: pagePath,
+        context: {
+          ...base,
+          doctorId: doctor.doctorId,
+          specialty: doctor.specialty,
+          lang: doctor.lang,
+          slug: doctor.fields.slug,
+          imgSrc: doctor.photo ? doctor.photo.publicURL : "",
+        },
+      })
+    })
+
+    // pages based on speciality
+    flatMenu.forEach(spec => {
+      createPage({
+        component: tpl("speciality/specialityWrapper.js"),
+        path: `/${d}/speciality/${spec.toLowerCase()}`,
+        context: { ...base, specialty: spec },
+      })
+    })
+    stats[d] = { rows: unsorted.length, doctorPages: count, listPages: pageCount }
+  }
+  res.data.unsorted.nodes.forEach(n => {
+    if (!enabled.has(n.district)) skippedDistricts[n.district] = (skippedDistricts[n.district] || 0) + 1
   })
+  Object.entries(skippedDistricts).forEach(([d, n]) =>
+    reporter.warn(`${n} doctor row(s) of district "${d}" skipped (not enabled in districts.json)`)
+  )
+  reporter.info(`District pages: ${JSON.stringify(stats)}`)
+
+  // Dev only: old single-district (default district = Rajshahi) URLs ->
+  // /<default>/... so old bookmarks work in `gatsby develop`. Production uses
+  // static/.htaccess (scripts/generate-htaccess.js), which covers the same paths.
+  if (process.env.NODE_ENV === "development" && enabled.has(DISTRICT_DATA.defaultDistrict)) {
+    const def = DISTRICT_DATA.defaultDistrict
+    const rest = new Set(["doctors/", "speciality/", "emergency/"])
+    flatMenu.forEach(spec => rest.add(`speciality/${spec.toLowerCase()}`))
+    res.data.unsorted.nodes
+      .filter(n => n.district === def && n.fields.slug)
+      .forEach(n => rest.add(`doctor/${n.fields.slug}`))
+    let n = 0
+    for (const prefix of ["/", "/en/", "/bn/"]) {
+      for (const r of rest) {
+        const to = `${prefix}${def}/${r}`
+        for (const from of new Set([`${prefix}${r}`, `${prefix}${r.replace(/\/$/, "")}`, `${prefix}${r.replace(/\/?$/, "/")}`])) {
+          actions.createRedirect({ fromPath: from, toPath: to, isPermanent: true, redirectInBrowser: true })
+          n++
+        }
+      }
+    }
+    reporter.info(`Dev redirects for old ${def} URLs: ${n}`)
+  }
+
+  writeSearchIndexes(res.data.unsorted.nodes.filter(n => enabled.has(n.district)), reporter)
 
   // pages based on teledoctor
   const resTeleDoctor = await graphql(`

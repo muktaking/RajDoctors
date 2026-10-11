@@ -7,12 +7,25 @@ import Doctors from "../../components/doctors/doctors"
 import Layout from "../../components/layout"
 import SEO from "../../components/seo"
 import CardSquare from "../../components/cards/cardSquare"
+import { districtMessage, districtPath, useDistrict } from "../../utils/district"
 
-// doctorId + lang identify one row of src/data/doctors.csv (page context set in
-// gatsby-node.js). Text fields are already cleaned ("*" -> ", ").
+// district + doctorId + lang identify one row of src/data/doctors/<district>.csv
+// (page context set in gatsby-node.js). Text fields are already cleaned
+// ("*" -> ", ").
 export const query = graphql`
-  query($doctorId: String!, $lang: String!) {
-    doc: doctor(doctorId: { eq: $doctorId }, lang: { eq: $lang }) {
+  query(
+    $district: String!
+    $doctorId: String!
+    $lang: String!
+    $specialty: String
+    $language: String!
+  ) {
+    doc: doctor(
+      district: { eq: $district }
+      doctorId: { eq: $doctorId }
+      lang: { eq: $lang }
+    ) {
+      ...DoctorCard
       doctorId
       name
       rating
@@ -37,14 +50,18 @@ export const query = graphql`
         slug
       }
     }
-    # Main list first, then isNew rows, each by rating (the order the two
-    # separate lists had before the merge), for "You may find helpful".
-    docs: allDoctor(sort: [{ isNew: ASC }, { rating: DESC }]) {
+    # "You may find helpful": same speciality in this district, main list
+    # first, then isNew rows, each by rating.
+    docs: allDoctor(
+      filter: { district: { eq: $district }, specialty: { eq: $specialty } }
+      sort: [{ isNew: ASC }, { rating: DESC }]
+      limit: 6
+    ) {
       nodes {
         id
-        doctorId
-        specialty
-        lang
+        localized(lang: $language, fallback: true) {
+          ...DoctorCard
+        }
       }
     }
   }
@@ -63,6 +80,7 @@ const Doctor = ({ intl, pageContext, ...props }) => {
   // Internationalization
   //const intl = useIntl()
   //const locale = intl.locale !== "en" ? `/${intl.locale}` : ""
+  const district = useDistrict()
   const doc = props.data.doc
   const { name, specialty, designation, institute, chambers, fields } = doc
   const chamber = n => chambers.find(c => c.number === n) || {}
@@ -70,14 +88,12 @@ const Doctor = ({ intl, pageContext, ...props }) => {
   const chamber2 = chamber(2)
 
   const docs = props.data.docs.nodes
-    .filter(e => e.specialty === specialty)
-    .slice(0, 6)
   const schema = `
 {
   "@context": "https://schema.org/",
   "@type": "Person",
   "name": "${name}",
-  "url": "${"https://rajdoctors.com" + `/doctor/` + fields.slug}",
+  "url": "${"https://rajdoctors.com" + districtPath(district, "/doctor/") + fields.slug}",
   "image": "${"https://rajdoctors.com" + pageContext.imgSrc}",
   "jobTitle": "${designation}",
   "worksFor": {
@@ -102,9 +118,7 @@ const Doctor = ({ intl, pageContext, ...props }) => {
           id: "chamber.location",
         })}: ${chamber1.address || ""} ${intl.formatMessage({
           id: "chamber.time",
-        })}: ${chamber1.visitTime || ""} ${intl.formatMessage({
-          id: `arcib.${process.env.GATSBY_DISTRICT}`,
-        })}`}
+        })}: ${chamber1.visitTime || ""} ${districtMessage(intl, "arcib", district)}`}
         schema={schema}
       />
       <CardSquare data={doc} />

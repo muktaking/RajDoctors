@@ -3,16 +3,42 @@ import Avatar from '../avatar'
 import ReactStars from 'react-stars'
 import { FaFire, FaHandHoldingHeart, FaHourglass, FaMedal } from 'react-icons/fa'
 import { Badge } from 'react-bootstrap'
-import { Link } from 'gatsby'
+import { graphql, Link } from 'gatsby'
+
+// Fields every doctor card needs. Used by the doctor page and by every list
+// (as `localized(lang: $language, fallback: true) { ...DoctorCard }`).
+export const query = graphql`
+  fragment DoctorCard on Doctor {
+    id
+    doctorId
+    district
+    lang
+    name
+    rating
+    specialty
+    degrees
+    designation
+    institute
+    badges
+    fields {
+      slug
+    }
+    photo {
+      childImageSharp {
+        gatsbyImageData(layout: FIXED, width: 512, height: 512, placeholder: BLURRED)
+      }
+    }
+  }
+`
 
 export default function CardTopComponent({data, avatarHeight = 120, avaterWidth = 120, avatarTop = '-60px', isSnippet= false}) {
     // Text fields arrive cleaned from GraphQL ("*" already turned into ", ").
-    const {doctorId, name, rating, degrees, specialty, designation, institute, fee, badges, biography} = data
+    const {district, photo, name, rating, degrees, specialty, designation, institute, fee, badges, biography} = data
   return (
     <div className={rating > 4.5 ? 'bg-warning p-2' : 'bg-light p-2'} style={isSnippet ? {position: 'relative', width: '380px' } : {position: 'relative' }}>
             <div className='d-flex justify-content-start align-items-center'>
                 <div style={{ position: "absolute", top: avatarTop}}>
-                    <Avatar height={avatarHeight} width={avaterWidth} img={doctorId} className='rounded-circle shadow' />
+                    <Avatar height={avatarHeight} width={avaterWidth} image={photo && photo.childImageSharp ? photo.childImageSharp.gatsbyImageData : null} className='rounded-circle shadow' />
                 </div>
                 <div className='' style={{marginLeft: "130px"}}>
                     <p className='mb-0' style={{color: '#535352', fontWeight: '700'}}>{name}</p>
@@ -41,7 +67,7 @@ export default function CardTopComponent({data, avatarHeight = 120, avaterWidth 
                     <p className='mb-0' style={{color: '#535352', fontWeight: '500'}}>{`${designation} at ${institute}`}</p>
                     <p className='text-justify'>{biography}</p>
                 </div>
-                {isSnippet && <Link to={`/doctor/${data.fields.slug}/`} className="btn d-block bg-light p-0">
+                {isSnippet && <Link to={`/${district}/doctor/${data.fields.slug}/`} className="btn d-block bg-light p-0">
                     Details
                 </Link>}
             </div>

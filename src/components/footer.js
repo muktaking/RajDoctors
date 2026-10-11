@@ -1,10 +1,12 @@
 import { Link, useIntl } from "gatsby-plugin-intl"
 import React from "react"
+import { districtPath, useNavDistrict } from "../utils/district"
 import { FaDribbble, FaFacebook, FaLinkedin, FaTwitter } from "react-icons/fa"
 
 const Footer = () => {
   // Making useIntl available in the code
   const intl = useIntl()
+  const dp = districtPath(useNavDistrict(), "")
   // Use language iso for the routes
   //const locale = intl.locale !== "en" ? `/${intl.locale}` : ""
   return (
@@ -68,32 +70,32 @@ const Footer = () => {
             <h6>{intl.formatMessage({ id: "ts" })}</h6>
             <ul className="footer-links">
               <li>
-                <Link to={`/speciality/medicine`}>
+                <Link to={`${dp}/speciality/medicine`}>
                   {intl.formatMessage({ id: "Medicine" })}
                 </Link>
               </li>
               <li>
-                <Link to={`/speciality/surgery`}>
+                <Link to={`${dp}/speciality/surgery`}>
                   {intl.formatMessage({ id: "Surgery" })}
                 </Link>
               </li>
               <li>
-                <Link to={`/speciality/gynaecology`}>
+                <Link to={`${dp}/speciality/gynaecology`}>
                   {intl.formatMessage({ id: "Gynaecology" })}
                 </Link>
               </li>
               <li>
-                <Link to={`/speciality/paediatrics`}>
+                <Link to={`${dp}/speciality/paediatrics`}>
                   {intl.formatMessage({ id: "Paediatrics" })}
                 </Link>
               </li>
               <li>
-                <Link to={`/speciality/dental%20surgery`}>
+                <Link to={`${dp}/speciality/dental%20surgery`}>
                   {intl.formatMessage({ id: "Dental Surgery" })}
                 </Link>
               </li>
               <li>
-                <Link to={`/speciality/orthopaedics`}>
+                <Link to={`${dp}/speciality/orthopaedics`}>
                   {intl.formatMessage({ id: "Orthopaedics" })}
                 </Link>
               </li>

@@ -6,17 +6,23 @@ import Layout from "../../components/layout"
 import SEO from "../../components/seo"
 import { menuWithSynonyms } from "../../utils/meta.data"
 import Speciality from "./speciality"
+import { districtMessage, districtPath, useDistrict } from "../../utils/district"
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
 export const query = graphql`
-  query($specialty: String!) {
-    doctors: allDoctor(filter: { specialty: { eq: $specialty } }) {
+  query($district: String!, $specialty: String!, $language: String!) {
+    doctors: allDoctor(
+      filter: { district: { eq: $district }, specialty: { eq: $specialty } }
+    ) {
       nodes {
         id
         doctorId
+        localized(lang: $language, fallback: true) {
+          ...DoctorCard
+        }
         name
         rating
         degrees
@@ -38,6 +44,7 @@ const SpecialityWrapper = ({ pageContext, data }) => {
   // Sort a copy (never mutate the page query data).
   const allNodes = _.sortBy(data.doctors.nodes, ["rating"]).reverse()
   const intl = useIntl()
+  const district = useDistrict()
   let speciality = pageContext.specialty.toLowerCase()
   speciality = menuWithSynonyms
     .filter(item => item[0].toLowerCase() === speciality)[0]
@@ -51,7 +58,7 @@ const SpecialityWrapper = ({ pageContext, data }) => {
     )
   top3 =
     intl.locale === "en"
-      ? `Top Doctors: ${top3} at rajshahi city in bangladesh`
+      ? `Top Doctors: ${top3} at ${district.en.toLowerCase()} city in bangladesh`
       : "- তাদের চেম্বারের লোকেশন, সময় ও সিরিয়লের নাম্বারসহ প্রয়োজনীয় তথ্য"
 
   const top3Schema = allNodes.slice(0, 3).map(
@@ -61,7 +68,7 @@ const SpecialityWrapper = ({ pageContext, data }) => {
    "item": {
     "@type": "Person",
     "name": "${doc.name}",
-    "url": "${"https://rajdoctors.com" + `/doctor/` + doc.fields.slug}",
+    "url": "${"https://rajdoctors.com" + districtPath(district, "/doctor/") + doc.fields.slug}",
     "jobTitle": "${doc.designation}",
     "worksFor": {
       "@type": "Organization",
@@ -84,9 +91,7 @@ const SpecialityWrapper = ({ pageContext, data }) => {
           id: capitalizeFirstLetter(speciality),
         })}
         description={[
-          intl.formatMessage({
-            id: `adl.${process.env.GATSBY_DISTRICT}`,
-          }),
+          districtMessage(intl, "adl", district),
           intl.formatMessage({
             id: capitalizeFirstLetter(speciality),
           }),

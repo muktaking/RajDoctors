@@ -1,23 +1,34 @@
 import React from "react"
-import { StaticQuery, graphql } from "gatsby"
-
+import { withPrefix } from "gatsby"
 import Search from "./search"
+import { ENABLED_DISTRICTS, useDistrict } from "../../utils/district"
 
-const Header = () => (
-  <StaticQuery
-    query={graphql`
-      query SearchIndexQuery {
-        siteSearchIndex {
-          index
-        }
-      }
-    `}
-    render={data => (
-      <div className="">
-        <Search searchIndex={data.siteSearchIndex.index} />
-      </div>
-    )}
-  />
-)
+// The search indexes are static files written by gatsby-node.js
+// (public/search/<district>.json); they are fetched the first time the search
+// box is used instead of shipping with every page.
+const indexCache = {}
+export const loadIndex = slug => {
+  if (!indexCache[slug]) {
+    indexCache[slug] = fetch(withPrefix(`/search/${slug}.json`)).then(r => {
+      if (!r.ok) throw new Error(`search index ${slug}: ${r.status}`)
+      return r.json()
+    })
+    indexCache[slug].catch(() => delete indexCache[slug])
+  }
+  return indexCache[slug]
+}
+
+const Header = () => {
+  const district = useDistrict() // null on global pages -> search all districts
+  return (
+    <div className="">
+      <Search
+        district={district}
+        districts={ENABLED_DISTRICTS}
+        loadIndex={loadIndex}
+      />
+    </div>
+  )
+}
 
 export default Header

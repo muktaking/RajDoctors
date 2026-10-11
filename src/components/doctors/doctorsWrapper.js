@@ -1,40 +1,27 @@
-/* 
-
-It is a wrapper of doctors and pegination component to reduce the dom manupulation
-
+/*
+  List of doctors with pagination. Each page of the list is its own static
+  page (/<district>/doctors/, /<district>/doctors/2/, ...) created in
+  gatsby-node.js, so a page only carries the 6 doctors it shows.
 */
-import { useIntl } from "gatsby-plugin-intl"
-import * as _ from "lodash"
+import { navigate, useIntl } from "gatsby-plugin-intl"
 import PropTypes from "prop-types"
-import React, { useState } from "react"
+import React from "react"
 import ReactPaginate from "react-paginate"
 import Doctors from "./doctors"
+import { districtMessage, districtPath, useDistrict } from "../../utils/district"
 
-//declaring some global variables
-const perPage = 6
-let offset = 0
-
-const DoctorsWrapper = ({ data }) => {
-  // Sort a copy: assigning back into data.all.nodes mutated the cached query
-  // result, so every render dropped one more doctor (slice(1)).
-  const nodes = _.sortBy(data.all.nodes, ["rating"]).slice(1).reverse()
+const DoctorsWrapper = ({ data, currentPage, pageCount }) => {
   const intl = useIntl()
-
-  const pageCount = Math.ceil(nodes.length / 10)
-  const [doctorsList, setDoctorsList] = useState(
-    nodes.slice(offset, offset + perPage)
-  )
-  const onHandleClick = ({ selected }) => {
-    offset = selected * perPage
-    setDoctorsList(nodes.slice(offset, offset + perPage))
-  }
+  const district = useDistrict()
+  const pagePath = n => districtPath(district, n === 1 ? "/doctors/" : `/doctors/${n}/`)
+  const locale = intl.locale !== "en" ? `/${intl.locale}` : ""
   return (
     <>
       <div className="med-section">
-        <h3 className="text-center">{intl.formatMessage({ id: `adl.${process.env.GATSBY_DISTRICT}` })}</h3>
+        <h3 className="text-center">{districtMessage(intl, "adl", district)}</h3>
         <div className="divider"></div>
         <div className="med-card">
-          <Doctors data={doctorsList} />
+          <Doctors data={data.all.nodes} />
         </div>
       </div>
       <div className="d-flex justify-content-center">
@@ -44,9 +31,11 @@ const DoctorsWrapper = ({ data }) => {
           breakLabel={"..."}
           breakClassName={"break-me"}
           pageCount={pageCount}
+          forcePage={currentPage - 1}
           marginPagesDisplayed={2}
           pageRangeDisplayed={5}
-          onPageChange={onHandleClick}
+          hrefBuilder={n => `${locale}${pagePath(n)}`}
+          onPageChange={({ selected }) => navigate(pagePath(selected + 1))}
           containerClassName={"pagination"}
           subContainerClassName={"pages pagination"}
           activeClassName={"active"}
@@ -58,6 +47,8 @@ const DoctorsWrapper = ({ data }) => {
 
 DoctorsWrapper.propTypes = {
   data: PropTypes.object,
+  currentPage: PropTypes.number,
+  pageCount: PropTypes.number,
 }
 
 export default DoctorsWrapper

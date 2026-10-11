@@ -8,8 +8,10 @@ module.exports = {
   // page paths exactly as created, matching the Gatsby 2 output.
   trailingSlash: "ignore",
   siteMetadata: {
-    title: `Online Hub of Doctors List in ${process.env.GATSBY_DISTRICT} city Bangladesh`,
-    description: `RajDoctors is an online platform to ease the pain of finding doctors. Doctors are enlisted according to their speciality, degree. Get details location and contact info. Only for doctors at ${process.env.GATSBY_DISTRICT} city`,
+    // District-neutral: the site now serves every district under /<district>/
+    // (src/data/districts.json); per-page titles come from the page's district.
+    title: `Online Hub of Doctors List in Bangladesh`,
+    description: `RajDoctors is an online platform to ease the pain of finding doctors. Doctors are enlisted according to their speciality, degree. Get details location and contact info for doctors in every district of Bangladesh`,
     url: `https://rajdoctors.com`,
     siteUrl: `https://rajdoctors.com`,
     apiUrl: "https://api.rajdoctors.com", // It is the backend url for contact, flag info
@@ -55,29 +57,18 @@ module.exports = {
     {
       resolve: `gatsby-transformer-csv`,
       options: {
-        // src/data/doctors.csv -> `Doctor` nodes (schema in gatsby-node.js);
-        // other files keep the default "<FileName>Csv" type name.
+        // src/data/doctors/<district>.csv -> `Doctor` nodes (schema in
+        // gatsby-node.js); other files keep the default "<FileName>Csv" name.
         typeName: ({ node }) =>
-          node.name === "doctors"
+          node.relativeDirectory === "doctors"
             ? "Doctor"
             : _.upperFirst(_.camelCase(`${node.name} Csv`)),
       },
     },
-    {
-      resolve: "@gatsby-contrib/gatsby-plugin-elasticlunr-search",
-      options: {
-        // Index every doctor row (the main list and the isNew rows).
-        fields: ["name", "specialty", "slug", "lang"],
-        resolvers: {
-          Doctor: {
-            name: node => node.name,
-            specialty: node => node.specialty,
-            lang: node => node.lang,
-            slug: node => node.fields.slug,
-          },
-        },
-      },
-    },
+    // Search: per-district elasticlunr indexes are written by gatsby-node.js
+    // (writeSearchIndexes) to public/search/<district>.json and loaded on
+    // demand, instead of @gatsby-contrib/gatsby-plugin-elasticlunr-search's
+    // single index that every page downloaded.
     {
       resolve: `gatsby-plugin-sitemap`,
       options: {

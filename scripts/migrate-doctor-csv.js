@@ -2,8 +2,9 @@
 /*
  * Convert old-format RajDoctors CSV files to the current schema (docs/DATA.md).
  *
- * Doctors (default type) — merges several old files into one doctors.csv:
- *   node scripts/migrate-doctor-csv.js --out src/data/doctors.csv \
+ * Doctors (default type) — merges a district's old files into one CSV:
+ *   node scripts/migrate-doctor-csv.js --district rajshahi \
+ *     --out src/data/doctors/rajshahi.csv \
  *     src/data/doctorLists.csv --new src/data/doctorListsCopy.csv
  *
  *   Files are written in the order given; a file preceded by --new gets
@@ -18,6 +19,12 @@
  *   --type doctors|telemedicine|carousel   (default: doctors)
  *   --out <file>        output file (default: print to stdout)
  *   --new <file>        (doctors) input whose rows are marked isNew=true
+ *   --district <slug>   (doctors) set the district column (e.g. rajshahi, dhaka);
+ *                       must be an entry of src/data/districts.json
+ *   --repair            fix cells split by an unquoted "&amp;" (shifted rows),
+ *                       decode &amp; and name a headerless SpecialityDetails
+ *                       column (needed for the Dhaka/Sylhet exports)
+ *   --repair-log <file> write one line per repaired row to <file>
  *   --drop-blank        drop rows where every cell is empty (off by default,
  *                       because blank rows currently produce a /doctor/ page)
  *   --force             overwrite --out if it exists
@@ -34,7 +41,7 @@ const path = require("path")
 const SCHEMAS = {
   doctors: {
     columns: [
-      "doctorId", "lang", "name", "specialty", "degrees", "designation",
+      "district", "doctorId", "lang", "name", "specialty", "degrees", "designation",
       "institute", "rating", "fee", "badges", "isNew",
       "chamber1Name", "chamber1Address", "chamber1Phone", "chamber1VisitTime",
       "chamber1Hours", "chamber1Days", "chamber1OffDays",
@@ -44,7 +51,7 @@ const SCHEMAS = {
     ],
     // old header (trimmed, case-insensitive) -> new column
     aliases: {
-      uid: "doctorId", lang: "lang", name: "name", rating: "rating",
+      district: "district", uid: "doctorId", lang: "lang", name: "name", rating: "rating",
       degree: "degrees", speciality: "specialty", designation: "designation",
       institute: "institute",
       loc1: "chamber1Name", locdetail1: "chamber1Address",
@@ -117,9 +124,47 @@ const quote = v => (/[",\r\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v)
 const toCsv = rows => rows.map(r => r.map(quote).join(",")).join("\n") + "\n"
 
 // ---- conversion -----------------------------------------------------------
-function convertFile(file, schema, extra, warn, forceExtra) {
+// --repair: fix damage seen in the district exports (Dhaka, Sylhet, ...).
+// 1. An unquoted "&amp;" turned into "&amp," and split one cell in two
+//    ("4pm to 8pm (Closed: Wed &amp" | " Friday)"). The pieces are joined
+//    back; when the split pushed the rest of the row one cell to the right
+//    (detected by data in columns past the last header column) the row is
+//    shifted back left, otherwise the freed cell is left empty.
+// 2. HTML entities (&amp; &amp) become "&".
+// 3. A headerless column right after Fee is the SpecialityDetails column
+//    (Dhaka's doctorListsCopy.csv lost that header).
+function repairRows(rows, file, warn, log) {
+  const header = rows[0].map(h => h.trim())
+  const fee = header.findIndex(h => h.toLowerCase() === "fee")
+  const hasDetails = header.some(h => ["specialitydetails", "clinicalexpertise"].includes(h.toLowerCase()))
+  if (fee >= 0 && !hasDetails && header[fee + 1] === "") {
+    rows[0][fee + 1] = "SpecialityDetails"
+    header[fee + 1] = "SpecialityDetails"
+    warn(`${file}: repair: headerless column ${fee + 2} after Fee treated as SpecialityDetails`)
+  }
+  let last = header.length - 1
+  while (last > 0 && header[last] === "") last--
+  const decode = v => v.replace(/&amp;?/g, "&")
+  for (let n = 1; n < rows.length; n++) {
+    const r = rows[n]
+    const id = r[0]
+    for (let i = 0; i < r.length - 1; i++) {
+      if (!/&amp$/.test(r[i].trimEnd()) || !/^\s/.test(r[i + 1])) continue
+      const before = `${header[i]}="${r[i]}" | ${header[i + 1] || "#" + (i + 2)}="${r[i + 1]}"`
+      r[i] = r[i].trimEnd() + ";" + r[i + 1]
+      const overflow = r.slice(last + 1).some(v => v.trim() !== "")
+      if (overflow) { r.splice(i + 1, 1); r.push("") } else r[i + 1] = ""
+      log.push(`${file}: row ${n + 1} (uid ${id}): joined ${before} -> ${header[i]}="${decode(r[i])}"${overflow ? ", rest of row shifted left" : ""}`)
+      i--
+    }
+    for (let i = 0; i < r.length; i++) r[i] = decode(r[i])
+  }
+}
+
+function convertFile(file, schema, extra, warn, forceExtra, repair, log) {
   const rows = parseCsv(fs.readFileSync(file, "utf8"))
   if (!rows.length) return []
+  if (repair) repairRows(rows, file, warn, log)
   const header = rows[0].map(h => h.trim())
   const lookup = {}
   for (const c of schema.columns) lookup[c.toLowerCase()] = c
@@ -141,7 +186,12 @@ function convertFile(file, schema, extra, warn, forceExtra) {
       obj[col] = v
     })
     // extra (isNew) fills empty cells; --new files always get isNew=true
-    for (const [k, v] of Object.entries(extra)) if (forceExtra || !obj[k]) obj[k] = v
+    for (const [k, v] of Object.entries(extra)) {
+      if (k === "district") {
+        if (obj.district && obj.district !== v) warn(`${file}: district "${obj.district}" replaced by --district ${v}`)
+        obj.district = v
+      } else if (forceExtra || !obj[k]) obj[k] = v
+    }
     out.push(schema.columns.map(c => (obj[c] === undefined ? "" : obj[c])))
   }
   return out
@@ -165,6 +215,9 @@ function main(argv) {
     if (a === "--type") { args.type = argv[++i]; args.typeGiven = true }
     else if (a === "--out") args.out = argv[++i]
     else if (a === "--new") args.inputs.push({ file: argv[++i], isNew: true })
+    else if (a === "--district") args.district = argv[++i]
+    else if (a === "--repair") args.repair = true
+    else if (a === "--repair-log") args.repairLog = argv[++i]
     else if (a === "--drop-blank") args.dropBlank = true
     else if (a === "--force") args.force = true
     else if (a === "-h" || a === "--help") { console.log(fs.readFileSync(__filename, "utf8").split("*/")[0]); return 0 }
@@ -177,6 +230,14 @@ function main(argv) {
     const guess = detectType(header)
     if (guess && guess !== args.type) throw new Error(`${args.inputs[0].file} looks like a "${guess}" file; pass --type ${guess}`)
   }
+  if (args.district) {
+    if (args.type !== "doctors") throw new Error("--district is only for --type doctors")
+    const list = path.join(__dirname, "..", "src", "data", "districts.json")
+    if (fs.existsSync(list)) {
+      const known = JSON.parse(fs.readFileSync(list, "utf8")).districts.map(d => d.slug)
+      if (!known.includes(args.district)) throw new Error(`unknown district "${args.district}" (see src/data/districts.json)`)
+    }
+  }
   const schema = SCHEMAS[args.type]
   if (!schema) throw new Error(`--type must be one of ${Object.keys(SCHEMAS).join(", ")}`)
   if (!args.inputs.length) throw new Error("no input files (see --help)")
@@ -184,18 +245,28 @@ function main(argv) {
   if (args.out && fs.existsSync(args.out) && !args.force) throw new Error(`${args.out} exists (use --force)`)
 
   const warnings = []
+  const repairLog = []
   const warn = m => { if (!warnings.includes(m)) warnings.push(m) }
   let rows = []
   for (const { file, isNew } of args.inputs) {
     const extra = args.type === "doctors" ? { isNew: isNew ? "true" : "false" } : {}
-    const converted = convertFile(file, schema, extra, warn, isNew)
+    if (args.district) extra.district = args.district
+    const converted = convertFile(file, schema, extra, warn, isNew, args.repair, repairLog)
     console.error(`${file}: ${converted.length} rows${isNew ? " (isNew=true)" : ""}`)
     rows.push(...converted)
   }
-  const isNewIdx = schema.columns.indexOf("isNew")
-  const blank = r => r.every((v, i) => i === isNewIdx || v.trim() === "")
+  const autoCols = ["isNew", "district"].map(c => schema.columns.indexOf(c))
+  const blank = r => r.every((v, i) => autoCols.includes(i) || v.trim() === "")
+  if (args.type === "doctors") {
+    const missing = rows.filter(r => !blank(r) && !r[schema.columns.indexOf("district")]).length
+    if (missing) warn(`${missing} row(s) have no district (use --district <slug>)`)
+  }
   const blanks = rows.filter(blank).length
   if (blanks) console.error(`${blanks} blank row(s) ${args.dropBlank ? "dropped" : "kept (use --drop-blank to remove)"}`)
+  if (args.repair) {
+    console.error(`repair: ${repairLog.length} split cell(s) joined`)
+    if (args.repairLog) fs.writeFileSync(args.repairLog, repairLog.join("\n") + "\n")
+  }
   if (args.dropBlank) rows = rows.filter(r => !blank(r))
   warnings.forEach(w => console.error("warning: " + w))
 

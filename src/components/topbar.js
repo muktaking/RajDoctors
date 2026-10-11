@@ -7,6 +7,13 @@ import { TypeAnimation } from 'react-type-animation';
 import { Button, Dropdown, DropdownButton, NavItem, NavLink } from "react-bootstrap"
 import { FaBars } from "react-icons/fa"
 import SearchWrapper from "./search/searchWrapper"
+import {
+  districtMessage,
+  districtName,
+  districtPath,
+  ENABLED_DISTRICTS,
+  useDistrict,
+} from "../utils/district"
 
 export const query = graphql`
   query {
@@ -28,6 +35,8 @@ const Topbar = ({ handleToggleSidebar }) => {
 
   const data = useStaticQuery(query)
   const { pathname } = useLocation()
+  const district = useDistrict() // null on global pages
+  const home = district ? districtPath(district) : "/"
   return (
     <>
       <div
@@ -40,13 +49,13 @@ const Topbar = ({ handleToggleSidebar }) => {
       <div className="topbar py-1">
         {/* 1.leftbar */}
         <div className="branding my-auto pt-1 pb-2">
-          <Link to="/">
+          <Link to={`${locale}${home}`}>
             <div className="site-logo d-flex align-items-center">
               <GatsbyImage image={data.file.childImageSharp.gatsbyImageData} alt="" />
             </div>
           </Link>
           <h6 className="text-white pl-2">
-            {intl.formatMessage({ id: `siteMetaData.tagLine.${process.env.GATSBY_DISTRICT}` })}
+            {districtMessage(intl, "siteMetaData.tagLine", district)}
           </h6>
         </div>
         <SearchWrapper />
@@ -79,17 +88,39 @@ const Topbar = ({ handleToggleSidebar }) => {
           <Dropdown.Item href= {process.env.GATSBY_GOOGLE_ADD_DOCTOR}> Register A New Doctor</Dropdown.Item>
           <Dropdown.Item href={process.env.GATSBY_ADD_TELEMEDICINE_DOCTOR}> Register A New Doctor For Telemedicine</Dropdown.Item>
         </DropdownButton>
-        { process.env.GATSBY_DISTRICT === 'Rajshahi' && <DropdownButton  title={intl.locale === "en" ? "বাংলাতে দেখুন" : "Change to English"} variant="dark" size='sm' className="mb-1">
+        <DropdownButton
+          title={district ? districtName(intl, district) : intl.formatMessage({ id: "district.switch" })}
+          variant="dark"
+          size="sm"
+          className="mb-1 mr-1 district-switcher"
+        >
+          {ENABLED_DISTRICTS.map(d => (
+            <Dropdown.Item
+              key={d.slug}
+              as={Link}
+              to={`${locale}/${d.slug}/`}
+              active={district !== null && d.slug === district.slug}
+            >
+              {districtName(intl, d)}
+            </Dropdown.Item>
+          ))}
+          <Dropdown.Divider />
+          <Dropdown.Item as={Link} to={`${locale}/`}>
+            {intl.formatMessage({ id: "district.allDistricts" })}
+          </Dropdown.Item>
+        </DropdownButton>
+        {/* Bangla data exists only for some districts (districts.json hasBangla) */}
+        { (!district || district.hasBangla) && <DropdownButton  title={intl.locale === "en" ? "বাংলাতে দেখুন" : "Change to English"} variant="dark" size='sm' className="mb-1">
         {intl.locale !== "en" && (
               <Dropdown.Item>
-                <Link className="nav-link" to={`/`}>
+                <Link className="nav-link" to={home}>
                   <span className="bg-light text-dark">English</span>
                 </Link>
               </Dropdown.Item>
             )}
           {intl.locale === "en" && (
               <Dropdown.Item>
-                <Link className="nav-link" to={`/bn/`}>
+                <Link className="nav-link" to={`/bn${home}`}>
                   <span className="bg-light text-dark">বাংলা</span>
                 </Link>
               </Dropdown.Item>
