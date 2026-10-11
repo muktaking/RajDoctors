@@ -1,5 +1,5 @@
 import { Link, graphql} from "gatsby"
-import Img from "gatsby-image"
+import { GatsbyImage } from "gatsby-plugin-image"
 import { injectIntl} from "gatsby-plugin-intl"
 import React from "react"
 import { Badge, Card, Col, Container, Row } from "react-bootstrap"
@@ -28,10 +28,7 @@ export const query = graphql`
           childImageSharp {
             # Specify the image processing specifications right in the query.
             # Makes it trivial to update as your page's design changes.
-            fluid(maxWidth: 280) {
-              # Choose either the fragment including a small base64ed image, a traced placeholder SVG, or one without.
-              ...GatsbyImageSharpFluid_noBase64
-            }
+            gatsbyImageData(layout: CONSTRAINED, width: 280, placeholder: NONE)
           }
         }
       }
@@ -66,11 +63,10 @@ const TeleDocs = ({ intl,...props }) => {
             {
                 props.data?.teledocs.nodes.map((doc)=> <Card className="mx-2 my-1" style={{ width: "300px", backgroundColor: "#DDE6ED" }}>
                 <div style={{ backgroundColor: "#FFF" }} className="py-3">
-                  <Img
-                    fluid={props.data.allImg.edges.filter(({ node }) =>
+                  <GatsbyImage image={props.data.allImg.edges.filter(({ node }) =>
                         node.relativePath.includes("/" + doc.id + ".")
-                         )[0].node.childImageSharp.fluid}
-                    style={{ borderRadius: "50%", width: "200px", margin: "auto" }}
+                         )[0].node.childImageSharp.gatsbyImageData} alt=""
+                    style={{ borderRadius: "50%", width: "200px", margin: "auto", display: "block" }}
                     className='shadow'
                   />
                 </div>

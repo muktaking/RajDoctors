@@ -1,5 +1,5 @@
 import { graphql, useStaticQuery } from "gatsby"
-import Img from "gatsby-image"
+import { GatsbyImage } from "gatsby-plugin-image"
 // Import hook
 import { useIntl } from "gatsby-plugin-intl"
 import React from "react"
@@ -31,7 +31,7 @@ const IndexPage = () => {
       med: allDoctorListsCsv(
         filter: { Speciality: { eq: "Medicine" } }
         limit: 3
-        sort: { fields: Rating, order: DESC }
+        sort: { Rating: DESC }
       ) {
         nodes {
           id
@@ -50,7 +50,7 @@ const IndexPage = () => {
       sur: allDoctorListsCsv(
         filter: { Speciality: { eq: "Surgery" } }
         limit: 3
-        sort: { fields: Rating, order: DESC }
+        sort: { Rating: DESC }
       ) {
         nodes {
           id
@@ -69,7 +69,7 @@ const IndexPage = () => {
       gy: allDoctorListsCsv(
         filter: { Speciality: { eq: "Gynaecology" } }
         limit: 3
-        sort: { fields: Rating, order: DESC }
+        sort: { Rating: DESC }
       ) {
         nodes {
           id
@@ -88,7 +88,7 @@ const IndexPage = () => {
       medCopy: allDoctorListsCopyCsv(
         filter: { Speciality: { eq: "Medicine" } }
         limit: 3
-        sort: { fields: Rating, order: DESC }
+        sort: { Rating: DESC }
       ) {
         nodes {
           id
@@ -107,7 +107,7 @@ const IndexPage = () => {
       surCopy: allDoctorListsCopyCsv(
         filter: { Speciality: { eq: "Surgery" } }
         limit: 3
-        sort: { fields: Rating, order: DESC }
+        sort: { Rating: DESC }
       ) {
         nodes {
           id
@@ -126,7 +126,7 @@ const IndexPage = () => {
       gyCopy: allDoctorListsCopyCsv(
         filter: { Speciality: { eq: "Gynaecology" } }
         limit: 3
-        sort: { fields: Rating, order: DESC }
+        sort: { Rating: DESC }
       ) {
         nodes {
           id
@@ -167,10 +167,7 @@ const IndexPage = () => {
             childImageSharp {
               # Specify the image processing specifications right in the query.
               # Makes it trivial to update as your page's design changes.
-              fluid(maxWidth: 400, maxHeight: 400) {
-                # Choose either the fragment including a small base64ed image, a traced placeholder SVG, or one without.
-                ...GatsbyImageSharpFluid
-              }
+              gatsbyImageData(layout: CONSTRAINED, width: 400, height: 400, placeholder: BLURRED)
             }
           }
         }
@@ -186,13 +183,14 @@ const IndexPage = () => {
   `)
   // Making useIntl available in the code
   const intl = useIntl()
-  data.med.nodes.push(...data.medCopy.nodes)
-  data.sur.nodes.push(...data.surCopy.nodes)
-  data.gy.nodes.push(...data.gyCopy.nodes)
+  // Merge without mutating the cached static query result.
+  const medNodes = [...data.med.nodes, ...data.medCopy.nodes]
+  const surNodes = [...data.sur.nodes, ...data.surCopy.nodes]
+  const gyNodes = [...data.gy.nodes, ...data.gyCopy.nodes]
   const gallary = [
-    { title: intl.formatMessage({ id: "tms" }), speciality: 'medicine', data: data.med.nodes },
-    { title: intl.formatMessage({ id: "tss" }), speciality:'surgery', data: data.sur.nodes },
-    { title: intl.formatMessage({ id: "tgs" }), speciality: 'gynaecology', data: data.gy.nodes },
+    { title: intl.formatMessage({ id: "tms" }), speciality: 'medicine', data: medNodes },
+    { title: intl.formatMessage({ id: "tss" }), speciality:'surgery', data: surNodes },
+    { title: intl.formatMessage({ id: "tgs" }), speciality: 'gynaecology', data: gyNodes },
   ]
 
   return (

@@ -239,7 +239,8 @@ const Privacy = () => {
           If you have any questions or suggestions about my Terms and
           Conditions, do not hesitate to contact me at info@rajdoctors.com.
         </p>{" "}
-        <p>
+        {/* was <p><p>…</p></p>: invalid nesting caused a React 18 hydration error */}
+        <div>
           <p>
             This privacy policy page was created at
             <a
@@ -258,7 +259,7 @@ const Privacy = () => {
               website Privacy Policy Generator
             </a>
           </p>
-        </p>
+        </div>
       </div>
     </Layout>
   )

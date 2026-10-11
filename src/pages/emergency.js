@@ -1,5 +1,5 @@
 import { graphql, useStaticQuery } from "gatsby"
-import Img from "gatsby-image"
+import { GatsbyImage } from "gatsby-plugin-image"
 import { useIntl } from "gatsby-plugin-intl"
 import React from "react"
 import { Col, Container, Row } from "react-bootstrap"
@@ -18,9 +18,7 @@ const EmergencyPage = () => {
         childImageSharp {
           # Specify the image processing specifications right in the query.
           # Makes it trivial to update as your page's design changes.
-          fixed(height: 300) {
-            ...GatsbyImageSharpFixed
-          }
+          gatsbyImageData(layout: FIXED, height: 300, placeholder: BLURRED)
         }
       }
     }
@@ -42,7 +40,7 @@ const EmergencyPage = () => {
               </div>
             </Col>
             <Col md={6}>
-              <Img fixed={data.img.childImageSharp.fixed} />
+              <GatsbyImage image={data.img.childImageSharp.gatsbyImageData} alt="" />
             </Col>
           </Row>
         </div>

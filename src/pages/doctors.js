@@ -1,5 +1,5 @@
 import { graphql, useStaticQuery } from "gatsby"
-import Img from "gatsby-image"
+import { GatsbyImage } from "gatsby-plugin-image"
 import { useIntl } from "gatsby-plugin-intl"
 import React from "react"
 import { Col, Container, Row } from "react-bootstrap"
@@ -14,7 +14,7 @@ const Doctors = () => {
 
   const data = useStaticQuery(graphql`
     query {
-      all: allDoctorListsCsv(sort: { fields: Rating, order: DESC }) {
+      all: allDoctorListsCsv(sort: { Rating: DESC }) {
         nodes {
           id
           uid
@@ -32,7 +32,7 @@ const Doctors = () => {
           }
         }
       }
-      allCopy: allDoctorListsCopyCsv(sort: { fields: Rating, order: DESC }) {
+      allCopy: allDoctorListsCopyCsv(sort: { Rating: DESC }) {
         nodes {
           id
           uid
@@ -54,15 +54,14 @@ const Doctors = () => {
         childImageSharp {
           # Specify the image processing specifications right in the query.
           # Makes it trivial to update as your page's design changes.
-          fixed(height: 300) {
-            ...GatsbyImageSharpFixed
-          }
+          gatsbyImageData(layout: FIXED, height: 300, placeholder: BLURRED)
         }
       }
     }
   `)
-  data.all.nodes.push(...data.allCopy.nodes)
-  const top3Schema = data.all.nodes.slice(0, 3).map(
+  // Merge without mutating the cached static query result.
+  const allNodes = [...data.all.nodes, ...data.allCopy.nodes]
+  const top3Schema = allNodes.slice(0, 3).map(
     (doc, i) => `
    {"@type": "ListItem",
    "position": "${i + 1}",
@@ -107,13 +106,13 @@ const Doctors = () => {
               </div>
             </Col>
             <Col md={6}>
-              <Img fixed={data.img.childImageSharp.fixed} />
+              <GatsbyImage image={data.img.childImageSharp.gatsbyImageData} alt="" />
             </Col>
           </Row>
         </div>
         <hr className="w-75" />
         <div className="main">
-          <DoctorsWrapper data={data} />
+          <DoctorsWrapper data={{ ...data, all: { nodes: allNodes } }} />
         </div>
       </Container>
     </Layout>

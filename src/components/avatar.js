@@ -1,6 +1,6 @@
 import React from "react"
 import { graphql, useStaticQuery } from "gatsby"
-import Img from "gatsby-image"
+import { GatsbyImage } from "gatsby-plugin-image"
 
 const Avatar = (props) => {
   let { img, height, width } = props
@@ -15,10 +15,7 @@ const Avatar = (props) => {
             childImageSharp {
               # Specify the image processing specifications right in the query.
               # Makes it trivial to update as your page's design changes.
-              fixed(width: 512, height: 512) {
-                # Choose either the fragment including a small base64ed image, a traced placeholder SVG, or one without.
-                ...GatsbyImageSharpFixed
-              }
+              gatsbyImageData(layout: FIXED, width: 512, height: 512, placeholder: BLURRED)
             }
           }
         }
@@ -27,10 +24,7 @@ const Avatar = (props) => {
         childImageSharp {
           # Specify the image processing specifications right in the query.
           # Makes it trivial to update as your page's design changes.
-          fixed(width: 512, height: 512) {
-            # Choose either the fragment including a small base64ed image, a traced placeholder SVG, or one without.
-            ...GatsbyImageSharpFixed
-          }
+          gatsbyImageData(layout: FIXED, width: 512, height: 512, placeholder: BLURRED)
         }
       }
     }
@@ -43,20 +37,21 @@ const Avatar = (props) => {
   const imgDefault = {
     src:
       img.length > 0
-        ? img[0].node.childImageSharp.fixed
-        : data.img.childImageSharp.fixed,
+        ? img[0].node.childImageSharp.gatsbyImageData
+        : data.img.childImageSharp.gatsbyImageData,
     height: height || 65,
     width: width || 65,
   }
   return (
-    <Img
-      fixed={imgDefault.src}
+    <GatsbyImage
+      image={imgDefault.src}
+      alt=""
+      className={props.className}
       style={{
         width: imgDefault.width + "px",
         height: imgDefault.height + "px",
         border: '.3rem solid #FFF'
       }}
-      {...props}
     />
   )
 }

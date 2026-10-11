@@ -94,12 +94,23 @@ module.exports.createPages = async ({ graphql, actions, reporter }) => {
   //   edge => edge.node.lang === "en"
   // )
   res.data.allDoctorListsCsv.edges.push(...res.data.allDoctorListsCopyCsv.edges)
+  // Some rows share a slug (same name, or a bn row written in English).
+  // Gatsby 2 kept the FIRST row for a duplicated path while Gatsby 5 keeps the
+  // last one, so skip later duplicates to keep the published pages unchanged.
+  const createdDoctorPaths = new Set()
   res.data.allDoctorListsCsv.edges.forEach(edge => {
     const language = edge.node.lang
     const locale = language !== "en" ? `/${language}` : ""
     //const path = `/doctor/${edge.node.uid}-${language}`
     const path = `/doctor/${edge.node.fields.slug}`
-    img = res.data.allImg.edges.filter(({ node }) =>
+    if (createdDoctorPaths.has(path)) {
+      reporter.warn(
+        `Duplicate doctor slug ${path} (uid ${edge.node.uid}, ${language}) skipped`
+      )
+      return
+    }
+    createdDoctorPaths.add(path)
+    const img = res.data.allImg.edges.filter(({ node }) =>
       node.relativePath.includes("doctor/" + edge.node.uid + "_")
     )
     const imgDefault = {
@@ -184,3 +195,69 @@ module.exports.createPages = async ({ graphql, actions, reporter }) => {
 //     deletePage(page)
 //   }
 // }
+
+// gatsby-plugin-intl v5 requires `@formatjs/*/locale-data/${locale}` dynamically,
+// which makes webpack bundle every locale (~2.7 MB). Only en and bn are used.
+module.exports.onCreateWebpackConfig = ({ actions, plugins }) => {
+  actions.setWebpackConfig({
+    plugins: [
+      plugins.contextReplacement(
+        /@formatjs[\\/]intl-(pluralrules|relativetimeformat)[\\/]locale-data$/,
+        /^\.\/(en|bn)(\.js)?$/
+      ),
+    ],
+  })
+}
+
+// Gatsby 2 gave file-system pages (src/pages/*) a trailing slash ("/about-us/").
+// Gatsby 5 with trailingSlash: "ignore" creates them as "/about-us". Restore the
+// old paths so page paths, links and sitemap URLs stay identical. This runs on
+// the pages gatsby-plugin-intl has already localised (context.intl is set).
+module.exports.onCreatePage = ({ page, actions }) => {
+  const { createPage, deletePage } = actions
+  const fromPagesDir = page.component.includes(
+    `${path.sep}src${path.sep}pages${path.sep}`
+  )
+  if (
+    !fromPagesDir ||
+    !page.context ||
+    !page.context.intl ||
+    page.path === "/" ||
+    page.path.endsWith("/") ||
+    page.path.endsWith(".html")
+  ) {
+    return
+  }
+  const withSlash = p => (p.endsWith("/") || p.endsWith(".html") ? p : p + "/")
+  deletePage(page)
+  createPage({
+    ...page,
+    path: withSlash(page.path),
+    context: {
+      ...page.context,
+      intl: {
+        ...page.context.intl,
+        originalPath: withSlash(page.context.intl.originalPath),
+      },
+    },
+  })
+}
+
+// gatsby-plugin-sitemap v6 writes sitemap-index.xml + sitemap-0.xml, while
+// robots.txt and search consoles point at /sitemap.xml (Gatsby 2 output).
+// Keep /sitemap.xml as the same <urlset> document it used to be.
+module.exports.onPostBuild = ({ reporter }) => {
+  const fs = require("fs")
+  const pub = path.join(__dirname, "public")
+  const chunks = fs.readdirSync(pub).filter(f => /^sitemap-\d+\.xml$/.test(f))
+  if (chunks.length === 1) {
+    fs.copyFileSync(path.join(pub, chunks[0]), path.join(pub, "sitemap.xml"))
+  } else if (chunks.length > 1) {
+    fs.copyFileSync(
+      path.join(pub, "sitemap-index.xml"),
+      path.join(pub, "sitemap.xml")
+    )
+  } else {
+    reporter.warn("No sitemap chunk found; /sitemap.xml not written")
+  }
+}

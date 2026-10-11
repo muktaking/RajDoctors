@@ -1,6 +1,6 @@
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
-import Img from "gatsby-image"
+import { GatsbyImage } from "gatsby-plugin-image"
 import { Container, Row, Col, Card, Badge } from "react-bootstrap"
 import { FaPoll } from "react-icons/fa"
 import { useIntl, Link } from "gatsby-plugin-intl"
@@ -32,15 +32,17 @@ const Speciality = () => {
         childImageSharp {
           # Specify the image processing specifications right in the query.
           # Makes it trivial to update as your page's design changes.
-          fixed(height: 300) {
-            ...GatsbyImageSharpFixed
-          }
+          gatsbyImageData(layout: FIXED, height: 300, placeholder: BLURRED)
         }
       }
     }
   `)
-  data.allDoctorListsCsv.nodes.push(...data.allDoctorListsCopyCsv.nodes)
-  const specArray = data.allDoctorListsCsv.nodes.map(spec => spec.Speciality)
+  // Merge without mutating the cached static query result.
+  const allNodes = [
+    ...data.allDoctorListsCsv.nodes,
+    ...data.allDoctorListsCopyCsv.nodes,
+  ]
+  const specArray = allNodes.map(spec => spec.Speciality)
   const specDesArray = [
     "Medicine",
     "Gynaecology",
@@ -80,7 +82,7 @@ const Speciality = () => {
             </Col>
             <Col md={6}>
               {/* <img src={HeroImg} alt="hero" height="300px" /> */}
-              <Img fixed={data.img.childImageSharp.fixed} />
+              <GatsbyImage image={data.img.childImageSharp.gatsbyImageData} alt="" />
             </Col>
           </Row>
         </div>

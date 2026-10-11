@@ -62,7 +62,7 @@ export const query = graphql`
       Badges
       ClinicalExpertise
     }
-    docs: allDoctorListsCsv(sort: { fields: Rating, order: DESC }) {
+    docs: allDoctorListsCsv(sort: { Rating: DESC }) {
       nodes {
         id
         uid
@@ -83,7 +83,7 @@ export const query = graphql`
       }
     }
 
-    docsCopy: allDoctorListsCopyCsv(sort: { fields: Rating, order: DESC }) {
+    docsCopy: allDoctorListsCopyCsv(sort: { Rating: DESC }) {
       nodes {
         id
         uid
@@ -101,15 +101,6 @@ export const query = graphql`
         Protocol
         lang
         Badges
-      }
-    }
-
-    img: file(relativePath: { eq: "pakhighorAd02.png" }) {
-      childImageSharp {
-        fluid(maxWidth: 350, maxHeight: 210) {
-          # Choose either the fragment including a small base64ed image, a traced placeholder SVG, or one without.
-          ...GatsbyImageSharpFluid_noBase64
-        }
       }
     }
   }
@@ -128,8 +119,9 @@ const Doctor = ({ intl, pageContext, ...props }) => {
   // Internationalization
   //const intl = useIntl()
   //const locale = intl.locale !== "en" ? `/${intl.locale}` : ""
-  props.data.doc =  props.data.doc ?  props.data.doc :  props.data.docCopy
-  props.data.docs.nodes.push(...props.data.docsCopy.nodes)
+  // Merge without mutating the page query data.
+  const doc = props.data.doc ? props.data.doc : props.data.docCopy
+  const allDocs = [...props.data.docs.nodes, ...props.data.docsCopy.nodes]
   const {
     uid,
     Name,
@@ -150,10 +142,10 @@ const Doctor = ({ intl, pageContext, ...props }) => {
     Protocol,
     Fee,
     Badges
-  } = props.data.doc
+  } = doc
 
-  const docs = props.data.docs.nodes
-    .filter(e => e.Speciality === props.data.doc.Speciality)
+  const docs = allDocs
+    .filter(e => e.Speciality === doc.Speciality)
     .slice(0, 6)
   const schema = `
 {
@@ -197,7 +189,7 @@ const Doctor = ({ intl, pageContext, ...props }) => {
         })}`}
         schema={schema}
       />
-      <CardSquare data={props.data.doc} />
+      <CardSquare data={doc} />
         <div className="main">
           <div className="med-section">
             <h3 className="text-center">{"You may find helpful"}</h3>

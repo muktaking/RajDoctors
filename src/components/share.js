@@ -31,7 +31,7 @@ const Share = () => {
       }
       img: file(relativePath: { eq: "gatsby-icon.png" }) {
         childImageSharp {
-          fluid {
+          resize(width: 800) {
             src
           }
         }
@@ -48,7 +48,7 @@ const Share = () => {
   const target4 = useRef(null)
   const [show5, setShow5] = useState(false)
   const target5 = useRef(null)
-  const Image = data.img.childImageSharp.fluid.src
+  const Image = data.img.childImageSharp.resize.src
   return (
     <div className="share text-center">
       {/* <p className="">{intl.formatMessage({ id: "share-us" })}</p> */}

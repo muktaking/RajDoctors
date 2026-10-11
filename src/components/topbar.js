@@ -1,6 +1,6 @@
 import { useLocation } from "@reach/router"
 import { graphql, Link, useStaticQuery } from "gatsby"
-import Img from "gatsby-image"
+import { GatsbyImage } from "gatsby-plugin-image"
 import { useIntl } from "gatsby-plugin-intl"
 import React from "react"
 import { TypeAnimation } from 'react-type-animation';
@@ -14,9 +14,7 @@ export const query = graphql`
       childImageSharp {
         # Specify the image processing specifications right in the query.
         # Makes it trivial to update as your page's design changes.
-        fixed(width: 35, height: 35) {
-          ...GatsbyImageSharpFixed
-        }
+        gatsbyImageData(layout: FIXED, width: 35, height: 35, placeholder: BLURRED)
       }
     }
   }
@@ -44,7 +42,7 @@ const Topbar = ({ handleToggleSidebar }) => {
         <div className="branding my-auto pt-1 pb-2">
           <Link to="/">
             <div className="site-logo d-flex align-items-center">
-              <Img fixed={data.file.childImageSharp.fixed} />
+              <GatsbyImage image={data.file.childImageSharp.gatsbyImageData} alt="" />
             </div>
           </Link>
           <h6 className="text-white pl-2">

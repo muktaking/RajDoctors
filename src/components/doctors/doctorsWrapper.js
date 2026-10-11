@@ -15,16 +15,18 @@ const perPage = 6
 let offset = 0
 
 const DoctorsWrapper = ({ data }) => {
-  data.all.nodes = _.sortBy(data.all.nodes, ["Rating"]).slice(1).reverse()
+  // Sort a copy: assigning back into data.all.nodes mutated the cached query
+  // result, so every render dropped one more doctor (slice(1)).
+  const nodes = _.sortBy(data.all.nodes, ["Rating"]).slice(1).reverse()
   const intl = useIntl()
 
-  const pageCount = Math.ceil(data.all.nodes.length / 10)
+  const pageCount = Math.ceil(nodes.length / 10)
   const [doctorsList, setDoctorsList] = useState(
-    data.all.nodes.slice(offset, offset + perPage)
+    nodes.slice(offset, offset + perPage)
   )
   const onHandleClick = ({ selected }) => {
     offset = selected * perPage
-    setDoctorsList(data.all.nodes.slice(offset, offset + perPage))
+    setDoctorsList(nodes.slice(offset, offset + perPage))
   }
   return (
     <>

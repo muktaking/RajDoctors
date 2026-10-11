@@ -3,6 +3,9 @@ require("dotenv").config({
 })
 
 module.exports = {
+  // Gatsby 5 defaults to "always" (adds trailing slashes). "ignore" keeps the
+  // page paths exactly as created, matching the Gatsby 2 output.
+  trailingSlash: "ignore",
   siteMetadata: {
     title: `Online Hub of Doctors List in ${process.env.GATSBY_DISTRICT} city Bangladesh`,
     description: `RajDoctors is an online platform to ease the pain of finding doctors. Doctors are enlisted according to their speciality, degree. Get details location and contact info. Only for doctors at ${process.env.GATSBY_DISTRICT} city`,
@@ -20,6 +23,7 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
+    `gatsby-plugin-image`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
@@ -63,16 +67,27 @@ module.exports = {
         },
       },
     },
-    `gatsby-plugin-sitemap`,
     {
-      resolve: `gatsby-plugin-gtag`,
+      resolve: `gatsby-plugin-sitemap`,
+      options: {
+        // gatsby-plugin-intl v5 also emits /en/404.html and /bn/404.html;
+        // keep them out so the sitemap matches the Gatsby 2 one.
+        excludes: [`/en/404.html`, `/bn/404.html`],
+      },
+    },
+    {
+      resolve: `gatsby-plugin-google-gtag`,
       options: {
         // your google analytics tracking id
-        trackingId: `G-MR1BSKXT3V`,
-        // Puts tracking script in the head instead of the body
-        head: false,
-        // enable ip anonymization
-        anonymize: true,
+        trackingIds: [`G-MR1BSKXT3V`],
+        gtagConfig: {
+          // enable ip anonymization
+          anonymize_ip: true,
+        },
+        pluginConfig: {
+          // Puts tracking script in the head instead of the body
+          head: false,
+        },
       },
     },
 

@@ -54,17 +54,18 @@ export const query = graphql`
 
 const SpecialityWrapper = ({ pageContext, data }) => {
   
-  data.allDoctorListsCsv.nodes.push(...data.allDoctorListsCopyCsv.nodes)
-  data.allDoctorListsCsv.nodes = _.sortBy(data.allDoctorListsCsv.nodes, [
-    "Rating",
-  ]).reverse()
+  // Merge and sort without mutating the page query data.
+  const allNodes = _.sortBy(
+    [...data.allDoctorListsCsv.nodes, ...data.allDoctorListsCopyCsv.nodes],
+    ["Rating"]
+  ).reverse()
   const intl = useIntl()
   let speciality = pageContext.Speciality.toLowerCase()
   speciality = menuWithSynonyms
     .filter(item => item[0].toLowerCase() === speciality)[0]
     .join(" and ")
 
-  let top3 = data.allDoctorListsCsv.nodes
+  let top3 = allNodes
     .slice(0, 3)
     .reduce(
       (accumulator, currentValue) => accumulator + `${currentValue.Name}; `,
@@ -76,7 +77,7 @@ const SpecialityWrapper = ({ pageContext, data }) => {
       ? `Top Doctors: ${top3} at rajshahi city in bangladesh`
       : "- তাদের চেম্বারের লোকেশন, সময় ও সিরিয়লের নাম্বারসহ প্রয়োজনীয় তথ্য"
 
-  const top3Schema = data.allDoctorListsCsv.nodes.slice(0, 3).map(
+  const top3Schema = allNodes.slice(0, 3).map(
     (doc, i) => `
    {"@type": "ListItem",
    "position": "${i + 1}",
@@ -118,7 +119,10 @@ const SpecialityWrapper = ({ pageContext, data }) => {
           top3,
         ].join(" ")}
       />
-      <Speciality speciality={speciality} data={data} />
+      <Speciality
+        speciality={speciality}
+        data={{ ...data, allDoctorListsCsv: { nodes: allNodes } }}
+      />
     </Layout>
   )
 }

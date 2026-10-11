@@ -54,11 +54,13 @@ const Doctors = ({ data }) => {
 
   // Making useIntl available in the code
   const intl = useIntl()
-  queryData.all.nodes.push(...queryData.allCopy.nodes)
+  // Merge without mutating the cached static query result (pushing into it
+  // made the list grow on every render).
+  const allNodes = [...queryData.all.nodes, ...queryData.allCopy.nodes]
   // Use language iso for the routes
   //const locale = intl.locale !== "en" ? `/${intl.locale}` : ""
   return data.map((doctor, i) => {
-    const doctorFilterByLocale = queryData.all.nodes.filter(
+    const doctorFilterByLocale = allNodes.filter(
       node => node.uid === doctor.uid && node.lang === intl.locale
     )[0]
     if (doctorFilterByLocale === undefined) return
